@@ -89,7 +89,7 @@ class PlanComptableIntegrityTest {
 
     @Test
     fun `test eastern arabic numerals conversion`() {
-        val converted = PlanComptableRepository.convertEasternDigits("٣٤٢١")
+        val converted = PlanComptableRepository.convertArabicIndicNumerals("٣٤٢١")
         assertEquals("3421", converted)
 
         val searchEastern = PlanComptableRepository.search("٣٤٢١")
