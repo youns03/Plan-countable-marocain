@@ -84,8 +84,7 @@ class MainActivity : ComponentActivity() {
                 LocalLanguageMode provides languageMode
             ) {
                 PlanComptableTheme(
-                    darkTheme = useDarkTheme,
-                    languageMode = languageMode
+                    darkTheme = useDarkTheme
                 ) {
                     MainApp(viewModel = viewModel)
                 }
