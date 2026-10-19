@@ -50,7 +50,6 @@ import com.example.ui.screens.LearnScreen
 import com.example.ui.screens.MyAccountScreen
 import com.example.ui.screens.SearchScreen
 import com.example.ui.theme.LocalLanguageMode
-import com.example.ui.theme.PcmTokens
 import com.example.ui.theme.PlanComptableTheme
 import com.example.viewmodel.AppTab
 import com.example.viewmodel.MainViewModel
@@ -97,6 +96,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainApp(viewModel: MainViewModel) {
     val currentTab by viewModel.currentTab.collectAsState()
+    val languageMode by viewModel.languageMode.collectAsState()
     val isSearchOpen by viewModel.isSearchOpen.collectAsState()
     val selectedAccount by viewModel.selectedAccount.collectAsState()
     val favoriteUids by viewModel.favoriteUids.collectAsState()
@@ -157,9 +157,9 @@ fun MainApp(viewModel: MainViewModel) {
                                 )
                             },
                             colors = NavigationBarItemDefaults.colors(
-                                selectedIconColor = PcmTokens.PrimaryLight,
-                                selectedTextColor = PcmTokens.PrimaryLight,
-                                indicatorColor = PcmTokens.PrimaryLight.copy(alpha = 0.12f),
+                                selectedIconColor = MaterialTheme.colorScheme.primary,
+                                selectedTextColor = MaterialTheme.colorScheme.primary,
+                                indicatorColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
                                 unselectedIconColor = MaterialTheme.colorScheme.onSurfaceVariant,
                                 unselectedTextColor = MaterialTheme.colorScheme.onSurfaceVariant
                             ),
@@ -194,7 +194,7 @@ fun MainApp(viewModel: MainViewModel) {
                 ) {
                     SearchScreen(
                         viewModel = viewModel,
-                        onClose = { viewModel.closeSearch() }
+                        onBack = { viewModel.closeSearch() }
                     )
                 }
             }
@@ -209,10 +209,6 @@ fun MainApp(viewModel: MainViewModel) {
             isFavorite = isFav,
             onToggleFavorite = { viewModel.toggleFavorite(element.uid) },
             onSelectAncestor = { ancestor -> viewModel.openAccountDetails(ancestor) },
-            onSelectEntry = { entryId ->
-                viewModel.closeAccountDetails()
-                viewModel.selectJournalEntry(entryId)
-            },
             onDismiss = { viewModel.closeAccountDetails() }
         )
     }
