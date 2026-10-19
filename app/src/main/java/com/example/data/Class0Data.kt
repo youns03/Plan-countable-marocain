@@ -1,0 +1,340 @@
+package com.example.data
+
+import com.example.model.AccountingElement
+import com.example.model.BalanceType
+import com.example.model.ElementLevel
+import com.example.model.StatementType
+
+object Class0Data {
+    val elements: List<AccountingElement> = listOf(
+        // CLASSE 0
+        AccountingElement(
+            code = "0",
+            level = ElementLevel.CLASSE,
+            officialFrenchTitle = "COMPTES SPECIAUX",
+            arabicTitle = "الحسابات الخاصة وحسابات النظام والالتزامات خارج الميزانية",
+            classNumber = 0,
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "يضم حسابات فتح وإقفال الميزانية (01 و 02) والالتزامات خارج الميزانية (Engagements hors bilan: 03 إلى 08) كالكفالات والضمانات البنكية وعقود الليزينغ.",
+            shortExplanationFr = "Comptes d'ouverture/clôture de bilan et engagements hors bilan (avals, cautions, crédit-bail).",
+            detailedExplanationAr = "يختلف الصنف 0 عن الأصناف من 1 إلى 7 في أنه لا يدخل ضمن أصول أو خصوم الميزانية الرسمية ولا ضمن التكاليف والإيرادات. دوره توثيق الالتزامات المحتملة والمشروطة التي قد تؤثر على ذمة المقاولة مستقبلاً (مثل كفالة بنكية قدمتها المقاولة لشركة أخرى أو سقف سحب مالي مصرح به ولم يستعمل).",
+            practicalExample = "تقديم كفالة بنكية بقيمة 100,000 درهم لضمان صفقة عمومية، أو تتبع مبالغ أقساط الليزينغ المتبقية لعقد شراء سيارات."
+        ),
+
+        // RUBRIQUE 01
+        AccountingElement(
+            code = "01",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "BILAN D’OUVERTURE",
+            arabicTitle = "ميزانية الافتتاح (إعادة فتح الحسابات في أول يناير)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "حساب وسيط تقني يستعمل في 1 يناير لإعادة فتح أرصدة الأصول والخصوم من ميزانية العام الماضي.",
+            shortExplanationFr = "Compte technique transitoire pour la réouverture des comptes de bilan au 1er jour de l'exercice."
+        ),
+        AccountingElement(
+            code = "11",
+            level = ElementLevel.POSTE,
+            officialFrenchTitle = "Réouverture des comptes de financement permanent",
+            arabicTitle = "إعادة فتح حسابات التمويل الدائم",
+            classNumber = 0,
+            parentCode = "01",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.CREDIT,
+            shortExplanationAr = "إعادة فتح حسابات رأس المال والاحتياطيات والديون طويلة الأجل في 1 يناير.",
+            shortExplanationFr = "Réouverture des comptes de capitaux propres et dettes à long terme.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرقم 11 تحت الباب 01 (يبدو ترقيماً غير منسجم، يُرجّح منطقياً 011، لكنه محفوظ حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0111", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des capitaux propres", arabicTitle = "إعادة فتح حسابات الأموال الذاتية", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد رأس المال والاحتياطيات في الدفتر اليومي للعام الجديد.", shortExplanationFr = "Reprise des soldes de capitaux propres au journal d'ouverture."),
+        AccountingElement(code = "0113", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des capitaux propres assimilés", arabicTitle = "إعادة فتح حسابات الأموال الذاتية المماثلة", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة فتح إعانات الاستثمار والمؤونات المنظمة.", shortExplanationFr = "Reprise des subventions d'investissement et provisions réglementées."),
+        AccountingElement(code = "0114", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des dettes de financement", arabicTitle = "إعادة فتح حسابات ديون التمويل", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد القروض البنكية طويلة الأجل المتبقية.", shortExplanationFr = "Reprise des emprunts et dettes à long terme."),
+        AccountingElement(code = "0115", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de provisions durables pour risques et charges", arabicTitle = "إعادة فتح حسابات المؤونات الدائمة للمخاطر والتكاليف", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد مؤونات النزاعات طويلة الأجل.", shortExplanationFr = "Reprise des provisions pour risques durables."),
+        AccountingElement(code = "0116", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de liaison des établissements et succursales", arabicTitle = "إعادة فتح حسابات الاتصال بين المقر والفروع", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "إعادة فتح حسابات التبادل المتبادل بين الفروع.", shortExplanationFr = "Reprise des comptes de liaison réciproques."),
+        AccountingElement(code = "0117", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes d’écarts de conversion –Passif", arabicTitle = "إعادة فتح حسابات فوارق التحويل - الخصوم", classNumber = 0, parentCode = "11", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة فتح أرباح الصرف الكامنة طويلة الأجل.", shortExplanationFr = "Reprise des écarts de conversion passif durables."),
+
+        AccountingElement(
+            code = "12",
+            level = ElementLevel.POSTE,
+            officialFrenchTitle = "Réouverture des comptes d’actif immobilisé",
+            arabicTitle = "إعادة فتح حسابات الأصول الثابتة",
+            classNumber = 0,
+            parentCode = "01",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.DEBIT,
+            shortExplanationAr = "إعادة قيد الآلات والعقارات والسيارات والاستهلاكات المتراكمة في 1 يناير.",
+            shortExplanationFr = "Réouverture des comptes d'immobilisations brutes et de leurs amortissements.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرقم 12 تحت الباب 01 (يبدو ترقيماً غير منسجم، يُرجّح منطقياً 012، لكنه محفوظ حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0121", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes d’immobilisation en non-valeurs", arabicTitle = "إعادة فتح حسابات مصاريف التأسيس", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد مصاريف التأسيس القابلة للإطفاء.", shortExplanationFr = "Reprise des immobilisations en non-valeurs."),
+        AccountingElement(code = "0122", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes d’immobilisations incorporelles", arabicTitle = "إعادة فتح حسابات الأصول المعنوية", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد البرمجيات وبراءات الاختراع والأصل التجاري.", shortExplanationFr = "Reprise des logiciels, brevets et fonds commercial."),
+        AccountingElement(code = "0123", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des immobilisations corporelles", arabicTitle = "إعادة فتح حسابات الأصول المادية", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد الأراضي والمباني والشاحنات والمعدات.", shortExplanationFr = "Reprise des terrains, constructions, matériels et outillages."),
+        AccountingElement(
+            code = "124/25",
+            level = ElementLevel.COMPTE,
+            officialFrenchTitle = "Réouverture des comptes des immobilisations financières",
+            arabicTitle = "إعادة فتح حسابات الأصول المالية",
+            classNumber = 0,
+            parentCode = "12",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.DEBIT,
+            shortExplanationAr = "إعادة قيد سندات المساهمة والودائع والكفالات المدفوعة.",
+            shortExplanationFr = "Reprise des titres de participation et prêts immobilisés.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرمز 124/25 تحت الباب 12 (نُقل حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0127", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes d’écarts de conversion -Actif", arabicTitle = "إعادة فتح حسابات فوارق التحويل - الأصول", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة فتح خسائر الصرف الكامنة طويلة الأجل.", shortExplanationFr = "Reprise des écarts de conversion actif durables."),
+        AccountingElement(code = "0128", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des amortissements des immobilisations", arabicTitle = "إعادة فتح حسابات استهلاكات الأصول الثابتة", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد مبالغ الاستهلاك المتراكمة حتى العام السابق.", shortExplanationFr = "Reprise du cumul des amortissements."),
+        AccountingElement(code = "0129", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de provisions pour dépréciation des comptes de l’actif immobilisé", arabicTitle = "إعادة فتح مؤونات تدهور الأصول الثابتة", classNumber = 0, parentCode = "12", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد مؤونات الأراضي والأسهم الثابتة.", shortExplanationFr = "Reprise des provisions pour dépréciation d'actifs immobilisés."),
+
+        AccountingElement(code = "013", level = ElementLevel.POSTE, officialFrenchTitle = "Réouverture des comptes d’actif circulant (hors trésorerie)", arabicTitle = "إعادة فتح حسابات الأصول المتداولة", classNumber = 0, parentCode = "01", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد أرصدة المخزون وديون الزبائن والـ TVA المسترجعة في أول السنة.", shortExplanationFr = "Réouverture des stocks, créances clients et TVP."),
+        AccountingElement(code = "0131", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de stocks", arabicTitle = "إعادة فتح حسابات المخزون (المخزون الأولي SI)", classNumber = 0, parentCode = "013", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة فتح كميات وقيم السلع والمواد الموجودة في المستودع في 1 يناير.", shortExplanationFr = "Reprise du stock initial en magasin au 1er janvier."),
+        AccountingElement(code = "0134", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de créances", arabicTitle = "إعادة فتح حسابات ديون الزبائن والمستحقات", classNumber = 0, parentCode = "013", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد الفواتير غير المسددة من الزبائن.", shortExplanationFr = "Reprise des créances clients non encore réglées."),
+        AccountingElement(code = "0135", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes titres et valeurs de placement", arabicTitle = "إعادة فتح حسابات سندات التوظيف (TVP)", classNumber = 0, parentCode = "013", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد محفظة أسهم البورصة وسندات الخزينة.", shortExplanationFr = "Reprise du portefeuille d'actions de placement."),
+        AccountingElement(code = "0137", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des écarts de conversion –Actif (Elément circulants)", arabicTitle = "إعادة فتح فوارق التحويل - الأصول المتداولة", classNumber = 0, parentCode = "013", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد خسائر الصرف الكامنة على فواتير التصدير.", shortExplanationFr = "Reprise des écarts de conversion sur créances d'exploitation."),
+        AccountingElement(code = "0139", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de provisions pour dépréciation des comptes de l’actif circulant", arabicTitle = "إعادة فتح مؤونات تدهور الأصول المتداولة", classNumber = 0, parentCode = "013", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد مؤونات الزبائن المشكوك فيهم والمخزون التالف.", shortExplanationFr = "Reprise des provisions sur créances douteuses et stocks."),
+
+        AccountingElement(
+            code = "014",
+            level = ElementLevel.POSTE,
+            officialFrenchTitle = "014. Réouverture des comptes de passif circulant ( hors trésorerie)",
+            arabicTitle = "إعادة فتح حسابات الخصوم المتداولة",
+            classNumber = 0,
+            parentCode = "01",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.CREDIT,
+            shortExplanationAr = "إعادة قيد ديون الموردين ورواتب العمال ومستحقات الضرائب والضمان الاجتماعي المتبقية.",
+            shortExplanationFr = "Réouverture des dettes fournisseurs, fiscales et sociales à court terme.",
+            anomalyNote = "ملاحظة: ورد نص العنوان في الكتيب مكرراً مع نقطة: \"014 014. Réouverture des comptes...\" ونُقل حرفياً دون حذف."
+        ),
+        AccountingElement(code = "0144", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de dettes du passif circulant", arabicTitle = "إعادة فتح حسابات ديون الخصوم المتداولة (الموردين)", classNumber = 0, parentCode = "014", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد فواتير الموردين غير المؤداة بعد.", shortExplanationFr = "Reprise des dettes fournisseurs exigibles."),
+        AccountingElement(
+            code = "0145",
+            level = ElementLevel.COMPTE,
+            officialFrenchTitle = "des comptes des autres provisions pour risques et charges",
+            arabicTitle = "إعادة فتح حسابات مؤونات المخاطر والتكاليف قصيرة الأجل",
+            classNumber = 0,
+            parentCode = "014",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.CREDIT,
+            shortExplanationAr = "إعادة قيد مؤونات النزاعات العاجلة.",
+            shortExplanationFr = "Reprise des provisions pour risques à court terme.",
+            anomalyNote = "ملاحظة: ورد العنوان الفرنسي في الكتيب ناقصاً لكلمة Réouverture: \"0145 des comptes des autres provisions...\" ونُقل حرفياً كما ورد."
+        ),
+        AccountingElement(code = "0147", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes des écarts de conversion –Passif (Eléments circulants)", arabicTitle = "إعادة فتح فوارق التحويل - الخصوم المتداولة", classNumber = 0, parentCode = "014", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد أرباح الصرف الكامنة على فواتير الموردين بالعملة الصعبة.", shortExplanationFr = "Reprise des écarts passifs sur dettes d'exploitation en devises."),
+
+        AccountingElement(code = "015", level = ElementLevel.POSTE, officialFrenchTitle = "Réouverture des comptes de trésorerie", arabicTitle = "إعادة فتح حسابات الخزينة", classNumber = 0, parentCode = "01", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "إعادة قيد أرصدة الحسابات البنكية والصندوق في صبيحة 1 يناير.", shortExplanationFr = "Reprise des soldes de banque et de caisse à l'ouverture de l'exercice."),
+        AccountingElement(code = "0151", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de trésorerie -Actif", arabicTitle = "إعادة فتح خزينة الأصول (الأرصدة الموجبة للبنك والصندوق)", classNumber = 0, parentCode = "015", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "إعادة قيد أموال البنك الإيجابية وسيولة الصندوق.", shortExplanationFr = "Reprise des soldes débiteurs de banques et caisses."),
+        AccountingElement(code = "0155", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de trésorerie -Passif", arabicTitle = "إعادة فتح خزينة الخصوم (السحب على المكشوف)", classNumber = 0, parentCode = "015", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد الرصيد المكشوف للبنك في أول السنة.", shortExplanationFr = "Reprise des découverts bancaires."),
+        AccountingElement(code = "0159", level = ElementLevel.COMPTE, officialFrenchTitle = "Réouverture des comptes de provisions pour dépréciation des comptes de trésorerie", arabicTitle = "إعادة فتح مؤونات تدهور حسابات الخزينة", classNumber = 0, parentCode = "015", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "إعادة قيد مؤونة تجميد أموال بنكية.", shortExplanationFr = "Reprise de provisions sur disponibilités."),
+
+        // RUBRIQUE 02
+        AccountingElement(
+            code = "02",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "CLOTURE DU BILAN",
+            arabicTitle = "إقفال الميزانية (ترصيد الحسابات في 31 دجنبر)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "حساب وسيط تقني يستعمل في 31 دجنبر لترصيد وإغلاق كافة حسابات الميزانية بعد إعداد القوائم التركيبية.",
+            shortExplanationFr = "Compte technique transitoire pour la clôture formelle des comptes de bilan en fin d'exercice."
+        ),
+        AccountingElement(
+            code = "21",
+            level = ElementLevel.POSTE,
+            officialFrenchTitle = "Clôture des comptes de financement permanent",
+            arabicTitle = "إقفال حسابات التمويل الدائم",
+            classNumber = 0,
+            parentCode = "02",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.DEBIT,
+            shortExplanationAr = "ترصيد حسابات رأس المال والديون طويلة الأجل في نهاية السنة.",
+            shortExplanationFr = "Solde des comptes de financement permanent à la clôture.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرقم 21 تحت الباب 02 (يبدو ترقيماً غير منسجم، يُرجّح منطقياً 021، لكنه محفوظ حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0211", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de capitaux propres", arabicTitle = "إقفال حسابات الأموال الذاتية", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد رأس المال والاحتياطيات والنتيجة الصافية.", shortExplanationFr = "Solde des capitaux propres au journal de clôture."),
+        AccountingElement(code = "0213", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de capitaux propres assimilés", arabicTitle = "إقفال حسابات الأموال الذاتية المماثلة", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد إعانات الاستثمار والمؤونات المنظمة.", shortExplanationFr = "Solde des subventions d'investissement."),
+        AccountingElement(code = "0214", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de dettes de financement", arabicTitle = "إقفال حسابات ديون التمويل", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد القروض البنكية طويلة الأجل.", shortExplanationFr = "Solde des emprunts à long terme."),
+        AccountingElement(code = "0215", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de provisions durables pour risques et charges", arabicTitle = "إقفال حسابات المؤونات الدائمة للمخاطر والتكاليف", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مؤونات النزاعات طويلة الأجل.", shortExplanationFr = "Solde des provisions durables."),
+        AccountingElement(code = "0216", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de liaison des établissements et succursales", arabicTitle = "إقفال حسابات الاتصال بين المقر والفروع", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "ترصيد حسابات الفروع وإلغاؤها عند تجميع الميزانية.", shortExplanationFr = "Annulation réciproque des comptes de liaison."),
+        AccountingElement(code = "0217", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des écarts de conversion -Passif", arabicTitle = "إقفال حسابات فوارق التحويل - الخصوم", classNumber = 0, parentCode = "21", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد أرباح الصرف الكامنة طويلة الأجل.", shortExplanationFr = "Solde des écarts de conversion passif."),
+
+        AccountingElement(
+            code = "22",
+            level = ElementLevel.POSTE,
+            officialFrenchTitle = "Clôture des comptes d’actif immobilisé",
+            arabicTitle = "إقفال حسابات الأصول الثابتة",
+            classNumber = 0,
+            parentCode = "02",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.CREDIT,
+            shortExplanationAr = "ترصيد حسابات الأصول الثابتة ومجموع استهلاكاتها في 31 دجنبر.",
+            shortExplanationFr = "Solde des comptes d'immobilisations brutes et amortissements.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرقم 22 تحت الباب 02 (يبدو ترقيماً غير منسجم، يُرجّح منطقياً 022، لكنه محفوظ حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0221", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes d’immobilisation en non-valeurs", arabicTitle = "إقفال حسابات مصاريف التأسيس", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد مصاريف التأسيس.", shortExplanationFr = "Solde des immobilisations en non-valeurs."),
+        AccountingElement(code = "0222", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des immobilisations incorporelles", arabicTitle = "إقفال حسابات الأصول المعنوية", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد البرامج والبراءات والأصل التجاري.", shortExplanationFr = "Solde des immobilisations incorporelles."),
+        AccountingElement(code = "0223", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des immobilisations corporelles", arabicTitle = "إقفال حسابات الأصول المادية", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد الأراضي والمباني والآلات ووسائل النقل.", shortExplanationFr = "Solde des immobilisations corporelles."),
+        AccountingElement(
+            code = "224/25",
+            level = ElementLevel.COMPTE,
+            officialFrenchTitle = "Clôture des comptes des immobilisations Financières",
+            arabicTitle = "إقفال حسابات الأصول المالية",
+            classNumber = 0,
+            parentCode = "22",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.CREDIT,
+            shortExplanationAr = "ترصيد سندات المساهمة والودائع والكفالات المدفوعة.",
+            shortExplanationFr = "Solde des titres de participation et créances financières.",
+            anomalyNote = "ملاحظة: ورد في الكتيب بالرمز 224/25 تحت الباب 22 (نُقل حرفياً كما في الكتيب)."
+        ),
+        AccountingElement(code = "0227", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des écarts de conversion -Actif", arabicTitle = "إقفال حسابات فوارق التحويل - الأصول", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد خسائر الصرف الكامنة طويلة الأجل.", shortExplanationFr = "Solde des écarts de conversion actif."),
+        AccountingElement(code = "0228", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des amortissements des immobilisations", arabicTitle = "إقفال حسابات استهلاكات الأصول الثابتة", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مبالغ الاستهلاك التراكمية في الدفتر اليومي.", shortExplanationFr = "Solde des comptes de cumul d'amortissements."),
+        AccountingElement(code = "0229", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de provisions pour dépréciation des comptes de l’actif immobilisé", arabicTitle = "إقفال مؤونات تدهور الأصول الثابتة", classNumber = 0, parentCode = "22", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مؤونات تدهور الأصول الثابتة.", shortExplanationFr = "Solde des provisions sur actifs immobilisés."),
+
+        AccountingElement(code = "023", level = ElementLevel.POSTE, officialFrenchTitle = "Clôture des comptes d’actif circulant (hors trésorerie)", arabicTitle = "إقفال حسابات الأصول المتداولة", classNumber = 0, parentCode = "02", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد المخزون وديون الزبائن وسندات التوظيف في 31 دجنبر.", shortExplanationFr = "Solde des stocks, créances et TVP en fin d'exercice."),
+        AccountingElement(code = "0231", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de stocks", arabicTitle = "إقفال حسابات المخزون (المخزون النهائي SF)", classNumber = 0, parentCode = "023", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد مخزون السلع والمواد في نهاية السنة.", shortExplanationFr = "Solde du stock final à la clôture."),
+        AccountingElement(code = "0234", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de créances", arabicTitle = "إقفال حسابات ديون الزبائن", classNumber = 0, parentCode = "023", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد ديون الزبائن والـ TVA القابلة للاسترجاع.", shortExplanationFr = "Solde des créances d'exploitation."),
+        AccountingElement(code = "0235", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes titres et valeurs de placement", arabicTitle = "إقفال حسابات سندات وقيم التوظيف (TVP)", classNumber = 0, parentCode = "023", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد محفظة أسهم البورصة قصيرة الأجل.", shortExplanationFr = "Solde des titres de placement."),
+        AccountingElement(code = "0237", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des écarts de conversion -Actif (Eléments circulants)", arabicTitle = "إقفال فوارق التحويل - الأصول المتداولة", classNumber = 0, parentCode = "023", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد خسائر الصرف الكامنة على الزبائن.", shortExplanationFr = "Solde des écarts actifs d'exploitation."),
+        AccountingElement(code = "0239", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de provisions pour dépréciation des comptes de l’actif circulant", arabicTitle = "إقفال مؤونات تدهور الأصول المتداولة", classNumber = 0, parentCode = "023", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مؤونات الزبائن المشكوك فيهم والمخزون.", shortExplanationFr = "Solde des provisions sur actif circulant."),
+
+        AccountingElement(code = "024", level = ElementLevel.POSTE, officialFrenchTitle = "Clôture des comptes de passif circulant (hors trésorerie)", arabicTitle = "إقفال حسابات الخصوم المتداولة", classNumber = 0, parentCode = "02", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد ديون الموردين والضرائب والضمان الاجتماعي.", shortExplanationFr = "Solde des dettes à court terme à la clôture."),
+        AccountingElement(code = "0244", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de dettes du passif circulant", arabicTitle = "إقفال ديون الموردين والضرائب", classNumber = 0, parentCode = "024", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد حسابات الموردين والدولة والهيئات الاجتماعية.", shortExplanationFr = "Solde des comptes 44."),
+        AccountingElement(code = "0245", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des autres provisions pour risques et charges", arabicTitle = "إقفال مؤونات المخاطر والتكاليف قصيرة الأجل", classNumber = 0, parentCode = "024", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مؤونات النزاعات العاجلة.", shortExplanationFr = "Solde des provisions du passif circulant."),
+        AccountingElement(code = "0247", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes des écarts de conversion -Passif (Eléments circulants)", arabicTitle = "إقفال فوارق التحويل - الخصوم المتداولة", classNumber = 0, parentCode = "024", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد أرباح الصرف الكامنة على الموردين.", shortExplanationFr = "Solde des écarts passifs d'exploitation."),
+
+        AccountingElement(code = "025", level = ElementLevel.POSTE, officialFrenchTitle = "Clôture des comptes de trésorerie", arabicTitle = "إقفال حسابات الخزينة", classNumber = 0, parentCode = "02", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "ترصيد حسابات البنك والصندوق في نهاية السنة.", shortExplanationFr = "Solde des comptes de trésorerie."),
+        AccountingElement(code = "0251", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de trésorerie -Actif", arabicTitle = "إقفال خزينة الأصول (البنك والصندوق الإيجابي)", classNumber = 0, parentCode = "025", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "ترصيد السيولة النقدية في البنك والصندوق.", shortExplanationFr = "Solde des disponibilités positives de trésorerie."),
+        AccountingElement(code = "0255", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de trésorerie -Passif", arabicTitle = "إقفال خزينة الخصوم (السحب على المكشوف)", classNumber = 0, parentCode = "025", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد تسهيلات الصندوق والسحب البنكي المكشوف.", shortExplanationFr = "Solde des crédits de trésorerie."),
+        AccountingElement(code = "0259", level = ElementLevel.COMPTE, officialFrenchTitle = "Clôture des comptes de provisions pour dépréciation des comptes de trésorerie", arabicTitle = "إقفال مؤونات تدهور حسابات الخزينة", classNumber = 0, parentCode = "025", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "ترصيد مخصصات تجميد السيولة.", shortExplanationFr = "Solde des provisions sur trésorerie."),
+
+        // RUBRIQUE 03
+        AccountingElement(
+            code = "03",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "COMPTES D'ORDRE",
+            arabicTitle = "حسابات النظام (العمليات قيد الإنجاز والإحصائيات)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "حسابات متقابلة لمتابعة عمليات قيد التسوية بالعملات الأجنبية والمعطيات الإحصائية.",
+            shortExplanationFr = "Comptes de suivi statistique et opérations en devises en instance de dénouement."
+        ),
+        AccountingElement(code = "031", level = ElementLevel.POSTE, officialFrenchTitle = "Opérations en instance de dénouement (débit)", arabicTitle = "عمليات قيد التسوية (جانب المدين)", classNumber = 0, parentCode = "03", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "عمليات تسوية معلقة قيد المعالجة البنكية أو التجارية.", shortExplanationFr = "Débits en cours de traitement comptable."),
+        AccountingElement(code = "0311", level = ElementLevel.COMPTE, officialFrenchTitle = "Opérations de débit en instance de dénouement", arabicTitle = "عمليات مدينة قيد التسوية", classNumber = 0, parentCode = "031", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "تسجيل العمليات المدينة المعلقة مؤقتاً.", shortExplanationFr = "Opérations débitrices en attente de dénouement."),
+        AccountingElement(code = "0319", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie des opérations en instance de dénouement", arabicTitle = "مقابل العمليات قيد التسوية (حساب توازن)", classNumber = 0, parentCode = "031", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "حساب المقابل الدائن لموازنة القيد المزدوج للنظام.", shortExplanationFr = "Contrepartie d'équilibrage du compte d'ordre."),
+        AccountingElement(code = "033", level = ElementLevel.POSTE, officialFrenchTitle = "Opérations en instances de dénouement (crédit)", arabicTitle = "عمليات قيد التسوية (جانب الدائن)", classNumber = 0, parentCode = "03", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "عمليات تسوية دائنة معلقة.", shortExplanationFr = "Crédits en cours de dénouement."),
+        AccountingElement(code = "0331", level = ElementLevel.COMPTE, officialFrenchTitle = "Opérations de crédit en instance de dénouement", arabicTitle = "عمليات دائنة قيد التسوية", classNumber = 0, parentCode = "033", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "تسجيل العمليات الدائنة المعلقة.", shortExplanationFr = "Opérations créditrices en attente."),
+        AccountingElement(code = "0339", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie des opérations en instance de dénouement", arabicTitle = "مقابل العمليات قيد التسوية", classNumber = 0, parentCode = "033", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "حساب مقابل مدين لموازنة القيد.", shortExplanationFr = "Contrepartie débitrice d'ordre."),
+        AccountingElement(code = "035", level = ElementLevel.POSTE, officialFrenchTitle = "Opérations en devises entrées", arabicTitle = "عمليات العملات الأجنبية الواردة", classNumber = 0, parentCode = "03", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "تتبع عقود شراء العملات الأجنبية الآجلة والواردة.", shortExplanationFr = "Suivi des devises reçues ou achetées à terme."),
+        AccountingElement(code = "0351", level = ElementLevel.COMPTE, officialFrenchTitle = "Contre-valeur devises -entrées", arabicTitle = "المعادل بالدرهم للعملات الواردة", classNumber = 0, parentCode = "035", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "قيمة العملات الصعبة المشتراة بالدرهم المغربي.", shortExplanationFr = "Contre-valeur en MAD des devises entrantes."),
+        AccountingElement(code = "0359", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie devises -entrées", arabicTitle = "مقابل العملات الواردة", classNumber = 0, parentCode = "035", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "حساب مقابل لموازنة قيد العملات الواردة.", shortExplanationFr = "Contrepartie d'ordre devises entrées."),
+        AccountingElement(code = "036", level = ElementLevel.POSTE, officialFrenchTitle = "Opérations en devises sorties", arabicTitle = "عمليات العملات الأجنبية الصادرة", classNumber = 0, parentCode = "03", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "تتبع عقود بيع أو تحويل العملات الأجنبية للخارج.", shortExplanationFr = "Suivi des devises vendues ou transférées."),
+        AccountingElement(code = "0361", level = ElementLevel.COMPTE, officialFrenchTitle = "Contre-valeur devises -sorties", arabicTitle = "المعادل بالدرهم للعملات الصادرة", classNumber = 0, parentCode = "036", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "قيمة العملات المحولة للخارج بالدرهم.", shortExplanationFr = "Contre-valeur en MAD des devises sortantes."),
+        AccountingElement(code = "0369", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie devises -sorties", arabicTitle = "مقابل العملات الصادرة", classNumber = 0, parentCode = "036", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "حساب مقابل لموازنة قيد العملات الصادرة.", shortExplanationFr = "Contrepartie d'ordre devises sorties."),
+        AccountingElement(code = "038", level = ElementLevel.POSTE, officialFrenchTitle = "Autres données statistiques", arabicTitle = "معطيات إحصائية أخرى", classNumber = 0, parentCode = "03", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "متابعة إحصائية لمؤشرات كمية أو حجمية في الشركة.", shortExplanationFr = "Données quantitatives de gestion hors comptabilité financière."),
+        AccountingElement(code = "0381", level = ElementLevel.COMPTE, officialFrenchTitle = "Opérations statistiques suivies", arabicTitle = "عمليات إحصائية متتبعة", classNumber = 0, parentCode = "038", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "تسجيل المؤشرات الإحصائية الميدانية.", shortExplanationFr = "Suivi statistique d'exploitation."),
+        AccountingElement(code = "0389", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie des opérations statistiques suivies", arabicTitle = "مقابل العمليات الإحصائية", classNumber = 0, parentCode = "038", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "حساب التوازن الإحصائي.", shortExplanationFr = "Contrepartie d'équilibrage statistique."),
+
+        // RUBRIQUE 04
+        AccountingElement(
+            code = "04",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "ENGAGEMENTS DONNES",
+            arabicTitle = "الالتزامات الممنوحة (كفالات وضمانات قدمتها المقاولة للغير)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "ضمانات وكفالات بنكية قدمتها المقاولة لصالح موردين أو بنوك لضمان ديون شركات شقيقة أو صفقات، قد تتحول إلى ديون فعلية في حال تعثر الطرف المضمون.",
+            shortExplanationFr = "Avals, cautions et garanties consentis par l'entreprise envers des tiers (engagements hors bilan passifs potentiels)."
+        ),
+        AccountingElement(code = "041", level = ElementLevel.POSTE, officialFrenchTitle = "Avals, cautions et garanties donnés", arabicTitle = "كفالات وضمانات وتوقيعات احتياطية ممنوحة", classNumber = 0, parentCode = "04", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "كفالة بنكية تضمن بها المقاولة وفاء طرف آخر بالتزاماته.", shortExplanationFr = "Garanties d'avals ou cautions données à des créanciers tiers."),
+        AccountingElement(code = "0411", level = ElementLevel.COMPTE, officialFrenchTitle = "Avals, cautions et garanties donnés", arabicTitle = "كفالات وضمانات ممنوحة", classNumber = 0, parentCode = "041", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "قيمة الضمان الممنوح (تسجل في الجانب الدائن لحساب الالتزام).", shortExplanationFr = "Montant des cautions données."),
+        AccountingElement(code = "0419", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour avals et cautions donnés", arabicTitle = "مدينون عن كفالات وضمانات ممنوحة (حساب مقابل)", classNumber = 0, parentCode = "041", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "حساب مقابل مدين يوضح الجهة المستفيدة من الضمان.", shortExplanationFr = "Contrepartie débitrice de l'aval donné."),
+        AccountingElement(code = "043", level = ElementLevel.POSTE, officialFrenchTitle = "Engagements en matière de pensions de retraite et obligations similaires", arabicTitle = "التزامات معاشات التقاعد ومكافآت نهاية الخدمة", classNumber = 0, parentCode = "04", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "التقدير الإجمالي للحقوق المستقبلية للعمال في مكافآت التقاعد غير المغطاة بمؤونة في الخصوم.", shortExplanationFr = "Engagements de retraites et indemnités de départ non provisionnés au bilan."),
+        AccountingElement(code = "0431", level = ElementLevel.COMPTE, officialFrenchTitle = "Engagements en matière de pensions de retraite et obligations similaires", arabicTitle = "التزامات معاشات التقاعد", classNumber = 0, parentCode = "043", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "قيمة التزامات التقاعد المستقبلية للعمال.", shortExplanationFr = "Montant des engagements de fin de carrière."),
+        AccountingElement(code = "0439", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour engagements en matière de pensions de retraite et obligations similaires", arabicTitle = "مدينون عن التزامات التقاعد", classNumber = 0, parentCode = "043", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "الحساب المقابل لالتزامات التقاعد.", shortExplanationFr = "Contrepartie des engagements de retraite."),
+        AccountingElement(code = "045", level = ElementLevel.POSTE, officialFrenchTitle = "Effet circulant sous l’endos de l’entreprise", arabicTitle = "كمبيالات متداولة تحت تظهير المقاولة (خطر الرجوع)", classNumber = 0, parentCode = "04", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "كمبيالات تم خصمها في البنك أو تظهيرها لمورد، وإذا لم يدفعها الزبون سيرجع البنك على المقاولة لسدادها.", shortExplanationFr = "Effets de commerce escomptés non échus (risque d'impayé au dénouement)."),
+        AccountingElement(code = "0451", level = ElementLevel.COMPTE, officialFrenchTitle = "Effet circulant sous l’endos de l’entreprise", arabicTitle = "كمبيالات متداولة تحت تظهير المقاولة", classNumber = 0, parentCode = "045", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "قيمة الكمبيالات المخصومة لدى البنك حتى تاريخ استحقاقها.", shortExplanationFr = "Encours des effets escomptés en circulation."),
+        AccountingElement(code = "0459", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour effets circulant sous l’endos de l’entreprise", arabicTitle = "مدينون عن كمبيالات متداولة تحت التظهير", classNumber = 0, parentCode = "045", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "الحساب المقابل لتتبع خطر الرجوع في الكمبيالات المخصومة.", shortExplanationFr = "Contrepartie débitrice du risque d'effets escomptés."),
+        AccountingElement(code = "046", level = ElementLevel.POSTE, officialFrenchTitle = "Engagements donnés pour prêt consentis", arabicTitle = "التزامات ممنوحة عن قروض وافقت عليها الشركة", classNumber = 0, parentCode = "04", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "مبالغ قروض وافقت المقاولة على منحها لمستخدميها ولم تدفعها نقداً بعد.", shortExplanationFr = "Prêts accordés non encore débloqués."),
+        AccountingElement(code = "0461", level = ElementLevel.COMPTE, officialFrenchTitle = "Prêt consentis non encore versés", arabicTitle = "قروض ممنوحة لم تصرف بعد", classNumber = 0, parentCode = "046", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "المبالغ المتبقية للتحويل للمقترض.", shortExplanationFr = "Montant des prêts engagés restant à verser."),
+        AccountingElement(code = "0469", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour prêts consentis non encore versés", arabicTitle = "مدينون عن قروض ممنوحة لم تصرف بعد", classNumber = 0, parentCode = "046", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "الحساب المقابل لقروض وافقت عليها المقاولة.", shortExplanationFr = "Contrepartie des prêts promis."),
+        AccountingElement(code = "048", level = ElementLevel.POSTE, officialFrenchTitle = "Autres engagement donnés", arabicTitle = "التزامات ممنوحة أخرى", classNumber = 0, parentCode = "04", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "أي كفالات أو تعهدات مالية أخرى قدمتها المقاولة للغير.", shortExplanationFr = "Autres garanties hors bilan accordées."),
+        AccountingElement(code = "0481", level = ElementLevel.COMPTE, officialFrenchTitle = "Autres engagement donnés", arabicTitle = "التزامات ممنوحة أخرى", classNumber = 0, parentCode = "048", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "تسجيل التعهدات المالية الإضافية الممنوحة.", shortExplanationFr = "Engagements divers accordés."),
+        AccountingElement(code = "0489", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour autres engagements donnés", arabicTitle = "مدينون عن التزامات ممنوحة أخرى", classNumber = 0, parentCode = "048", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "الحساب المقابل للالتزامات الأخرى.", shortExplanationFr = "Contrepartie débitrice d'engagements divers."),
+
+        // RUBRIQUE 05
+        AccountingElement(
+            code = "05",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "ENGAGEMENT REÇUS",
+            arabicTitle = "الالتزامات المقبوضة (كفالات وضمانات حصلت عليها المقاولة من الغير)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "ضمانات بنكية قدمها الزبائن أو الشركاء لصالح المقاولة، وخطوط السحب على المكشوف غير المستعملة وسقوف القروض المتاحة.",
+            shortExplanationFr = "Cautions et garanties reçues de tiers, découverts bancaires et facilités autorisées non utilisées."
+        ),
+        AccountingElement(code = "051", level = ElementLevel.POSTE, officialFrenchTitle = "Avals, cautions et garanties reçus", arabicTitle = "كفالات وضمانات وتوقيعات احتياطية مقبوضة", classNumber = 0, parentCode = "05", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "ضمانات بنكية يقدمها الزبون للمقاولة لضمان دفع فواتيره الكبرى.", shortExplanationFr = "Garanties bancaires remises par des clients ou tiers à l'entreprise."),
+        AccountingElement(code = "0511", level = ElementLevel.COMPTE, officialFrenchTitle = "Avals, cautions et garanties reçus", arabicTitle = "كفالات وضمانات مقبوضة", classNumber = 0, parentCode = "051", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "قيمة الضمان المالي الممنوح للمقاولة كحق محتمل.", shortExplanationFr = "Montant des garanties reçues."),
+        AccountingElement(code = "0519", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs pour avals, cautions et garanties reçus", arabicTitle = "دائنون عن كفالات وضمانات مقبوضة (حساب مقابل)", classNumber = 0, parentCode = "051", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل لتتبع الجهة الضامنة.", shortExplanationFr = "Contrepartie créditrice de la caution reçue."),
+        AccountingElement(code = "055", level = ElementLevel.POSTE, officialFrenchTitle = "Biens détenus en garantie par l’entreprise", arabicTitle = "أصول وأملاك مرهونة لدى المقاولة كضمان", classNumber = 0, parentCode = "05", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "عقارات أو أسهم رهنها مدين لصالح الشركة كضمان لسداد دينه.", shortExplanationFr = "Nantissements, hypothèques et gages reçus en couverture de créances."),
+        AccountingElement(code = "0551", level = ElementLevel.COMPTE, officialFrenchTitle = "Biens détenus en garantie par l’entreprise", arabicTitle = "أملاك محتفظ بها كضمان", classNumber = 0, parentCode = "055", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "قيمة الرهن أو الأصل المحتجز كضمان.", shortExplanationFr = "Valeur des biens gagés détenus."),
+        AccountingElement(code = "0559", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs pour biens détenus en garantie par l’entreprise", arabicTitle = "دائنون عن أملاك محتفظ بها كضمان", classNumber = 0, parentCode = "055", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل لتتبع صاحب الرهن.", shortExplanationFr = "Contrepartie des biens pris en gage."),
+        AccountingElement(code = "056", level = ElementLevel.POSTE, officialFrenchTitle = "Engagement reçus sur dettes de financement", arabicTitle = "التزامات مقبوضة عن قروض تمويل", classNumber = 0, parentCode = "05", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "قرض استثماري وافق عليه البنك رسمياً ولم يدخل الحساب البنكي بعد.", shortExplanationFr = "Emprunts bancaires notifiés non encore versés par la banque."),
+        AccountingElement(code = "0561", level = ElementLevel.COMPTE, officialFrenchTitle = "Emprunts non encore encaissés", arabicTitle = "قروض موافق عليها لم تصرف بعد", classNumber = 0, parentCode = "056", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "مبالغ القروض المصادق عليها في انتظار تحويلها للشركة.", shortExplanationFr = "Fonds d'emprunt accordés en attente de déblocage."),
+        AccountingElement(code = "0569", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs pour engagements non encore encaissés", arabicTitle = "دائنون عن قروض لم تصرف بعد", classNumber = 0, parentCode = "056", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل للبنك المقرض.", shortExplanationFr = "Contrepartie de l'emprunt accordé."),
+        AccountingElement(code = "057", level = ElementLevel.POSTE, officialFrenchTitle = "Engagement reçus sur trésorerie", arabicTitle = "التزامات مقبوضة تخص الخزينة (تسهيلات الصندوق البنكية المتاحة)", classNumber = 0, parentCode = "05", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "الهامش المالي المتبقي من السحب على المكشوف أو سقف خصم الكمبيالات الذي رخص به البنك ولم تستعمله المقاولة بعد.", shortExplanationFr = "Lignes de découvert autorisé et plafonds d'escompte non utilisés accordés par les banques."),
+        AccountingElement(code = "0571", level = ElementLevel.COMPTE, officialFrenchTitle = "Montant non utilisé des découverts autorisés", arabicTitle = "المبلغ غير المستعمل من السحب على المكشوف المرخص", classNumber = 0, parentCode = "057", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "احتياطي أمان نقدي يمكن للمقاولة سحبه من البنك في أي وقت طارئ.", shortExplanationFr = "Marge de sécurité disponible sur facilités de caisse bancaires autorisées."),
+        AccountingElement(code = "0572", level = ElementLevel.COMPTE, officialFrenchTitle = "Plafond d’escompte non utilisé", arabicTitle = "سقف خصم الكمبيالات غير المستعمل", classNumber = 0, parentCode = "057", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "قيمة الكمبيالات الإضافية التي يقبل البنك خصمها فوراً إذا احتاجت المقاولة سيولة.", shortExplanationFr = "Capacité résiduelle d'escompte bancaire."),
+        AccountingElement(code = "0579", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs par engagements reçus sur trésorerie", arabicTitle = "دائنون عن التزامات مقبوضة تخص الخزينة", classNumber = 0, parentCode = "057", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل لتسهيلات البنك غير المستعملة.", shortExplanationFr = "Contrepartie créditrice des autorisations de trésorerie."),
+        AccountingElement(code = "058", level = ElementLevel.POSTE, officialFrenchTitle = "Autres engagements reçus", arabicTitle = "التزامات مقبوضة أخرى", classNumber = 0, parentCode = "05", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "أي وعود بالتمويل أو ضمانات أخرى حصلت عليها المقاولة.", shortExplanationFr = "Autres garanties hors bilan reçues de tiers."),
+        AccountingElement(code = "0581", level = ElementLevel.COMPTE, officialFrenchTitle = "Autres engagements reçus", arabicTitle = "التزامات مقبوضة أخرى", classNumber = 0, parentCode = "058", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "تسجيل الضمانات الإضافية المستلمة.", shortExplanationFr = "Garanties diverses reçues."),
+        AccountingElement(code = "0589", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs pour autres engagements reçus", arabicTitle = "دائنون عن التزامات مقبوضة أخرى", classNumber = 0, parentCode = "058", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل للضمانات المستلمة.", shortExplanationFr = "Contrepartie des garanties reçues."),
+
+        // RUBRIQUE 06
+        AccountingElement(
+            code = "06",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "ENGAGEMENT SUR OPERATIONS DE CREDIT -BAIL",
+            arabicTitle = "الالتزامات الخاصة بعمليات الإيجار التمويلي (Crédit-bail / Leasing)",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "تتبع مجموع أقساط الإيجار التمويلي المستقبلية (Redevances restant à courir) وثمن شراء الأصل عند نهاية العقد لمعدات وآلات الليزينغ.",
+            shortExplanationFr = "Suivi extra-comptable des redevances futures de crédit-bail et prix d'option d'achat résiduelle."
+        ),
+        AccountingElement(code = "061", level = ElementLevel.POSTE, officialFrenchTitle = "Engagements de crédit-bail restant à courir", arabicTitle = "أقساط ائتمان إيجاري متبقية للسداد مستقبلاً", classNumber = 0, parentCode = "06", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "مجموع المبالغ التي ستدفعها المقاولة لشركة الليزينغ في السنوات القادمة حتى انتهاء العقد.", shortExplanationFr = "Total des loyers de crédit-bail futurs restant à payer jusqu'au terme."),
+        AccountingElement(code = "0611", level = ElementLevel.COMPTE, officialFrenchTitle = "Redevances de crédit-bail restant à courir", arabicTitle = "أقساط ائتمان إيجاري متبقية للسداد", classNumber = 0, parentCode = "061", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "عبء الليزينغ المستقبلي خارج الميزانية.", shortExplanationFr = "Montant cumulé des mensualités de leasing futures."),
+        AccountingElement(code = "0619", level = ElementLevel.COMPTE, officialFrenchTitle = "Débiteurs pour redevances de crédit-bail restant à courir", arabicTitle = "مدينون عن أقساط ائتمان إيجاري متبقية", classNumber = 0, parentCode = "061", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "حساب المقابل المدين لتتبع عقد الليزينغ.", shortExplanationFr = "Contrepartie débitrice des loyers de leasing engagés."),
+        AccountingElement(code = "065", level = ElementLevel.POSTE, officialFrenchTitle = "Engagements reçus pour utilisation en crédit-bail", arabicTitle = "التزامات مقبوضة لاستغلال الأصول في الائتمان الإيجاري", classNumber = 0, parentCode = "06", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "حق المقاولة في شراء الأصل المستأجر بثمن رمزي متفق عليه عند نهاية مدة العقد (Prix de levée d'option).", shortExplanationFr = "Valeur résiduelle convenue pour le rachat final du bien en leasing."),
+        AccountingElement(code = "0651", level = ElementLevel.COMPTE, officialFrenchTitle = "Engagements reçus pour utilisation en crédit-bail", arabicTitle = "التزامات مقبوضة لاستغلال أصول في الائتمان الإيجاري", classNumber = 0, parentCode = "065", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "حق خيار الشراء النهائي لآلة أو شاحنة الليزينغ.", shortExplanationFr = "Droit de levée d'option d'achat au terme du contrat."),
+        AccountingElement(code = "0659", level = ElementLevel.COMPTE, officialFrenchTitle = "Créditeurs pour engagements reçus pour utilisation en crédit-bail", arabicTitle = "دائنون عن التزامات مقبوضة لاستغلال الليزينغ", classNumber = 0, parentCode = "065", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "الحساب المقابل لشركة الليزينغ المالكة للأصل.", shortExplanationFr = "Contrepartie société de leasing."),
+
+        // RUBRIQUE 08
+        AccountingElement(
+            code = "08",
+            level = ElementLevel.RUBRIQUE,
+            officialFrenchTitle = "AUTRES COMPTES SPECIAUX",
+            arabicTitle = "حسابات خاصة أخرى",
+            classNumber = 0,
+            parentCode = "0",
+            statementType = StatementType.SPECIAL,
+            normalBalance = BalanceType.SANS_SOLDE,
+            shortExplanationAr = "أي حسابات متابعة خاصة أخرى لا تندرج في الأقسام السابقة من الصنف 0.",
+            shortExplanationFr = "Autres comptes spéciaux et d'ordre spécifiques à l'entreprise."
+        ),
+        AccountingElement(code = "081", level = ElementLevel.POSTE, officialFrenchTitle = "Autres comptes spéciaux", arabicTitle = "حسابات خاصة أخرى", classNumber = 0, parentCode = "08", statementType = StatementType.SPECIAL, normalBalance = BalanceType.VARIABLE, shortExplanationAr = "حسابات تتبع خاصة ومؤقتة.", shortExplanationFr = "Poste d'ordre pour suivis particuliers."),
+        AccountingElement(code = "0811", level = ElementLevel.COMPTE, officialFrenchTitle = "Autres comptes spéciaux", arabicTitle = "حسابات خاصة أخرى", classNumber = 0, parentCode = "081", statementType = StatementType.SPECIAL, normalBalance = BalanceType.DEBIT, shortExplanationAr = "تسجيل العمليات الخاصة الاستثنائية خارج الميزانية.", shortExplanationFr = "Comptes de suivi sur mesure."),
+        AccountingElement(code = "0819", level = ElementLevel.COMPTE, officialFrenchTitle = "Contrepartie des autres comptes spéciaux", arabicTitle = "مقابل الحسابات الخاصة الأخرى", classNumber = 0, parentCode = "081", statementType = StatementType.SPECIAL, normalBalance = BalanceType.CREDIT, shortExplanationAr = "حساب المقابل الدائن لتوازن القيد.", shortExplanationFr = "Contrepartie d'équilibrage des comptes spéciaux.")
+    )
+}

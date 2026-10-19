@@ -1,0 +1,6 @@
+{
+  "name": "Plan Comptable",
+  "description": "الدليل المحاسباتي المغربي الشامل ثنائي اللغة (فرنسي - عربي) لطلاب تسيير المقاولات والاقتصاد والمحاسبة",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
