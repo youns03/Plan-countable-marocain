@@ -145,8 +145,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     private val _quizSelectedAnswers = MutableStateFlow<Map<Int, Int>>(emptyMap())
     val quizSelectedAnswers: StateFlow<Map<Int, Int>> = _quizSelectedAnswers.asStateFlow()
 
-    private val _quizHighScore = MutableStateFlow(0)
-    val quizHighScore: StateFlow<Int> = _quizHighScore.asStateFlow()
+    val quizHighScore: StateFlow<Int> = prefsRepo.quizHighScore
 
     private val _quizOnlyMistakesMode = MutableStateFlow(false)
     val quizOnlyMistakesMode: StateFlow<Boolean> = _quizOnlyMistakesMode.asStateFlow()
@@ -280,6 +279,15 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
         val map = _quizSelectedAnswers.value.toMutableMap()
         map[questionId] = selectedOptionIndex
         _quizSelectedAnswers.value = map
+
+        // Save the best score only when a complete, regular quiz has been answered.
+        // Mistake-review sessions are practice aids and should not affect the record.
+        val questions = _quizQuestions.value
+        val allAnswered = questions.isNotEmpty() && questions.all { map.containsKey(it.id) }
+        if (!_quizOnlyMistakesMode.value && allAnswered) {
+            val score = questions.count { map[it.id] == it.correctIndex }
+            prefsRepo.saveQuizHighScore(score)
+        }
     }
 
     fun shuffleQuiz() {
