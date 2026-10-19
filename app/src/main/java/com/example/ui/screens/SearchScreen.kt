@@ -55,7 +55,9 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ui.components.AccountRow
+import com.example.model.LanguageMode
 import com.example.ui.theme.LedgerClassColors
+import com.example.ui.theme.LocalLanguageMode
 import com.example.viewmodel.MainViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
@@ -70,6 +72,8 @@ fun SearchScreen(
     val searchResults by viewModel.searchResults.collectAsState()
     val recentSearches by viewModel.recentSearches.collectAsState()
     val favorites by viewModel.favorites.collectAsState()
+    val languageMode = LocalLanguageMode.current
+    val isFrench = languageMode == LanguageMode.FRENCH_ONLY
 
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
@@ -104,7 +108,7 @@ fun SearchScreen(
                     ) {
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = "رجوع"
+                            contentDescription = if (isFrench) "Retour" else "رجوع"
                         )
                     }
 
@@ -118,12 +122,12 @@ fun SearchScreen(
                             .focusRequester(focusRequester)
                             .testTag("search_text_input"),
                         placeholder = {
-                            Text("رقم الحساب، الاسم، أو المصطلح...", style = MaterialTheme.typography.bodySmall)
+                            Text(if (isFrench) "Code, intitulé ou terme comptable..." else "رقم الحساب، الاسم، أو المصطلح...", style = MaterialTheme.typography.bodySmall)
                         },
                         trailingIcon = {
                             if (searchQuery.isNotEmpty()) {
                                 IconButton(onClick = { viewModel.onSearchQueryChanged("") }) {
-                                    Icon(imageVector = Icons.Default.Clear, contentDescription = "مسح")
+                                    Icon(imageVector = Icons.Default.Clear, contentDescription = if (isFrench) "Effacer" else "مسح")
                                 }
                             }
                         },
@@ -147,7 +151,7 @@ fun SearchScreen(
                 ) {
                     items(classNumbers) { cNum ->
                         val isSelected = filterClass == cNum
-                        val label = if (cNum == null) "الكل" else "صنف $cNum"
+                        val label = if (cNum == null) { if (isFrench) "Tous" else "الكل" } else { if (isFrench) "Classe $cNum" else "صنف $cNum" }
                         val chipColor = if (cNum == null) MaterialTheme.colorScheme.primary else LedgerClassColors.forClass(cNum)
 
                         Surface(
@@ -198,13 +202,13 @@ fun SearchScreen(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "عمليات البحث الأخيرة",
+                                    text = if (isFrench) "Recherches récentes" else "عمليات البحث الأخيرة",
                                     style = MaterialTheme.typography.titleSmall,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                             TextButton(onClick = { viewModel.clearRecentSearches() }) {
-                                Text("مسح السجل", style = MaterialTheme.typography.labelSmall)
+                                Text(if (isFrench) "Effacer l’historique" else "مسح السجل", style = MaterialTheme.typography.labelSmall)
                             }
                         }
 
@@ -239,7 +243,7 @@ fun SearchScreen(
                 // Popular Quick Search Terms
                 item {
                     Text(
-                        text = "عمليات بحث شائعة للطلاب:",
+                        text = if (isFrench) "Recherches fréquentes" else "عمليات بحث شائعة للطلاب:",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -279,13 +283,13 @@ fun SearchScreen(
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Text(
-                                text = "💡 نصائح للبحث الذكي السريع:",
+                                text = if (isFrench) "💡 Conseils de recherche" else "💡 نصائح للبحث الذكي السريع:",
                                 style = MaterialTheme.typography.labelLarge,
                                 color = MaterialTheme.colorScheme.primary
                             )
                             Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "• اكتب بداية رقم الحساب (مثال: 34 لعرض حسابات الأصول المتداولة والزبائن).\n• يدعم البحث بالأرقام العربية (٣٤٢١) والأرقام اللاتينية (3421).\n• يتجاهل علامات التشكيل وحالة الأحرف والهمزات تلقائياً.",
+                                text = if (isFrench) "• Saisissez le début d’un code (ex. : 34).\n• Les chiffres arabes (٣٤٢١) et latins (3421) sont pris en charge.\n• La recherche ignore la casse et normalise les caractères accentués." else "• اكتب بداية رقم الحساب (مثال: 34 لعرض حسابات الأصول المتداولة والزبائن).\n• يدعم البحث بالأرقام العربية (٣٤٢١) والأرقام اللاتينية (3421).\n• يتجاهل علامات التشكيل وحالة الأحرف والهمزات تلقائياً.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 lineHeight = 18.sp
@@ -304,7 +308,7 @@ fun SearchScreen(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = "نتائج البحث (${searchResults.size})",
+                            text = if (isFrench) "Résultats (${searchResults.size})" else "نتائج البحث (${searchResults.size})",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -327,13 +331,13 @@ fun SearchScreen(
                             )
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
-                                text = "لم يتم العثور على حساب مطابق",
+                                text = if (isFrench) "Aucun compte correspondant" else "لم يتم العثور على حساب مطابق",
                                 style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
-                                text = "تأكد من كتابة الرقم أو الكلمة بشكل صحيح، أو أزل تصفية الصنف.",
+                                text = if (isFrench) "Vérifiez le code ou le terme, ou retirez le filtre de classe." else "تأكد من كتابة الرقم أو الكلمة بشكل صحيح، أو أزل تصفية الصنف.",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
