@@ -80,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
             // Root Providers: RTL layout, Dynamic Font Scale, and Language Mode
             CompositionLocalProvider(
-                LocalLayoutDirection provides if (languageMode == LanguageMode.FRENCH_ONLY) LayoutDirection.Ltr else LayoutDirection.Rtl,
+                LocalLayoutDirection provides (if (languageMode == LanguageMode.FRENCH_ONLY) LayoutDirection.Ltr else LayoutDirection.Rtl),
                 LocalDensity provides adjustedDensity,
                 LocalLanguageMode provides languageMode
             ) {
