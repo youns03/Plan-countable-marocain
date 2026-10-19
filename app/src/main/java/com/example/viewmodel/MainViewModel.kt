@@ -93,11 +93,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val isDarkTheme: StateFlow<Boolean?> = prefsRepo.isDarkTheme
     val largeFont: StateFlow<Boolean> = prefsRepo.largeFont
 
-    private val _introBannerDismissed = MutableStateFlow(false)
-    val introBannerDismissed: StateFlow<Boolean> = _introBannerDismissed.asStateFlow()
+    val introBannerDismissed: StateFlow<Boolean> = prefsRepo.introBannerDismissed
 
     fun dismissIntroBanner() {
-        _introBannerDismissed.value = true
+        prefsRepo.dismissIntroBanner()
     }
 
     // Recent Accounts List derived from recentAccountUids
