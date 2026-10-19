@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.EducationalData
 import com.example.data.PlanComptableRepository
+import com.example.model.LanguageMode
 import com.example.ui.components.BadgeSize
 import com.example.ui.components.ClassBadge
 import com.example.ui.components.CodeInput
@@ -67,6 +68,7 @@ import com.example.ui.theme.CreditGreen
 import com.example.ui.theme.DebitBlue
 import com.example.ui.theme.LedgerClassColors
 import com.example.ui.theme.MonoFontFamily
+import com.example.ui.theme.LocalLanguageMode
 import com.example.viewmodel.LearnSubTab
 import com.example.viewmodel.MainViewModel
 
@@ -76,6 +78,7 @@ fun LearnScreen(
     modifier: Modifier = Modifier
 ) {
     val subTab by viewModel.learnSubTab.collectAsState()
+    val languageMode = LocalLanguageMode.current
     val subTabs = LearnSubTab.values()
 
     Column(
@@ -103,16 +106,18 @@ fun LearnScreen(
                         text = {
                             Column(horizontalAlignment = Alignment.CenterHorizontally) {
                                 Text(
-                                    text = tab.titleAr,
+                                    text = if (languageMode == LanguageMode.FRENCH_ONLY) tab.titleFr else tab.titleAr,
                                     style = MaterialTheme.typography.labelLarge,
                                     fontWeight = if (subTab == tab) FontWeight.Bold else FontWeight.Medium
                                 )
-                                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                                    Text(
-                                        text = tab.titleFr,
-                                        style = MaterialTheme.typography.labelSmall,
-                                        color = if (subTab == tab) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                    )
+                                if (languageMode == LanguageMode.BILINGUAL) {
+                                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                                        Text(
+                                            text = tab.titleFr,
+                                            style = MaterialTheme.typography.labelSmall,
+                                            color = if (subTab == tab) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
                                 }
                             }
                         },
