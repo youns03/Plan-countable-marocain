@@ -46,10 +46,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.example.data.PlanComptableRepository
 import com.example.model.ElementLevel
+import com.example.model.LanguageMode
 import com.example.ui.components.AccountRow
 import com.example.ui.components.BadgeSize
 import com.example.ui.components.ClassBadge
 import com.example.ui.theme.LedgerClassColors
+import com.example.ui.theme.LocalLanguageMode
 import com.example.viewmodel.MainViewModel
 
 @Composable
@@ -58,6 +60,8 @@ fun ClassExplorerScreen(
     modifier: Modifier = Modifier
 ) {
     val selectedClass by viewModel.selectedClassNumber.collectAsState()
+    val languageMode = LocalLanguageMode.current
+    val isFrench = languageMode == LanguageMode.FRENCH_ONLY
     val visibleElements by viewModel.flattenedVisibleTree.collectAsState()
     val expandedUids by viewModel.expandedUids.collectAsState()
     val favoriteUids by viewModel.favoriteUids.collectAsState()
@@ -121,13 +125,13 @@ fun ClassExplorerScreen(
                         ) {
                             Icon(
                                 imageVector = Icons.Default.Search,
-                                contentDescription = "بحث",
+                                contentDescription = if (isFrench) "Rechercher" else "بحث",
                                 tint = MaterialTheme.colorScheme.onSurfaceVariant,
                                 modifier = Modifier.size(18.dp)
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "ابحث في الحسابات...",
+                                text = if (isFrench) "Rechercher dans le plan..." else "ابحث في الحسابات...",
                                 style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -144,7 +148,7 @@ fun ClassExplorerScreen(
                             },
                             modifier = Modifier.size(36.dp)
                         ) {
-                            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = "السابق", tint = classColor)
+                            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowBack, contentDescription = if (isFrench) "Classe précédente" else "السابق", tint = classColor)
                         }
                         IconButton(
                             onClick = {
@@ -153,7 +157,7 @@ fun ClassExplorerScreen(
                             },
                             modifier = Modifier.size(36.dp)
                         ) {
-                            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = "التالي", tint = classColor)
+                            Icon(imageVector = Icons.AutoMirrored.Filled.ArrowForward, contentDescription = if (isFrench) "Classe suivante" else "التالي", tint = classColor)
                         }
                     }
                 }
@@ -181,7 +185,7 @@ fun ClassExplorerScreen(
                                 .testTag("select_class_chip_$cNum")
                         ) {
                             Text(
-                                text = "صنف $cNum",
+                                text = if (isFrench) "Classe $cNum" else "صنف $cNum",
                                 style = MaterialTheme.typography.labelMedium,
                                 fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium,
                                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
@@ -224,7 +228,7 @@ fun ClassExplorerScreen(
                                     color = classColor
                                 )
                                 Text(
-                                    text = classRoot?.arabicTitle ?: "",
+                                    text = if (isFrench) "" else (classRoot?.arabicTitle ?: ""),
                                     style = MaterialTheme.typography.bodySmall,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
@@ -243,14 +247,14 @@ fun ClassExplorerScreen(
                                 color = MaterialTheme.colorScheme.surfaceVariant
                             ) {
                                 Text(
-                                    text = classRoot?.statementType?.labelAr ?: "",
+                                    text = if (isFrench) classRoot?.statementType?.labelFr ?: "" else classRoot?.statementType?.labelAr ?: "",
                                     style = MaterialTheme.typography.labelSmall,
                                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp)
                                 )
                             }
 
                             Text(
-                                text = "$totalClassElements بنداً مسجلاً",
+                                text = if (isFrench) "$totalClassElements éléments" else "$totalClassElements بنداً مسجلاً",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -275,7 +279,7 @@ fun ClassExplorerScreen(
                         ) {
                             Icon(imageVector = Icons.Default.UnfoldMore, contentDescription = null, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("توسيع الكل", style = MaterialTheme.typography.labelSmall)
+                            Text(if (isFrench) "Tout développer" else "توسيع الكل", style = MaterialTheme.typography.labelSmall)
                         }
 
                         OutlinedButton(
@@ -284,12 +288,12 @@ fun ClassExplorerScreen(
                         ) {
                             Icon(imageVector = Icons.Default.UnfoldLess, contentDescription = null, modifier = Modifier.size(16.dp))
                             Spacer(modifier = Modifier.width(4.dp))
-                            Text("طي الكل", style = MaterialTheme.typography.labelSmall)
+                            Text(if (isFrench) "Tout réduire" else "طي الكل", style = MaterialTheme.typography.labelSmall)
                         }
                     }
 
                     Text(
-                        text = "المعروض: ${visibleElements.size}",
+                        text = if (isFrench) "Affichés : ${visibleElements.size}" else "المعروض: ${visibleElements.size}",
                         style = MaterialTheme.typography.labelSmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
