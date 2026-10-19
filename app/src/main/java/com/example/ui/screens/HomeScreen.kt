@@ -161,7 +161,7 @@ fun HomeScreen(
                         )
                         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                             Text(
-                                text = "Guide du Plan Comptable Marocain (CGNC)",
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Guide du Plan Comptable Marocain (CGNC)" else "دليل المخطط المحاسبي المغربي (CGNC)",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -190,7 +190,7 @@ fun HomeScreen(
                     ) {
                         Icon(
                             imageVector = Icons.Default.Search,
-                            contentDescription = "بحث",
+                            contentDescription = if (languageMode == LanguageMode.FRENCH_ONLY) "Rechercher" else "بحث",
                             tint = MaterialTheme.colorScheme.primary,
                             modifier = Modifier.size(20.dp)
                         )
