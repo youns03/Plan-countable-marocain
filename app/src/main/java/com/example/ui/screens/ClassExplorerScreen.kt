@@ -49,7 +49,7 @@ import com.example.model.ElementLevel
 import com.example.ui.components.AccountRow
 import com.example.ui.components.BadgeSize
 import com.example.ui.components.ClassBadge
-import com.example.ui.theme.PcmTokens
+import com.example.ui.theme.LedgerClassColors
 import com.example.viewmodel.MainViewModel
 
 @Composable
@@ -63,7 +63,7 @@ fun ClassExplorerScreen(
     val favoriteUids by viewModel.favoriteUids.collectAsState()
 
     val isDark = MaterialTheme.colorScheme.background.luminance() < 0.5f
-    val classColor = PcmTokens.classColor(selectedClass, isDark)
+    val classColor = LedgerClassColors.forClass(selectedClass)
 
     val classNumbers = listOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
     val currentIndex = classNumbers.indexOf(selectedClass)
@@ -168,7 +168,7 @@ fun ClassExplorerScreen(
                 ) {
                     items(classNumbers) { cNum ->
                         val isSelected = cNum == selectedClass
-                        val color = PcmTokens.classColor(cNum, isDark)
+                        val color = LedgerClassColors.forClass(cNum)
 
                         Surface(
                             shape = RoundedCornerShape(8.dp),
