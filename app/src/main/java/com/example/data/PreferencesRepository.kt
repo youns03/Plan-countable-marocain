@@ -33,6 +33,14 @@ class PreferencesRepository(context: Context) {
     private val _quizHighScore = MutableStateFlow(prefs.getInt(KEY_QUIZ_HIGH_SCORE, 0))
     val quizHighScore: StateFlow<Int> = _quizHighScore.asStateFlow()
 
+    private val _introBannerDismissed = MutableStateFlow(prefs.getBoolean(KEY_INTRO_BANNER_DISMISSED, false))
+    val introBannerDismissed: StateFlow<Boolean> = _introBannerDismissed.asStateFlow()
+
+    fun dismissIntroBanner() {
+        prefs.edit().putBoolean(KEY_INTRO_BANNER_DISMISSED, true).apply()
+        _introBannerDismissed.value = true
+    }
+
     fun saveQuizHighScore(score: Int) {
         val best = maxOf(_quizHighScore.value, score.coerceAtLeast(0))
         if (best != _quizHighScore.value) {
@@ -162,6 +170,7 @@ class PreferencesRepository(context: Context) {
         private const val KEY_DARK_THEME = "pref_dark_theme"
         private const val KEY_LARGE_FONT = "pref_large_font"
         private const val KEY_QUIZ_HIGH_SCORE = "pref_quiz_high_score"
+        private const val KEY_INTRO_BANNER_DISMISSED = "pref_intro_banner_dismissed"
 
         @Volatile
         private var INSTANCE: PreferencesRepository? = null
