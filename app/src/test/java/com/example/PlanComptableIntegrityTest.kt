@@ -27,7 +27,7 @@ class PlanComptableIntegrityTest {
         val uids = allElements.map { it.uid }
         val uniqueUids = uids.toSet()
 
-        assertEquals("Every element must have a unique UID ($classNumber:$code)", allElements.size, uniqueUids.size)
+        assertEquals("Every element must have a unique UID (classNumber:code)", allElements.size, uniqueUids.size)
     }
 
     @Test
@@ -83,7 +83,6 @@ class PlanComptableIntegrityTest {
         assertTrue("Search for '11' must contain elements from Class 1", classes.contains(1))
         assertTrue("Search for '11' must contain elements from Class 0", classes.contains(0))
 
-        // Ensure all search results have distinct UIDs
         val uids = results.map { it.uid }
         assertEquals(uids.size, uids.toSet().size)
     }
@@ -99,20 +98,16 @@ class PlanComptableIntegrityTest {
 
     @Test
     fun `test special rules are properly scoped`() {
-        // 99 in Class 9 should NOT trigger provision rule
         val deconstruct99 = PlanComptableRepository.deconstructCode("99")
         assertNull("99 in Class 9 should not trigger provision rule", deconstruct99.specialRuleNoteAr)
 
-        // 88 should NOT trigger amortisation rule
         val deconstruct88 = PlanComptableRepository.deconstructCode("88")
         assertNull("88 should not trigger amortisation rule", deconstruct88.specialRuleNoteAr)
 
-        // 2834 in Class 2 DOES trigger amortisation rule
         val deconstruct2834 = PlanComptableRepository.deconstructCode("2834")
         assertNotNull("2834 in Class 2 must trigger amortisation rule", deconstruct2834.specialRuleNoteAr)
         assertTrue(deconstruct2834.specialRuleNoteAr!!.contains("الاستهلاك"))
 
-        // 3942 in Class 3 DOES trigger provision rule
         val deconstruct3942 = PlanComptableRepository.deconstructCode("3942")
         assertNotNull("3942 in Class 3 must trigger provision rule", deconstruct3942.specialRuleNoteAr)
         assertTrue(deconstruct3942.specialRuleNoteAr!!.contains("مؤونة"))
@@ -129,13 +124,11 @@ class PlanComptableIntegrityTest {
         if (prefs.isFavorite(uidClass1)) prefs.toggleFavorite(uidClass1)
         if (prefs.isFavorite(uidClass0)) prefs.toggleFavorite(uidClass0)
 
-        // Toggle 1:11 only
         prefs.toggleFavorite(uidClass1)
 
         assertTrue("1:11 must be favorite", prefs.isFavorite(uidClass1))
         assertFalse("0:11 must NOT be favorite when only 1:11 was favorited", prefs.isFavorite(uidClass0))
 
-        // Clean up
         prefs.toggleFavorite(uidClass1)
     }
 
