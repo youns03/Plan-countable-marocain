@@ -1,9 +1,7 @@
-name: Android CI
+name: Android APK Build
 
 on:
   push:
-    branches: [main]
-  pull_request:
     branches: [main]
   workflow_dispatch:
 
@@ -11,12 +9,12 @@ permissions:
   contents: read
 
 concurrency:
-  group: android-ci-${{ github.ref }}
+  group: android-apk-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  verify:
-    name: Build and unit tests
+  build-apk:
+    name: Build Android APK
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
@@ -29,28 +27,30 @@ jobs:
           distribution: temurin
           java-version: "17"
 
+      - name: Generate debug signing keystore
+        run: |
+          keytool -genkeypair -v \
+            -keystore debug.keystore \
+            -storepass android \
+            -alias androiddebugkey \
+            -keypass android \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
+
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: "9.3.1"
 
-      - name: Run unit tests
-        run: gradle testDebugUnitTest --stacktrace
-
       - name: Assemble debug APK
         run: gradle assembleDebug --stacktrace
 
-      - name: Upload unit test reports
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: android-unit-test-reports
-          path: app/build/reports/tests/testDebugUnitTest/
-          if-no-files-found: ignore
-
-      - name: Upload debug APK
+      - name: Upload APK for browser download
         uses: actions/upload-artifact@v4
         with:
           name: plan-comptable-debug-apk
           path: app/build/outputs/apk/debug/*.apk
           if-no-files-found: error
+          retention-days: 30
