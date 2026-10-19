@@ -149,9 +149,12 @@ fun MyAccountScreen(
                             IconButton(
                                 onClick = {
                                     val textBuilder = StringBuilder()
-                                    textBuilder.append("الدليل المحاسباتي المغربي - الحسابات المفضلة:\n\n")
+                                    textBuilder.append(if (languageMode == LanguageMode.FRENCH_ONLY) "Plan comptable marocain - Favoris:\n\n" else "الدليل المحاسباتي المغربي - الحسابات المفضلة:\n\n")
                                     favoriteElements.forEach { elem ->
-                                        textBuilder.append("• ${elem.code} : ${elem.officialFrenchTitle} (${elem.arabicTitle})\n")
+                                        textBuilder.append(
+                                        if (languageMode == LanguageMode.FRENCH_ONLY) "• ${elem.code} : ${elem.officialFrenchTitle}\n"
+                                        else "• ${elem.code} : ${elem.officialFrenchTitle} (${elem.arabicTitle})\n"
+                                    )
                                     }
                                     val shareIntent = Intent(Intent.ACTION_SEND).apply {
                                         type = "text/plain"
@@ -419,14 +422,18 @@ fun MyAccountScreen(
                                     Text(text = if (languageMode == LanguageMode.FRENCH_ONLY) "${stat.totalCount} éléments" else "${stat.totalCount} عنصر", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = classColor)
                                 }
                                 Text(
-                                    text = "أقسام: ${stat.rubriquesCount} | أبواب: ${stat.postesCount} | حسابات: ${stat.comptesCount} | فرعية: ${stat.sousComptesCount}",
+                                    text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                        "Rubriques : ${stat.rubriquesCount} | Postes : ${stat.postesCount} | Comptes : ${stat.comptesCount} | Sous-comptes : ${stat.sousComptesCount}"
+                                    else "أقسام: ${stat.rubriquesCount} | أبواب: ${stat.postesCount} | حسابات: ${stat.comptesCount} | فرعية: ${stat.sousComptesCount}",
                                     style = MaterialTheme.typography.labelSmall,
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                                 if (stat.anomalies.isNotEmpty()) {
                                     stat.anomalies.forEach { anom ->
                                         Text(
-                                            text = "⚠️ الحساب ${anom.code}: ${anom.anomalyNote ?: ""}",
+                                            text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                                "⚠️ Compte ${anom.code}: ${anom.anomalyNote ?: ""}"
+                                            else "⚠️ الحساب ${anom.code}: ${anom.anomalyNote ?: ""}",
                                             style = MaterialTheme.typography.labelSmall,
                                             color = AnomalyAmber
                                         )
