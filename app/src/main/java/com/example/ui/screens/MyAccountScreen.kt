@@ -109,7 +109,7 @@ fun MyAccountScreen(
         // 1. Screen Title
         item {
             Text(
-                text = "حسابي والمفضلة (Mon Compte)",
+                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Mon compte et favoris" else "حسابي والمفضلة (Mon Compte)",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
@@ -139,7 +139,7 @@ fun MyAccountScreen(
                             )
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "الحسابات المفضلة (${favoriteElements.size})",
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Favoris (${favoriteElements.size})" else "الحسابات المفضلة (${favoriteElements.size})",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
@@ -158,7 +158,7 @@ fun MyAccountScreen(
                                         putExtra(Intent.EXTRA_SUBJECT, "Plan Comptable Marocain - Favoris")
                                         putExtra(Intent.EXTRA_TEXT, textBuilder.toString())
                                     }
-                                    context.startActivity(Intent.createChooser(shareIntent, "تصدير المفضلة"))
+                                    context.startActivity(Intent.createChooser(shareIntent, if (languageMode == LanguageMode.FRENCH_ONLY) "Exporter les favoris" else "تصدير المفضلة"))
                                 },
                                 modifier = Modifier.size(36.dp)
                             ) {
@@ -170,7 +170,7 @@ fun MyAccountScreen(
                     if (favoriteElements.isEmpty()) {
                         Spacer(modifier = Modifier.height(10.dp))
                         Text(
-                            text = "لم تقم بحفظ أي حساب في المفضلة بعد. اضغط على أيقونة الإشارة المرجعية في أي حساب لحفظه هنا ومراجعته بسرعة.",
+                            text = if (languageMode == LanguageMode.FRENCH_ONLY) "Aucun favori pour le moment. Utilisez le signet d’un compte pour l’enregistrer ici." else "لم تقم بحفظ أي حساب في المفضلة بعد. اضغط على أيقونة الإشارة المرجعية في أي حساب لحفظه هنا ومراجعته بسرعة.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             lineHeight = 18.sp
@@ -180,7 +180,7 @@ fun MyAccountScreen(
                         OutlinedTextField(
                             value = favSearchQuery,
                             onValueChange = { favSearchQuery = it },
-                            placeholder = { Text("تصفية المفضلة...", style = MaterialTheme.typography.bodySmall) },
+                            placeholder = { Text(if (languageMode == LanguageMode.FRENCH_ONLY) "Filtrer les favoris..." else "تصفية المفضلة...", style = MaterialTheme.typography.bodySmall) },
                             modifier = Modifier.fillMaxWidth(),
                             singleLine = true,
                             shape = RoundedCornerShape(8.dp)
@@ -200,7 +200,7 @@ fun MyAccountScreen(
                     ClassBadge(classNumber = cNum, size = BadgeSize.SMALL)
                     Spacer(modifier = Modifier.width(8.dp))
                     Text(
-                        text = "صنف $cNum (${elements.size})",
+                        text = if (languageMode == LanguageMode.FRENCH_ONLY) "Classe $cNum (${elements.size})" else "صنف $cNum (${elements.size})",
                         style = MaterialTheme.typography.labelMedium,
                         fontWeight = FontWeight.Bold,
                         color = LedgerClassColors.forClass(cNum)
@@ -231,7 +231,7 @@ fun MyAccountScreen(
             ) {
                 Column(modifier = Modifier.padding(14.dp)) {
                     Text(
-                        text = "خيارات العرض واللغة (Affichage & Langue)",
+                        text = if (languageMode == LanguageMode.FRENCH_ONLY) "Affichage et langue" else "خيارات العرض واللغة (Affichage & Langue)",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -240,9 +240,9 @@ fun MyAccountScreen(
 
                     // Language modes
                     listOf(
-                        LanguageMode.BILINGUAL to "فرنسي أولاً ثم عربي (Bilingue - الموصى به)",
-                        LanguageMode.FRENCH_ONLY to "فرنسي فقط كما في الكتيب (Français seul)",
-                        LanguageMode.ARABIC_ONLY to "عربي فقط مع الترجمة الرسمية (Arabe seul)"
+                        LanguageMode.BILINGUAL to if (languageMode == LanguageMode.FRENCH_ONLY) "Bilingue (recommandé)" else "فرنسي أولاً ثم عربي (Bilingue - الموصى به)",
+                        LanguageMode.FRENCH_ONLY to if (languageMode == LanguageMode.FRENCH_ONLY) "Français uniquement" else "فرنسي فقط كما في الكتيب (Français seul)",
+                        LanguageMode.ARABIC_ONLY to if (languageMode == LanguageMode.FRENCH_ONLY) "Arabe uniquement" else "عربي فقط مع الترجمة الرسمية (Arabe seul)"
                     ).forEach { (mode, label) ->
                         val isSelected = languageMode == mode
                         Surface(
@@ -283,7 +283,7 @@ fun MyAccountScreen(
 
                     // Theme Selection
                     Text(
-                        text = "المظهر (Thème):",
+                        text = if (languageMode == LanguageMode.FRENCH_ONLY) "Thème" else "المظهر (Thème):",
                         style = MaterialTheme.typography.labelLarge,
                         color = MaterialTheme.colorScheme.onSurface
                     )
@@ -293,9 +293,9 @@ fun MyAccountScreen(
                         horizontalArrangement = Arrangement.spacedBy(8.dp)
                     ) {
                         listOf(
-                            Triple(null, "تلقائي", Icons.Default.SettingsBrightness),
-                            Triple(false, "فاتح", Icons.Default.LightMode),
-                            Triple(true, "داكن", Icons.Default.DarkMode)
+                            Triple(null, if (languageMode == LanguageMode.FRENCH_ONLY) "Système" else "تلقائي", Icons.Default.SettingsBrightness),
+                            Triple(false, if (languageMode == LanguageMode.FRENCH_ONLY) "Clair" else "فاتح", Icons.Default.LightMode),
+                            Triple(true, if (languageMode == LanguageMode.FRENCH_ONLY) "Sombre" else "داكن", Icons.Default.DarkMode)
                         ).forEach { (themeSetting, label, icon) ->
                             val isSelected = isDarkTheme == themeSetting
                             Surface(
@@ -333,13 +333,13 @@ fun MyAccountScreen(
                     ) {
                         Column {
                             Text(
-                                text = "تكبير حجم الخط (Police Agrandie)",
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Agrandir le texte" else "تكبير حجم الخط (Police Agrandie)",
                                 style = MaterialTheme.typography.bodySmall,
                                 fontWeight = FontWeight.Bold,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Text(
-                                text = "يطبق تلقائياً بنسبة +15% على جميع الشاشات",
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Augmente la taille du texte de 15 % dans toute l’application" else "يطبق تلقائياً بنسبة +15% على جميع الشاشات",
                                 style = MaterialTheme.typography.labelSmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
@@ -375,13 +375,13 @@ fun MyAccountScreen(
                             Icon(imageVector = Icons.Default.Verified, contentDescription = null, tint = Color(0xFF15803D))
                             Spacer(modifier = Modifier.width(8.dp))
                             Text(
-                                text = "جودة البيانات والتدقيق (Qualité & Audit)",
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Qualité et audit des données" else "جودة البيانات والتدقيق (Qualité & Audit)",
                                 style = MaterialTheme.typography.titleSmall,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                         }
                         Text(
-                            text = if (showAuditSection) "إخفاء ▲" else "عرض التفاصيل ▼",
+                            text = if (showAuditSection) { if (languageMode == LanguageMode.FRENCH_ONLY) "Masquer ▲" else "إخفاء ▲" } else { if (languageMode == LanguageMode.FRENCH_ONLY) "Détails ▼" else "عرض التفاصيل ▼" },
                             style = MaterialTheme.typography.labelSmall,
                             color = MaterialTheme.colorScheme.primary
                         )
@@ -389,7 +389,7 @@ fun MyAccountScreen(
 
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "إحصائيات محسوبة مباشرة من البيانات: $totalElements عنصراً موزعة على $totalClasses أصناف رسمية متكاملة.",
+                        text = if (languageMode == LanguageMode.FRENCH_ONLY) "Statistiques calculées depuis les données : $totalElements éléments répartis sur $totalClasses classes." else "إحصائيات محسوبة مباشرة من البيانات: $totalElements عنصراً موزعة على $totalClasses أصناف رسمية متكاملة.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant
                     )
@@ -414,9 +414,9 @@ fun MyAccountScreen(
                                     Row(verticalAlignment = Alignment.CenterVertically) {
                                         ClassBadge(classNumber = stat.classNumber, size = BadgeSize.SMALL)
                                         Spacer(modifier = Modifier.width(6.dp))
-                                        Text(text = stat.titleAr, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
+                                        Text(text = if (languageMode == LanguageMode.FRENCH_ONLY) stat.titleFr else stat.titleAr, style = MaterialTheme.typography.labelMedium, fontWeight = FontWeight.Bold)
                                     }
-                                    Text(text = "${stat.totalCount} عنصر", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = classColor)
+                                    Text(text = if (languageMode == LanguageMode.FRENCH_ONLY) "${stat.totalCount} éléments" else "${stat.totalCount} عنصر", style = MaterialTheme.typography.labelSmall, fontWeight = FontWeight.Bold, color = classColor)
                                 }
                                 Text(
                                     text = "أقسام: ${stat.rubriquesCount} | أبواب: ${stat.postesCount} | حسابات: ${stat.comptesCount} | فرعية: ${stat.sousComptesCount}",
@@ -452,14 +452,14 @@ fun MyAccountScreen(
                         Icon(imageVector = Icons.Default.Info, contentDescription = null, tint = MaterialTheme.colorScheme.primary)
                         Spacer(modifier = Modifier.width(8.dp))
                         Text(
-                            text = "حول التطبيق والمخطط المحاسباتي المغربي",
+                            text = if (languageMode == LanguageMode.FRENCH_ONLY) "À propos de l’application" else "حول التطبيق والمخطط المحاسباتي المغربي",
                             style = MaterialTheme.typography.titleSmall,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
                     Spacer(modifier = Modifier.height(6.dp))
                     Text(
-                        text = "مرجع جيب مخصص لطلاب تسيير المقاولات والاقتصاد والمحاسبة في المغرب (OFPPT, BTS, EST, ENCG, Facultés des Sciences Économiques). تم نقل جميع الحسابات حرفياً من نص المخطط المحاسباتي المغربي (CGNC) مع شروحات بيداغوجية وأمثلة عملية وأداة تفكيك الأرقام لتسهيل الفهم والحفظ.\n\nالتطبيق يعمل بدون إنترنت 100% ويحفظ بياناتك محلياً على جهازك.",
+                        text = if (languageMode == LanguageMode.FRENCH_ONLY) "Un guide de poche pour les étudiants marocains en gestion, économie et comptabilité. Il associe le plan comptable à des explications pédagogiques, des exemples pratiques et un outil de décomposition des codes.\n\nL’application fonctionne hors ligne et conserve vos préférences sur l’appareil." else "مرجع جيب مخصص لطلاب تسيير المقاولات والاقتصاد والمحاسبة في المغرب (OFPPT, BTS, EST, ENCG, Facultés des Sciences Économiques). تم نقل جميع الحسابات حرفياً من نص المخطط المحاسباتي المغربي (CGNC) مع شروحات بيداغوجية وأمثلة عملية وأداة تفكيك الأرقام لتسهيل الفهم والحفظ.\n\nالتطبيق يعمل بدون إنترنت 100% ويحفظ بياناتك محلياً على جهازك.",
                         style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
                         lineHeight = 18.sp
