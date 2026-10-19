@@ -30,6 +30,17 @@ class PreferencesRepository(context: Context) {
     private val _largeFont = MutableStateFlow(loadLargeFontSetting())
     val largeFont: StateFlow<Boolean> = _largeFont.asStateFlow()
 
+    private val _quizHighScore = MutableStateFlow(prefs.getInt(KEY_QUIZ_HIGH_SCORE, 0))
+    val quizHighScore: StateFlow<Int> = _quizHighScore.asStateFlow()
+
+    fun saveQuizHighScore(score: Int) {
+        val best = maxOf(_quizHighScore.value, score.coerceAtLeast(0))
+        if (best != _quizHighScore.value) {
+            prefs.edit().putInt(KEY_QUIZ_HIGH_SCORE, best).apply()
+            _quizHighScore.value = best
+        }
+    }
+
     private fun loadAndMigrateFavorites(): Set<String> {
         val rawSet = prefs.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
         val migrated = mutableSetOf<String>()
@@ -150,6 +161,7 @@ class PreferencesRepository(context: Context) {
         private const val KEY_LANGUAGE_MODE = "pref_language_mode"
         private const val KEY_DARK_THEME = "pref_dark_theme"
         private const val KEY_LARGE_FONT = "pref_large_font"
+        private const val KEY_QUIZ_HIGH_SCORE = "pref_quiz_high_score"
 
         @Volatile
         private var INSTANCE: PreferencesRepository? = null
