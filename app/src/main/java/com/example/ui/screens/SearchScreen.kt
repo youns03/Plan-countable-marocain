@@ -23,12 +23,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.History
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.SearchOff
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -37,10 +39,14 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
@@ -48,15 +54,15 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.ui.components.AccountCard
-import com.example.ui.theme.ClassColors
-import com.example.ui.theme.PrimaryBlue
+import com.example.ui.components.AccountRow
+import com.example.ui.theme.LedgerClassColors
 import com.example.viewmodel.MainViewModel
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun SearchScreen(
     viewModel: MainViewModel,
+    onBack: () -> Unit,
     modifier: Modifier = Modifier
 ) {
     val searchQuery by viewModel.searchQuery.collectAsState()
@@ -64,89 +70,115 @@ fun SearchScreen(
     val searchResults by viewModel.searchResults.collectAsState()
     val recentSearches by viewModel.recentSearches.collectAsState()
     val favorites by viewModel.favorites.collectAsState()
-    val languageMode by viewModel.languageMode.collectAsState()
-    val largeFont by viewModel.largeFont.collectAsState()
 
     val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
+
     val classNumbers = listOf(null, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0)
     val popularTerms = listOf("3421", "4411", "5141", "6111", "7111", "2834", "TVA", "Amortissement", "Fournisseur", "Client", "Salaires", "Capital")
+
+    LaunchedEffect(Unit) {
+        focusRequester.requestFocus()
+    }
 
     Column(
         modifier = modifier
             .fillMaxSize()
+            .background(MaterialTheme.colorScheme.background)
             .testTag("search_screen")
     ) {
-        // Search Input Header
+        // Search Input Top App Bar
         Surface(
             color = MaterialTheme.colorScheme.surface,
             tonalElevation = 2.dp,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Column(modifier = Modifier.padding(16.dp)) {
-                OutlinedTextField(
-                    value = searchQuery,
-                    onValueChange = { viewModel.onSearchQueryChanged(it) },
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .testTag("search_text_input"),
-                    placeholder = {
-                        Text("اكتب رقم الحساب أو كلمة فرنسية/عربية...")
-                    },
-                    leadingIcon = {
-                        Icon(imageVector = Icons.Default.Search, contentDescription = "بحث", tint = PrimaryBlue)
-                    },
-                    trailingIcon = {
-                        if (searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { viewModel.onSearchQueryChanged("") }) {
-                                Icon(imageVector = Icons.Default.Clear, contentDescription = "مسح")
+            Column(modifier = Modifier.padding(12.dp)) {
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    IconButton(
+                        onClick = onBack,
+                        modifier = Modifier.size(44.dp)
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = "رجوع"
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.width(6.dp))
+
+                    OutlinedTextField(
+                        value = searchQuery,
+                        onValueChange = { viewModel.onSearchQueryChanged(it) },
+                        modifier = Modifier
+                            .weight(1f)
+                            .focusRequester(focusRequester)
+                            .testTag("search_text_input"),
+                        placeholder = {
+                            Text("رقم الحساب، الاسم، أو المصطلح...", style = MaterialTheme.typography.bodySmall)
+                        },
+                        trailingIcon = {
+                            if (searchQuery.isNotEmpty()) {
+                                IconButton(onClick = { viewModel.onSearchQueryChanged("") }) {
+                                    Icon(imageVector = Icons.Default.Clear, contentDescription = "مسح")
+                                }
                             }
-                        }
-                    },
-                    singleLine = true,
-                    shape = RoundedCornerShape(12.dp),
-                    keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
-                    keyboardActions = KeyboardActions(
-                        onSearch = {
-                            viewModel.submitSearch(searchQuery)
-                            focusManager.clearFocus()
-                        }
+                        },
+                        singleLine = true,
+                        shape = RoundedCornerShape(12.dp),
+                        keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+                        keyboardActions = KeyboardActions(
+                            onSearch = {
+                                viewModel.submitSearch(searchQuery)
+                                focusManager.clearFocus()
+                            }
+                        )
                     )
-                )
+                }
 
-                Spacer(modifier = Modifier.height(10.dp))
+                Spacer(modifier = Modifier.height(8.dp))
 
-                // Class Filter Chips
+                // Class Filter Chips with min 44dp touch target
                 LazyRow(
                     horizontalArrangement = Arrangement.spacedBy(6.dp)
                 ) {
                     items(classNumbers) { cNum ->
                         val isSelected = filterClass == cNum
-                        val label = if (cNum == null) "الكل (Tous)" else "صنف $cNum"
-                        val chipColor = if (cNum == null) PrimaryBlue else ClassColors.forClass(cNum)
+                        val label = if (cNum == null) "الكل" else "صنف $cNum"
+                        val chipColor = if (cNum == null) MaterialTheme.colorScheme.primary else LedgerClassColors.forClass(cNum)
 
                         Surface(
-                            shape = RoundedCornerShape(16.dp),
+                            shape = RoundedCornerShape(18.dp),
                             color = if (isSelected) chipColor else MaterialTheme.colorScheme.surfaceVariant,
                             contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
+                                .height(38.dp)
                                 .clickable { viewModel.setSearchFilterClass(cNum) }
                                 .testTag("search_filter_chip_${cNum ?: "all"}")
                         ) {
-                            Text(
-                                text = label,
-                                fontSize = 12.sp,
-                                fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Normal,
-                                modifier = Modifier.padding(horizontal = 10.dp, vertical = 6.dp)
-                            )
+                            Box(
+                                modifier = Modifier.padding(horizontal = 12.dp),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                Text(
+                                    text = label,
+                                    style = MaterialTheme.typography.labelMedium,
+                                    fontWeight = if (isSelected) FontWeight.Bold else FontWeight.Medium
+                                )
+                            }
                         }
                     }
                 }
             }
         }
+        HorizontalDivider()
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(16.dp, bottom = 90.dp)
+            contentPadding = PaddingValues(16.dp)
         ) {
             // Recent Searches (when query is empty)
             if (searchQuery.isBlank()) {
@@ -162,31 +194,30 @@ fun SearchScreen(
                                     imageVector = Icons.Default.History,
                                     contentDescription = null,
                                     tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    modifier = Modifier.size(18.dp)
+                                    modifier = Modifier.size(16.dp)
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
                                     text = "عمليات البحث الأخيرة",
-                                    fontSize = 14.sp,
-                                    fontWeight = FontWeight.Bold,
+                                    style = MaterialTheme.typography.titleSmall,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
                             }
                             TextButton(onClick = { viewModel.clearRecentSearches() }) {
-                                Text("مسح السجل", fontSize = 12.sp)
+                                Text("مسح السجل", style = MaterialTheme.typography.labelSmall)
                             }
                         }
 
                         FlowRow(
                             modifier = Modifier
                                 .fillMaxWidth()
-                                .padding(vertical = 6.dp),
+                                .padding(vertical = 4.dp),
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
                             verticalArrangement = Arrangement.spacedBy(8.dp)
                         ) {
                             recentSearches.forEach { term ->
                                 Surface(
-                                    shape = RoundedCornerShape(16.dp),
+                                    shape = RoundedCornerShape(14.dp),
                                     color = MaterialTheme.colorScheme.surfaceVariant,
                                     modifier = Modifier.clickable {
                                         viewModel.onSearchQueryChanged(term)
@@ -194,7 +225,7 @@ fun SearchScreen(
                                 ) {
                                     Text(
                                         text = term,
-                                        fontSize = 13.sp,
+                                        style = MaterialTheme.typography.labelMedium,
                                         modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                                     )
                                 }
@@ -208,9 +239,8 @@ fun SearchScreen(
                 // Popular Quick Search Terms
                 item {
                     Text(
-                        text = "عمليات بحث شائعة للطلاب • Recherches Populaires",
-                        fontSize = 14.sp,
-                        fontWeight = FontWeight.Bold,
+                        text = "عمليات بحث شائعة للطلاب:",
+                        style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                     Spacer(modifier = Modifier.height(8.dp))
@@ -221,44 +251,42 @@ fun SearchScreen(
                     ) {
                         popularTerms.forEach { term ->
                             Surface(
-                                shape = RoundedCornerShape(16.dp),
-                                color = MaterialTheme.colorScheme.secondaryContainer.copy(alpha = 0.5f),
-                                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                                shape = RoundedCornerShape(14.dp),
+                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.6f),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline),
                                 modifier = Modifier.clickable {
                                     viewModel.onSearchQueryChanged(term)
                                 }
                             ) {
                                 Text(
                                     text = term,
-                                    fontSize = 13.sp,
-                                    fontWeight = FontWeight.Medium,
+                                    style = MaterialTheme.typography.labelMedium,
                                     modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp)
                                 )
                             }
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(24.dp))
+                    Spacer(modifier = Modifier.height(20.dp))
 
-                    // Pedagogical Search Tips Card
                     Card(
                         modifier = Modifier.fillMaxWidth(),
                         shape = RoundedCornerShape(12.dp),
                         colors = CardDefaults.cardColors(
                             containerColor = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.4f)
-                        )
+                        ),
+                        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                     ) {
                         Column(modifier = Modifier.padding(14.dp)) {
                             Text(
                                 text = "💡 نصائح للبحث الذكي السريع:",
-                                fontSize = 13.sp,
-                                fontWeight = FontWeight.Bold,
-                                color = MaterialTheme.colorScheme.onSurface
+                                style = MaterialTheme.typography.labelLarge,
+                                color = MaterialTheme.colorScheme.primary
                             )
-                            Spacer(modifier = Modifier.height(6.dp))
+                            Spacer(modifier = Modifier.height(4.dp))
                             Text(
-                                text = "• اكتب بداية رقم الحساب (مثلاً 34 لعرض جميع حسابات الأصول المتداولة والزبائن).\n• اكتب الاسم بالفرنسية أو العربية (مثال: banque أو بنك أو amortissement).\n• محرك البحث يتجاهل علامات التشكيل وحالة الأحرف والهمزات تلقائياً.",
-                                fontSize = 12.sp,
+                                text = "• اكتب بداية رقم الحساب (مثال: 34 لعرض حسابات الأصول المتداولة والزبائن).\n• يدعم البحث بالأرقام العربية (٣٤٢١) والأرقام اللاتينية (3421).\n• يتجاهل علامات التشكيل وحالة الأحرف والهمزات تلقائياً.",
+                                style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                                 lineHeight = 18.sp
                             )
@@ -277,8 +305,7 @@ fun SearchScreen(
                     ) {
                         Text(
                             text = "نتائج البحث (${searchResults.size})",
-                            fontSize = 14.sp,
-                            fontWeight = FontWeight.Bold,
+                            style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
                     }
@@ -301,36 +328,35 @@ fun SearchScreen(
                             Spacer(modifier = Modifier.height(12.dp))
                             Text(
                                 text = "لم يتم العثور على حساب مطابق",
-                                fontSize = 16.sp,
-                                fontWeight = FontWeight.Bold,
+                                style = MaterialTheme.typography.titleMedium,
                                 color = MaterialTheme.colorScheme.onSurface
                             )
                             Spacer(modifier = Modifier.height(6.dp))
                             Text(
                                 text = "تأكد من كتابة الرقم أو الكلمة بشكل صحيح، أو أزل تصفية الصنف.",
-                                fontSize = 13.sp,
+                                style = MaterialTheme.typography.bodySmall,
                                 color = MaterialTheme.colorScheme.onSurfaceVariant
                             )
                         }
                     }
                 } else {
-                    items(searchResults, key = { it.code }) { element ->
-                        val isFav = favorites.contains(element.code)
-                        Box(modifier = Modifier.padding(vertical = 5.dp)) {
-                            AccountCard(
-                                element = element,
-                                languageMode = languageMode,
-                                isFavorite = isFav,
-                                hasChildren = false,
-                                isExpanded = false,
-                                largeFont = largeFont,
-                                onToggleFavorite = { viewModel.toggleFavorite(element.code) },
-                                onClick = {
-                                    viewModel.submitSearch(searchQuery)
-                                    viewModel.openAccountDetails(element)
-                                }
-                            )
-                        }
+                    // Safe keying by unique it.uid! No duplicate key collisions even if 11, 21, 22 appear together!
+                    items(searchResults, key = { it.uid }) { element ->
+                        val isFav = favorites.contains(element.uid)
+                        AccountRow(
+                            element = element,
+                            isFavorite = isFav,
+                            hasChildren = false,
+                            isExpanded = false,
+                            depth = 0,
+                            highlightQuery = searchQuery,
+                            onToggleFavorite = { viewModel.toggleFavorite(element.uid) },
+                            onClick = {
+                                viewModel.submitSearch(searchQuery)
+                                viewModel.openAccountDetails(element)
+                            },
+                            modifier = Modifier.padding(vertical = 2.dp)
+                        )
                     }
                 }
             }

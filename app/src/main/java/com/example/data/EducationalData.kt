@@ -250,29 +250,11 @@ object EducationalData {
             dateExample = "12/10/N",
             documentRef = "Facture n° F-102",
             lines = listOf(
-                JournalEntryLine(
-                    accountCode = "6111",
-                    accountTitleFr = "Achats de marchandises",
-                    accountTitleAr = "مشتريات بضائع",
-                    debitAmount = 50000.0,
-                    note = "المبلغ الصافي بدون احتساب الضريبة (HT)"
-                ),
-                JournalEntryLine(
-                    accountCode = "34552",
-                    accountTitleFr = "Etat-TVA récupérable sur les charges",
-                    accountTitleAr = "الدولة - ضريبة على القيمة المضافة قابلة للاسترجاع على التكاليف",
-                    debitAmount = 10000.0,
-                    note = "مبلغ الضريبة 20% يسترجع من الدولة (Débit)"
-                ),
-                JournalEntryLine(
-                    accountCode = "4411",
-                    accountTitleFr = "Fournisseurs",
-                    accountTitleAr = "الموردون",
-                    creditAmount = 60000.0,
-                    note = "المبلغ الإجمالي الواجب أداؤه للمورد شامل الضريبة (TTC)"
-                )
+                JournalEntryLine("6111", "Achats de marchandises", "مشتريات بضائع", debitAmount = 50000.0, note = "HT"),
+                JournalEntryLine("34552", "Etat-TVA récupérable sur les charges", "الدولة - ضريبة قابلة للاسترجاع على التكاليف", debitAmount = 10000.0, note = "TVA 20%"),
+                JournalEntryLine("4411", "Fournisseurs", "الموردون", creditAmount = 60000.0, note = "TTC")
             ),
-            pedagogicalExplanationAr = "التكلفة تزيد في المدين (6111) بمبلغ الـ HT. الضريبة المسترجعة حق للمقاولة على الدولة فتسجل في مدين الأصول (34552). والتزام المقاولة تجاه المورد يزيد في دائن الخصوم (4411) بمبلغ TTC كاملاً. توازن القيد: 50,000 + 10,000 = 60,000 درهم."
+            pedagogicalExplanationAr = "التكلفة تزيد في المدين (6111) بمبلغ HT. والضريبة المسترجعة حق للمقاولة في مدين الأصول (34552). والتزام المقاولة تجاه المورد يزيد في دائن الخصوم (4411) بمبلغ TTC كاملاً. توازن القيد: 50,000 + 10,000 = 60,000 درهم."
         ),
         JournalEntry(
             id = "entry_2",
@@ -282,36 +264,12 @@ object EducationalData {
             dateExample = "15/10/N",
             documentRef = "Facture n° V-44 / Chèque n° 8871",
             lines = listOf(
-                JournalEntryLine(
-                    accountCode = "5141",
-                    accountTitleFr = "Banques (soldes débiteurs)",
-                    accountTitleAr = "البنوك (حساب جاري)",
-                    debitAmount = 48000.0,
-                    note = "نصف المبلغ TTC قبض في الحساب البنكي (+ مدين)"
-                ),
-                JournalEntryLine(
-                    accountCode = "3421",
-                    accountTitleFr = "Clients",
-                    accountTitleAr = "الزبائن",
-                    debitAmount = 48000.0,
-                    note = "النصف المتبقي دين للمقاولة على الزبون (+ مدين)"
-                ),
-                JournalEntryLine(
-                    accountCode = "7111",
-                    accountTitleFr = "Ventes de marchandises au Maroc",
-                    accountTitleAr = "مبيعات بضائع في المغرب",
-                    creditAmount = 80000.0,
-                    note = "إيراد البيع الصافي بدون احتساب الضريبة (HT)"
-                ),
-                JournalEntryLine(
-                    accountCode = "4455",
-                    accountTitleFr = "Etat, TVA facturée",
-                    accountTitleAr = "الدولة - ضريبة على القيمة المضافة مفوترة",
-                    creditAmount = 16000.0,
-                    note = "الضريبة المحصلة من الزبون الواجب تسليمها للدولة (دائن)"
-                )
+                JournalEntryLine("5141", "Banques (soldes débiteurs)", "البنوك (حساب جاري)", debitAmount = 48000.0, note = "50% TTC"),
+                JournalEntryLine("3421", "Clients", "الزبائن", debitAmount = 48000.0, note = "50% TTC"),
+                JournalEntryLine("7111", "Ventes de marchandises au Maroc", "مبيعات بضائع في المغرب", creditAmount = 80000.0, note = "HT"),
+                JournalEntryLine("4455", "Etat, TVA facturée", "الدولة - ضريبة مفوترة", creditAmount = 16000.0, note = "TVA 20%")
             ),
-            pedagogicalExplanationAr = "مبيعات البضائع إيراد يسجل في دائن الصنف 7 (7111). والـ TVA المحصلة دين للدولة على المقاولة في دائن الصنف 4 (4455). في المقابل زادت أموال البنك في المدين (5141) بنصف الـ TTC وزاد دين الزبائن في المدين (3421) بالنصف الآخر."
+            pedagogicalExplanationAr = "مبيعات البضائع إيراد يسجل في دائن الصنف 7 (7111). والـ TVA المحصلة دين للدولة على المقاولة في دائن الصنف 4 (4455). في المقابل زادت أموال البنك في المدين (5141) وزاد دين الزبائن في المدين (3421). المجموع: 96,000 مدين = 96,000 دائن."
         ),
         JournalEntry(
             id = "entry_3",
@@ -321,20 +279,8 @@ object EducationalData {
             dateExample = "20/10/N",
             documentRef = "Avis de virement n° VIR-209",
             lines = listOf(
-                JournalEntryLine(
-                    accountCode = "4411",
-                    accountTitleFr = "Fournisseurs",
-                    accountTitleAr = "الموردون",
-                    debitAmount = 60000.0,
-                    note = "إلغاء وتصفير الدين تجاه المورد (- مدين)"
-                ),
-                JournalEntryLine(
-                    accountCode = "5141",
-                    accountTitleFr = "Banques",
-                    accountTitleAr = "البنوك",
-                    creditAmount = 60000.0,
-                    note = "خروج الأموال ونقصان رصيد البنك (- دائن)"
-                )
+                JournalEntryLine("4411", "Fournisseurs", "الموردون", debitAmount = 60000.0, note = "إنقاص الدين في المدين"),
+                JournalEntryLine("5141", "Banques", "البنوك", creditAmount = 60000.0, note = "إنقاص رصيد البنك في الدائن")
             ),
             pedagogicalExplanationAr = "الدين التزام خصوم؛ ونقصانه يسجل في المدين (4411). والبنك أصل نقدي؛ ونقصان رصيده بالتحويل يسجل في الدائن (5141). بذلك يُقفل حساب المورد للعملية السابقة."
         ),
@@ -346,34 +292,10 @@ object EducationalData {
             dateExample = "31/10/N",
             documentRef = "Livre de paie - Mois d'Octobre",
             lines = listOf(
-                JournalEntryLine(
-                    accountCode = "61711",
-                    accountTitleFr = "Appointements et salaires",
-                    accountTitleAr = "الرواتب والتعويضات (الأجر الإجمالي Brut)",
-                    debitAmount = 40000.0,
-                    note = "التكلفة الإجمالية للأجور تسجل في مدين التكاليف"
-                ),
-                JournalEntryLine(
-                    accountCode = "4441",
-                    accountTitleFr = "C.N.S.S.",
-                    accountTitleAr = "الصندوق الوطني للضمان الاجتماعي (حصة الأجراء)",
-                    creditAmount = 2500.0,
-                    note = "دين مستحق للصندوق الوطني للضمان الاجتماعي (دائن)"
-                ),
-                JournalEntryLine(
-                    accountCode = "44525",
-                    accountTitleFr = "Etat, I.R.",
-                    accountTitleAr = "الدولة - الضريبة على الدخل محتجزة من المنبع",
-                    creditAmount = 3500.0,
-                    note = "دين مستحق لإدارة الضرائب محتجز من راتب الأجير (دائن)"
-                ),
-                JournalEntryLine(
-                    accountCode = "5141",
-                    accountTitleFr = "Banques",
-                    accountTitleAr = "البنوك (صافي الأجور المدفوع للعمال Net)",
-                    creditAmount = 34000.0,
-                    note = "المبلغ الصافي المحول لحسابات الأجراء البنكية (40,000 - 2,500 - 3,500)"
-                )
+                JournalEntryLine("61711", "Appointements et salaires", "الرواتب والتعويضات", debitAmount = 40000.0, note = "Salaire Brut"),
+                JournalEntryLine("4441", "C.N.S.S.", "الصندوق الوطني للضمان الاجتماعي", creditAmount = 2500.0, note = "Cotisations salariales"),
+                JournalEntryLine("44525", "Etat, I.R.", "الدولة - الضريبة على الدخل", creditAmount = 3500.0, note = "Retenue à la source"),
+                JournalEntryLine("5141", "Banques", "البنوك", creditAmount = 34000.0, note = "Net payé par chèque")
             ),
             pedagogicalExplanationAr = "التكلفة الإجمالية تسجل في مدين 61711. والخصومات من الأجر تصبح ديوناً على عاتق المقاولة تلتزم بدفعها للضمان الاجتماعي (4441) ولإدارة الضرائب (44525). وصافي ما يتبقى يخرج من البنك في الدائن (5141)."
         ),
@@ -385,26 +307,82 @@ object EducationalData {
             dateExample = "31/12/N",
             documentRef = "Tableau des amortissements N",
             lines = listOf(
-                JournalEntryLine(
-                    accountCode = "6193",
-                    accountTitleFr = "D.E.A. des immobilisations corporelles",
-                    accountTitleAr = "مخصصات الاستغلال لاستهلاكات الأصول المادية",
-                    debitAmount = 25000.0,
-                    note = "تكلفة استهلاك السنة تسجل في مدين الصنف 6"
-                ),
-                JournalEntryLine(
-                    accountCode = "2834",
-                    accountTitleFr = "Amortissements du matériel de transport",
-                    accountTitleAr = "استهلاك معدات النقل والسيارات",
-                    creditAmount = 25000.0,
-                    note = "تراكم النقصان في قيمة الشاحنات يسجل في دائن الحساب 2834"
-                )
+                JournalEntryLine("6193", "D.E.A. des immobilisations corporelles", "مخصصات الاستغلال لاستهلاكات الأصول المادية", debitAmount = 25000.0, note = "Dotation de l'exercice"),
+                JournalEntryLine("2834", "Amortissements du matériel de transport", "استهلاك معدات النقل والسيارات", creditAmount = 25000.0, note = "Cumul amortissement")
             ),
             pedagogicalExplanationAr = "قيد تسوية بدون خروج سيولة نقدية: المقاولة تسجل عبء الاستهلاك في مدين التكاليف (6193) لتخفيض ربحها الخاضع للضريبة، وفي المقابل ترفع مجمع الاستهلاك في دائن الأصل (2834) الذي يطرح في الميزانية من قيمة الشاحنات الأصلية."
+        ),
+        JournalEntry(
+            id = "entry_6",
+            titleAr = "عملية 6: شراء حواسيب للمكتب بشيك بنكي مع الضريبة",
+            titleFr = "Acquisition d'ordinateurs de bureau par chèque bancaire",
+            descriptionAr = "في 5 نونبر، اشترت المقاولة حواسيب وخوادم مكتبية بمبلغ 30,000 درهم (HT) خاضعة لـ TVA بنسبة 20% (6,000 درهم)، وسددت المبلغ كاملاً 36,000 درهم بشيك بنكي مسحوب على الفور.",
+            dateExample = "05/11/N",
+            documentRef = "Facture n° TECH-99 / Chèque n° 7761",
+            lines = listOf(
+                JournalEntryLine("2355", "Matériel informatique", "عتاد معلوماتي وحواسيب", debitAmount = 30000.0, note = "أصل ثابت مادي HT"),
+                JournalEntryLine("34551", "Etat-TVA récupérable sur les immobilisations", "الدولة - ضريبة مسترجعة على الأصول الثابتة", debitAmount = 6000.0, note = "TVA récup/immo"),
+                JournalEntryLine("5141", "Banques", "البنوك", creditAmount = 36000.0, note = "أداء فوري بشيك TTC")
+            ),
+            pedagogicalExplanationAr = "شراء الحواسيب ليس تكلفة جارية (صنف 6) بل استثمار دائم يسجل في الأصول الثابتة (2355). والضريبة على الأصول تسجل في حساب خاص (34551) يختلف عن ضريبة التكاليف (34552). والمبلغ الإجمالي يخرج من البنك (5141)."
+        ),
+        JournalEntry(
+            id = "entry_7",
+            titleAr = "عملية 7: إرجاع بضائع غير مطابقة للمورد مع فاتورة إنقاص (Avoir)",
+            titleFr = "Retour de marchandises non conformes au fournisseur (Facture d'avoir)",
+            descriptionAr = "في 18 أكتوبر، أرجعت المقاولة بضائع تالفة قيمتها 10,000 درهم (HT) إلى المورد، وتوصلت بفاتورة إنقاص (Avoir AV-12) مع استرجاع الـ TVA بنسبة 20%.",
+            dateExample = "18/10/N",
+            documentRef = "Facture d'avoir n° AV-12",
+            lines = listOf(
+                JournalEntryLine("4411", "Fournisseurs", "الموردون", debitAmount = 12000.0, note = "تخفيض الدين المستحق للمورد TTC"),
+                JournalEntryLine("6111", "Achats de marchandises", "مشتريات بضائع", creditAmount = 10000.0, note = "عكس تكلفة المشتريات HT"),
+                JournalEntryLine("34552", "Etat-TVA récupérable sur les charges", "الدولة - ضريبة قابلة للاسترجاع على التكاليف", creditAmount = 2000.0, note = "إلغاء الضريبة المسترجعة")
+            ),
+            pedagogicalExplanationAr = "قيد عكسي دقيق: دين المورد ينقص في المدين (4411) بمبلغ TTC، وتكلفة الشراء تنقص بتسجيلها في الدائن (6111) بمبلغ HT، والضريبة التي سجلت سابقاً كمسترجعة تلغى بتسجيلها في الدائن (34552)."
+        ),
+        JournalEntry(
+            id = "entry_8",
+            titleAr = "عملية 8: تكوين مؤونة لتدهور مستحقات زبون مشكوك فيه",
+            titleFr = "Constitution d'une provision pour créance douteuse",
+            descriptionAr = "في 31 دجنبر، تبيّن أن الزبون (كمال) يواجه صعوبات مالية، فقدرت المقاولة احتمال خسارة 40% من دينه البالغ 20,000 درهم، أي بمبلغ 8,000 درهم.",
+            dateExample = "31/12/N",
+            documentRef = "État des créances douteuses au 31/12",
+            lines = listOf(
+                JournalEntryLine("61964", "D.E.P. pour dépréciation des créances de l'actif circulant", "مخصصات الاستغلال لمؤونات تدهور ديون الأصول المتداولة", debitAmount = 8000.0, note = "التكلفة التقديرية المحتملة"),
+                JournalEntryLine("3942", "Provisions pour dépréciation des clients et comptes rattachés", "مؤونات تدهور الزبائن والحسابات الملحقة", creditAmount = 8000.0, note = "مؤونة في دائن الصنف 39")
+            ),
+            pedagogicalExplanationAr = "تطبيق مبدأ الحيطة والحذر (Principe de prudence): المقاولة تسجل العبء المحتمل في مدين التكاليف (61964)، وتفتح حساب مؤونة ينتهي بالرقم 9 (3942) في الدائن ليطرح لاحقاً من قيمة دين الزبون في الميزانية."
+        ),
+        JournalEntry(
+            id = "entry_9",
+            titleAr = "عملية 9: قبول كمبيالة / ورقة تجارية واجبة الدفع للمورد",
+            titleFr = "Acceptation d'une lettre de change au profit d'un fournisseur",
+            descriptionAr = "في 22 أكتوبر، وافقت المقاولة على كمبيالة تجارية رقم LC-44 بمبلغ 45,000 درهم لصالح موردها تستحق الأداء بعد 60 يوماً.",
+            dateExample = "22/10/N",
+            documentRef = "Lettre de change n° LC-44",
+            lines = listOf(
+                JournalEntryLine("4411", "Fournisseurs", "الموردون (حساب عادي)", debitAmount = 45000.0, note = "إلغاء الدين في الحساب العادي"),
+                JournalEntryLine("4415", "Fournisseurs - effets à payer", "الموردون - أوراق تجارية واجبة الدفع", creditAmount = 45000.0, note = "تحويل الدين إلى ورقة تجارية مؤكدة")
+            ),
+            pedagogicalExplanationAr = "عملية تبديل داخل نفس الصنف 4: الدين العادي للمورد يقفل في المدين (4411)، ويتحول إلى التزام تجاري مدعم بسند رسمي في الحساب 4415 في الدائن."
+        ),
+        JournalEntry(
+            id = "entry_10",
+            titleAr = "عملية 10: زيادة رأس مال الشركة بحصة نقدية مودعة في البنك",
+            titleFr = "Augmentation du capital social par apport en numéraire",
+            descriptionAr = "في 15 دجنبر، قرر الشركاء زيادة رأس مال الشركة بمبلغ 200,000 درهم تم إيداعها نقداً بالكامل في الحساب البنكي للشركة (عقد موثق).",
+            dateExample = "15/12/N",
+            documentRef = "Procès-verbal d'AGE / Avis de crédit banque",
+            lines = listOf(
+                JournalEntryLine("5141", "Banques", "البنوك (الحساب الجاري)", debitAmount = 200000.0, note = "دخول الأموال وزيادة رصيد البنك"),
+                JournalEntryLine("1111", "Capital social", "رأس المال الاجتماعي", creditAmount = 200000.0, note = "زيادة الأموال الذاتية للشركة")
+            ),
+            pedagogicalExplanationAr = "أصل نقدي يزيد في المدين (5141) بمبلغ 200,000 درهم، وفي المقابل تزيد الأموال الذاتية والتمويل الدائم للشركة في دائن الصنف 1 (1111) بنفس المبلغ تماماً."
         )
     )
 
     val quizzes: List<QuizQuestion> = listOf(
+        // Classe 1
         QuizQuestion(
             id = 1,
             classNumber = 1,
@@ -421,6 +399,40 @@ object EducationalData {
         ),
         QuizQuestion(
             id = 2,
+            classNumber = 1,
+            questionAr = "في أي جانب من الميزانية وبأي رصيد يظهر حساب رأس المال الاجتماعي (Capital social: 1111)؟",
+            questionFr = "Dans quelle partie du bilan et avec quel solde figure le Capital social (1111) ?",
+            optionsAr = listOf(
+                "الميزانية - الخصوم (Passif)، برصيد دائن طبيعي",
+                "الميزانية - الأصول (Actif)، برصيد مدين",
+                "قائمة التكاليف (CPC)، برصيد مدين",
+                "حسابات الخزينة، بدون رصيد"
+            ),
+            correctIndex = 0,
+            explanationAr = "رأس المال هو التزام أصلي على الشركة تجاه مؤسسيها، لذا يظهر في خصوم الميزانية ضمن الأموال الذاتية برصيد دائن."
+        ),
+        QuizQuestion(
+            id = 3,
+            classNumber = 1,
+            questionAr = "ما هو رقم الحساب المخصص للقروض البنكية طويلة الأجل لدى مؤسسات الائتمان؟",
+            questionFr = "Quel est le numéro de compte des emprunts auprès des établissements de crédit ?",
+            optionsAr = listOf("1481", "4411", "5141", "6141"),
+            correctIndex = 0,
+            explanationAr = "الحساب 1481 يندرج تحت الباب 14 (ديون التمويل) وهو مخصص للقروض البنكية التي تتجاوز مدة سدادها سنة واحدة."
+        ),
+        QuizQuestion(
+            id = 4,
+            classNumber = 1,
+            questionAr = "إعانات الاستثمار التي تحصل عليها المقاولة لتمويل آلات مستدامة تسجل في الحساب:",
+            questionFr = "Les subventions d'investissement reçues par l'entreprise sont enregistrées au compte :",
+            optionsAr = listOf("1311 إعانات الاستثمار المتوصل بها", "7111 مبيعات بضائع", "3455 ضريبة مسترجعة", "6111 مشتريات بضائع"),
+            correctIndex = 0,
+            explanationAr = "الحساب 1311 يندرج تحت القسم 13 (الأموال الذاتية المماثلة Capitaux propres assimilés) في الصنف 1."
+        ),
+
+        // Classe 2
+        QuizQuestion(
+            id = 5,
             classNumber = 2,
             questionAr = "أي من الحسابات التالية يعتبر أصلاً ثابتاً مادياً (Immobilisation corporelle)؟",
             questionFr = "Lequel de ces comptes est une immobilisation corporelle ?",
@@ -431,10 +443,49 @@ object EducationalData {
                 "3111 بضائع في المستودع"
             ),
             correctIndex = 2,
-            explanationAr = "الحساب 2332 يندرج تحت الباب 23 (الأصول المادية الملموسة). أما 2111 فهو أصل غير حقيقي (Non-valeurs) و 2230 أصل معنوي (Incorporelle)."
+            explanationAr = "الحساب 2332 يندرج تحت الباب 23 (الأصول المادية الملموسة). أما 2111 فهو أصل غير حقيقي و2230 أصل معنوي."
         ),
         QuizQuestion(
-            id = 3,
+            id = 6,
+            classNumber = 2,
+            questionAr = "ماذا يعني وجود الرقم 8 في الخانة الثانية للصنف 2 (مثل 2834)؟",
+            questionFr = "Que signifie le chiffre 8 en 2e position dans la classe 2 (ex: 2834) ?",
+            optionsAr = listOf(
+                "استهلاك متراكم للأصل المقابل (Amortissement)",
+                "إيراد بيع الأصل",
+                "قرض لشراء الأصل",
+                "ضريبة على الأصل"
+            ),
+            correctIndex = 0,
+            explanationAr = "في الصنف 2، الحسابات التي تبدأ بـ 28 تمثل دائماً استهلاك الأصل المقابل (فمثلاً 2834 استهلاك الحساب 2340 معدات النقل)."
+        ),
+        QuizQuestion(
+            id = 7,
+            classNumber = 2,
+            questionAr = "سندات المساهمة في شركات أخرى للسيطرة أو التأثير الدائم تسجل في الحساب:",
+            questionFr = "Les titres de participation sont comptabilisés dans le compte :",
+            optionsAr = listOf("2510", "3500", "5141", "7111"),
+            correctIndex = 0,
+            explanationAr = "الحساب 2510 يندرج تحت الأصول المالية (25 Immobilisations financières) لأكثر من سنة، بخلاف سندات التوظيف قصيرة الأجل (3500)."
+        ),
+        QuizQuestion(
+            id = 8,
+            classNumber = 2,
+            questionAr = "حساب مصاريف التأسيس (2111) يندرج تحت أي قسم من الأصول الثابتة؟",
+            questionFr = "Le compte Frais préliminaires (2111) relève de quelle rubrique ?",
+            optionsAr = listOf(
+                "21 الأصول غير الحقيقية (Immobilisations en non-valeurs)",
+                "22 الأصول المعنوية",
+                "23 الأصول المادية",
+                "24 الأصول المالية"
+            ),
+            correctIndex = 0,
+            explanationAr = "مصاريف التأسيس ونفقات رفع رأس المال تسجل في القسم 21 لأنها ليست أصولاً قابلة للبيع ولا تملك قيمة تجارية ذاتية."
+        ),
+
+        // Classe 3
+        QuizQuestion(
+            id = 9,
             classNumber = 3,
             questionAr = "أين تظهر ديون الزبائن (Clients: 3421) في القوائم المالية وما طبيعة رصيدها؟",
             questionFr = "Où figure le compte 'Clients' (3421) et quel est son solde normal ?",
@@ -445,10 +496,39 @@ object EducationalData {
                 "في حسابات الخزينة (Trésorerie)"
             ),
             correctIndex = 0,
-            explanationAr = "ديون الزبائن تمثل حقوقاً للمقاولة على عملائها تسدد في الأجل القصير، لذا تظهر في أصول الميزانية (Actif circulant: 3421) برصيد مدين طبيعي."
+            explanationAr = "ديون الزبائن تمثل حقوقاً للمقاولة على عملائها تسدد في الأجل القصير، لذا تظهر في أصول الميزانية برصيد مدين طبيعي."
         ),
         QuizQuestion(
-            id = 4,
+            id = 10,
+            classNumber = 3,
+            questionAr = "ما هو الحساب المخصص لمخزون البضائع في المستودعات داخل الصنف 3؟",
+            questionFr = "Quel est le compte de stocks de marchandises dans la classe 3 ?",
+            optionsAr = listOf("3111", "6111", "7111", "4411"),
+            correctIndex = 0,
+            explanationAr = "3111 هو مخزون البضائع (أصل)، بينما 6111 هو مشتريات بضائع (تكلفة) و7111 مبيعات بضائع (إيراد)."
+        ),
+        QuizQuestion(
+            id = 11,
+            classNumber = 3,
+            questionAr = "الضريبة على القيمة المضافة المسترجعة على التكاليف تسجل في الحساب:",
+            questionFr = "La TVA récupérable sur les charges est enregistrée au compte :",
+            optionsAr = listOf("34552", "4455", "4456", "6111"),
+            correctIndex = 0,
+            explanationAr = "الحساب 34552 يمثل حقاً للمقاولة لاسترجاع مبالغ الضريبة من الدولة، لذا فهو أصل متداول في الصنف 34."
+        ),
+        QuizQuestion(
+            id = 12,
+            classNumber = 3,
+            questionAr = "سندات وقيم التوظيف (TVP) المقتناة للمضاربة وتحقيق ربح سريع في البورصة تسجل تحت:",
+            questionFr = "Les Titres et Valeurs de Placement (TVP) sont enregistrés sous la rubrique :",
+            optionsAr = listOf("35 سندات وقيم التوظيف", "25 سندات مساهمة", "51 الخزينة", "11 رأس المال"),
+            correctIndex = 0,
+            explanationAr = "القسم 35 مخصص للأسهم والسندات المشتراة لغرض توظيف السيولة الفائضة لمدة قصيرة تقل عن سنة."
+        ),
+
+        // Classe 4
+        QuizQuestion(
+            id = 13,
             classNumber = 4,
             questionAr = "عند شراء بضائع على الحساب، أي حساب من الخصوم يسجل المبلغ الواجب أداؤه؟",
             questionFr = "Lors d'un achat à crédit, quel compte enregistre la dette envers le vendeur ?",
@@ -462,7 +542,36 @@ object EducationalData {
             explanationAr = "الحساب 4411 (Fournisseurs) يمثل التزاماً قصير الأجل في خصوم الميزانية المتداولة تجاه من باع للمقاولة سلعاً أو خدمات."
         ),
         QuizQuestion(
-            id = 5,
+            id = 14,
+            classNumber = 4,
+            questionAr = "ما هو الحساب المخصص للضريبة على القيمة المضافة المفوترة على الزبائن؟",
+            questionFr = "Quel est le compte de la TVA facturée aux clients ?",
+            optionsAr = listOf("4455", "3455", "6111", "5141"),
+            correctIndex = 0,
+            explanationAr = "4455 (Etat, TVA facturée) دين في دائن الخصوم المتداولة لأن المقاولة ملزمة بتسليم هذه الضريبة لإدارة الضرائب."
+        ),
+        QuizQuestion(
+            id = 15,
+            classNumber = 4,
+            questionAr = "ديون المقاولة المستحقة للصندوق الوطني للضمان الاجتماعي (CNSS) تسجل في الحساب:",
+            questionFr = "Les dettes envers la C.N.S.S. sont comptabilisées dans le compte :",
+            optionsAr = listOf("4441 C.N.S.S.", "6171 أجور", "3421 زبائن", "1481 قروض"),
+            correctIndex = 0,
+            explanationAr = "الحساب 4441 يندرج تحت الباب 444 (Organismes sociaux) ويمثل مستحقات اشتراكات الضمان الاجتماعي الواجب سدادها."
+        ),
+        QuizQuestion(
+            id = 16,
+            classNumber = 4,
+            questionAr = "الكمبيالات والأوراق التجارية المسحوبة على المقاولة والواجبة الدفع للموردين تسجل في الحساب:",
+            questionFr = "Les effets de commerce à payer aux fournisseurs sont inscrits au compte :",
+            optionsAr = listOf("4415 Fournisseurs - effets à payer", "3425 زبائن كمبيالات", "5141 بنوك", "4411 موردون عاديون"),
+            correctIndex = 0,
+            explanationAr = "الحساب 4415 يفصل الديون الموثقة بسندات تجارية (كمبيالة/سند لأمر) عن الحساب الجاري المفتوح للمورد 4411."
+        ),
+
+        // Classe 5
+        QuizQuestion(
+            id = 17,
             classNumber = 5,
             questionAr = "ما هو الفرق بين الحساب 5141 (البنوك) والحساب 5161 (الصندوق)؟",
             questionFr = "Quelle est la différence entre le compte Banque (5141) et Caisse (5161) ?",
@@ -473,10 +582,49 @@ object EducationalData {
                 "لا يوجد أي فرق محاسبي بينهما"
             ),
             correctIndex = 1,
-            explanationAr = "كلاهما من أصول الخزينة (الصنف 51)، لكن 5141 للأموال المودعة في الحساب البنكي، و5161 للنقود الملموسة الموجودة داخل صندوق المقاولة."
+            explanationAr = "كلاهما من أصول الخزينة (الصنف 51)، لكن 5141 للأموال المودعة في الحساب البنكي، و5161 للنقود الملموسة داخل الصندوق."
         ),
         QuizQuestion(
-            id = 6,
+            id = 18,
+            classNumber = 5,
+            questionAr = "عندما يكون الحساب البنكي مكشوفاً بسحب مالي مرخص (Facilité de caisse / Découvert)، أين يسجل؟",
+            questionFr = "Où est comptabilisé un solde bancaire créditeur (découvert autorisé) ?",
+            optionsAr = listOf(
+                "5541 بنوك بسحب دائن (Trésorerie - Passif)",
+                "5141 بنوك رصيد مدين",
+                "1481 قروض طويلة الأجل",
+                "6141 مصاريف بنكية"
+            ),
+            correctIndex = 0,
+            explanationAr = "السحب البنكي على المكشوف دين نقدي قصير جداً يسجل في خزينة الخصوم (5541 Banques - soldes créditeurs)."
+        ),
+        QuizQuestion(
+            id = 19,
+            classNumber = 5,
+            questionAr = "الشيكات البنكية المستلمة من الزبائن وفي انتظار إرسالها للتحصيل في البنك تقيد في الحساب:",
+            questionFr = "Les chèques reçus des clients en portefeuille sont inscrits au compte :",
+            optionsAr = listOf("51111 Chèques en portefeuille", "3421 زبائن", "5141 بنوك", "7111 مبيعات"),
+            correctIndex = 0,
+            explanationAr = "الحساب 51111 يستقبل الشيك الورقي من الزبون قبل قيده في الحساب البنكي الرسمي للمقاولة."
+        ),
+        QuizQuestion(
+            id = 20,
+            classNumber = 5,
+            questionAr = "حساب التحويلات المالية الداخلية (Virements de fonds: 5900) يعتبر حساباً:",
+            questionFr = "Le compte 5900 'Virements de fonds' est un compte :",
+            optionsAr = listOf(
+                "حساب وسيط تقني لتفادي تكرار القيد ويجب أن يقفل برصيد صفر",
+                "حساب تكلفة بنكية",
+                "حساب ربح دائم",
+                "حساب دين للدولة"
+            ),
+            correctIndex = 0,
+            explanationAr = "الحساب 5900 يستعمل كوسيط عند سحب أموال من البنك وإيداعها في الصندوق، لتفادي تسجيل القيد مرتين، ويجب أن يكون رصيده صفراً دائماً."
+        ),
+
+        // Classe 6
+        QuizQuestion(
+            id = 21,
             classNumber = 6,
             questionAr = "ماذا يعني وجود الرقم 9 في الخانة الثالثة لحسابات التكاليف مثل 6193؟",
             questionFr = "Que signifie le chiffre 9 en 3e position dans un compte de charge (ex: 619) ?",
@@ -487,24 +635,92 @@ object EducationalData {
                 "ديون مستحقة للدولة"
             ),
             correctIndex = 1,
-            explanationAr = "في المخطط المحاسباتي المغربي، يشير الرقم 9 في الخانة الثالثة (619, 639, 659) دائماً إلى مخصصات الاستهلاك والمؤونات (Dotations)."
+            explanationAr = "في المخطط المحاسباتي المغربي، يشير الرقم 9 في الخانة الثالثة (619, 639, 659) دائماً إلى مخصصات الاستهلاك والمؤونات."
         ),
         QuizQuestion(
-            id = 7,
-            classNumber = 7,
-            questionAr = "في أي قائمة مالية تسجل حسابات الصنف 7 (COMPTES DE PRODUITS)؟",
-            questionFr = "Dans quel état financier sont regroupés les comptes de la classe 7 ?",
+            id = 22,
+            classNumber = 6,
+            questionAr = "ما هو الحساب المخصص لتسجيل مصاريف إيجار وكراء المحلات والمخازن؟",
+            questionFr = "Quel compte enregistre les charges de locations et charges locatives ?",
+            optionsAr = listOf("6131", "6111", "2321", "4411"),
+            correctIndex = 0,
+            explanationAr = "الحساب 6131 يندرج تحت الخدمات الخارجية (Autres charges externes: 613/614)."
+        ),
+        QuizQuestion(
+            id = 23,
+            classNumber = 6,
+            questionAr = "ما طبيعة رصيد الحساب 6119 (التخفيضات التجارية المحصل عليها على مشتريات البضائع)؟",
+            questionFr = "Quelle est la nature du solde du compte 6119 (RRR obtenus sur achats) ?",
             optionsAr = listOf(
-                "في أصول الميزانية (Actif du bilan)",
-                "في خصوم الميزانية (Passif du bilan)",
-                "في قائمة العائدات والتكاليف (C.P.C.) ضمن الإيرادات",
-                "في الصنف 0 فقط"
+                "رصيد دائن استثنائي (يطرح من مشتريات الصنف 6)",
+                "رصيد مدين دائماً",
+                "رصيد متغير",
+                "بدون رصيد"
             ),
-            correctIndex = 2,
+            correctIndex = 0,
+            explanationAr = "قاعدة الرقم 9 في الخانة الرابعة: يسجل في الاتجاه المعاكس لحسابات الصنف 6 لإنقاص عبء المشتريات (رصيد دائن)."
+        ),
+        QuizQuestion(
+            id = 24,
+            classNumber = 6,
+            questionAr = "الفوائد البنكية ومصاريف خدمة القروض التي تدفعها المقاولة للبنك تسجل في الحساب:",
+            questionFr = "Les intérêts des emprunts et dettes sont comptabilisés en :",
+            optionsAr = listOf("6311 Charges d'intérêts", "6111 مشتريات", "5141 بنوك", "1481 قروض"),
+            correctIndex = 0,
+            explanationAr = "فوائد القروض تكلفة مالية تسجل في الباب 63 (Charges financières) في الحساب 6311."
+        ),
+
+        // Classe 7
+        QuizQuestion(
+            id = 25,
+            classNumber = 7,
+            questionAr = "في أي قائمة مالية وبأي رصيد تسجل حسابات الصنف 7 (COMPTES DE PRODUITS)؟",
+            questionFr = "Dans quel état financier et quel solde sont inscrits les comptes de la classe 7 ?",
+            optionsAr = listOf(
+                "قائمة العائدات والتكاليف (C.P.C.) ضمن الإيرادات برصيد دائن",
+                "الميزانية - الأصول برصيد مدين",
+                "الميزانية - الخصوم برصيد مدين",
+                "خارج الميزانية فقط"
+            ),
+            correctIndex = 0,
             explanationAr = "الصنف 7 يسجل كل إيرادات ومداخيل السنة في الطرف الدائن لحساب العائدات والتكاليف (C.P.C.)."
         ),
         QuizQuestion(
-            id = 8,
+            id = 26,
+            classNumber = 7,
+            questionAr = "ما هو الحساب المخصص لمبيعات البضائع داخل المغرب في الصنف 7؟",
+            questionFr = "Quel compte enregistre les ventes de marchandises au Maroc ?",
+            optionsAr = listOf("7111", "6111", "3111", "3421"),
+            correctIndex = 0,
+            explanationAr = "الحساب 7111 هو حساب إيرادات المبيعات الرئيسية للمقاولات التجارية بالمغرب."
+        ),
+        QuizQuestion(
+            id = 27,
+            classNumber = 7,
+            questionAr = "ماذا يعني وجود الرقم 9 في الخانة الثالثة للصنف 7 مثل 7194؟",
+            questionFr = "Que signifie le chiffre 9 en 3e position dans la classe 7 (ex: 719) ?",
+            optionsAr = listOf(
+                "استرجاع المؤونات السابقة (Reprises sur amortissements et provisions)",
+                "مخصصات تكاليف جديدة",
+                "مبيعات استثنائية",
+                "ضرائب مؤجلة"
+            ),
+            correctIndex = 0,
+            explanationAr = "في الصنف 7، يشير الرقم 9 في الخانة الثالثة (719, 739, 759) دائماً إلى استرجاع المؤونات السابقة وإلغائها بعد زوال الخطر."
+        ),
+        QuizQuestion(
+            id = 28,
+            classNumber = 7,
+            questionAr = "أرباح بيع شاحنة أو عقار من الأصول الثابتة (Produits de cessions des immobilisations) تسجل في الحساب:",
+            questionFr = "Les produits des cessions d'immobilisations sont enregistrés au compte :",
+            optionsAr = listOf("7512 / 7513", "7111", "6111", "5141"),
+            correctIndex = 0,
+            explanationAr = "بيع أصل ثابت ليس نشاط استغلال عادي، لذا يسجل كإيراد غير جارٍ (Produit non courant: 751)."
+        ),
+
+        // Classe 8
+        QuizQuestion(
+            id = 29,
             classNumber = 8,
             questionAr = "كيف تحسب القيمة المضافة (Valeur Ajoutée: 8140) في المخطط المحاسباتي المغربي؟",
             questionFr = "Comment est calculée la Valeur Ajoutée (8140) dans l'ESG ?",
@@ -518,9 +734,48 @@ object EducationalData {
             explanationAr = "القيمة المضافة = (Marge brute + Production de l'exercice) - Consommations en provenance des tiers."
         ),
         QuizQuestion(
-            id = 9,
+            id = 30,
+            classNumber = 8,
+            questionAr = "ما هو المؤشر المحاسبي الذي يقيس الهامش التجاري الإجمالي للشركات التجارية؟",
+            questionFr = "Quel solde mesure la marge brute commerciale dans l'ESG ?",
+            optionsAr = listOf(
+                "8110 Marge brute",
+                "8140 Valeur ajoutée",
+                "8171 EBE",
+                "8800 Résultat net"
+            ),
+            correctIndex = 0,
+            explanationAr = "الحساب 8110 يحسب الهامش التجاري: مبيعات البضائع (711) ناقص تكلفة شراء البضائع المبيعة (611)."
+        ),
+        QuizQuestion(
+            id = 31,
+            classNumber = 8,
+            questionAr = "فائض الاستغلال الإجمالي (Excédent Brut d'Exploitation: 8171) يعبر عن:",
+            questionFr = "L'E.B.E. (8171) exprime :",
+            optionsAr = listOf(
+                "السيولة التشغيلية الصافية الناتجة عن نشاط المقاولة قبل التمويل والاستهلاك والضرائب",
+                "مجموع ديون المقاولة",
+                "رأس مال الشركة الجديد",
+                "قيمة العقارات المباعة"
+            ),
+            correctIndex = 0,
+            explanationAr = "E.B.E هو المورد النقدي الأساسي الذي تولده دورة الاستغلال لسداد الديون ومكافأة رأس المال ودفع الضرائب."
+        ),
+        QuizQuestion(
+            id = 32,
+            classNumber = 8,
+            questionAr = "النتيجة الصافية للسنة المحاسبية (الربح النهائي القابل للتوزيع) تسجل في الحساب:",
+            questionFr = "Le résultat net de l'exercice est centralisé dans le compte :",
+            optionsAr = listOf("8800 Résultat net de l'exercice", "8100", "8110", "1111"),
+            correctIndex = 0,
+            explanationAr = "الحساب 8800 يجمع خلاصة جميع إيرادات وتكاليف السنة ويحدد الربح أو الخسارة الصافية."
+        ),
+
+        // Classe 9
+        QuizQuestion(
+            id = 33,
             classNumber = 9,
-            questionAr = "ما هو الهدف الرئيسي من استخدام الصنف 9 (المحاسبة التحليلية)؟",
+            questionAr = "ما هو الهدف الأساسي من الصنف 9 (المحاسبة التحليلية للتسيير CAGE)؟",
             questionFr = "Quel est le but principal de la classe 9 (Comptabilité analytique) ?",
             optionsAr = listOf(
                 "تقديم الإقرار الضريبي الرسمي السنوي للدولة",
@@ -532,7 +787,41 @@ object EducationalData {
             explanationAr = "الصنف 9 مخصص للمحاسبة التحليلية للتسيير (CAGE) لحساب أسعار التكلفة لكل منتج ومردودية الأقسام الداخلية."
         ),
         QuizQuestion(
-            id = 10,
+            id = 34,
+            classNumber = 9,
+            questionAr = "ما هو الدور الرئيسي لحسابات القسم 90 (الحسابات المنعكسة Comptes réfléchis)؟",
+            questionFr = "Quel est le rôle des comptes réfléchis (Rubrique 90) ?",
+            optionsAr = listOf(
+                "استنساخ تكاليف وإيرادات المحاسبة العامة في النظام التحليلي دون تغيير الحسابات الرسمية",
+                "دفع الضرائب",
+                "حساب الاستهلاك",
+                "تسجيل رأس المال"
+            ),
+            correctIndex = 0,
+            explanationAr = "تعمل كمرآة تنقل الأرقام من الصنفين 6 و7 إلى الصنف 9 للتحليل المستقل."
+        ),
+        QuizQuestion(
+            id = 35,
+            classNumber = 9,
+            questionAr = "الحسابات المخصصة لمراكز التكلفة والأقسام الإنتاجية (Sections analytiques) تندرج تحت:",
+            questionFr = "Les sections analytiques relèvent de quelle rubrique ?",
+            optionsAr = listOf("92 أقسام التكلفة (Sections analytiques)", "90", "98", "99"),
+            correctIndex = 0,
+            explanationAr = "القسم 92 يوزع التكاليف غير المباشرة على الورشات والأقسام الإدارية والتجارية."
+        ),
+        QuizQuestion(
+            id = 36,
+            classNumber = 9,
+            questionAr = "حساب سعر التكلفة الإجمالي للمنتجات المبيعة (Coût de revient des produits vendus) يندرج تحت:",
+            questionFr = "Le coût de revient des produits vendus est regroupé sous :",
+            optionsAr = listOf("95 تكاليف العودة وسعر التكلفة", "91", "93", "90"),
+            correctIndex = 0,
+            explanationAr = "القسم 95 مخصص لحساب سعر التكلفة النهائي لكل منتج لمقارنته بسعر البيع."
+        ),
+
+        // Classe 0
+        QuizQuestion(
+            id = 37,
             classNumber = 0,
             questionAr = "لماذا لا تظهر حسابات الصنف 0 (Comptes spéciaux) في أرقام الميزانية الرسمية؟",
             questionFr = "Pourquoi les comptes de la classe 0 ne figurent pas dans les totaux du bilan ?",
@@ -544,6 +833,43 @@ object EducationalData {
             ),
             correctIndex = 0,
             explanationAr = "الصنف 0 يضم حسابات فتح وإقفال الدفاتر والتزامات مشروطة (ضمانات بنكية، كفالات) لا تشكل أصولاً أو ديوناً مؤكدة في الذمة المالية."
+        ),
+        QuizQuestion(
+            id = 38,
+            classNumber = 0,
+            questionAr = "الحساب المستعمل في 1 يناير لإعادة فتح أرصدة الأصول والخصوم من ميزانية العام الماضي هو:",
+            questionFr = "Le compte utilisé pour la réouverture des comptes de bilan au 1er janvier est :",
+            optionsAr = listOf("01 ميزانية الافتتاح (Bilan d'ouverture)", "1111", "5141", "6111"),
+            correctIndex = 0,
+            explanationAr = "القسم 01 يستعمل كوسيط تقني لإعادة قيد الأرصدة الافتتاحية في أول يوم من السنة المالية."
+        ),
+        QuizQuestion(
+            id = 39,
+            classNumber = 0,
+            questionAr = "الكفالات والضمانات البنكية الممنوحة من المقاولة لضمان صفقات تجارية تسجل تحت:",
+            questionFr = "Les avals et cautions donnés par l'entreprise relèvent de :",
+            optionsAr = listOf(
+                "03 التزامات معطاة خارج الميزانية (Engagements donnés)",
+                "4411 موردون",
+                "1481 قروض",
+                "6131 كراء"
+            ),
+            correctIndex = 0,
+            explanationAr = "القسم 03 مخصص للضمانات والتعهدات التي قدمتها المقاولة للغير والتي قد تتحول إلى التزام مالي في حال عجز الطرف المكفول."
+        ),
+        QuizQuestion(
+            id = 40,
+            classNumber = 0,
+            questionAr = "عقود الإيجار المالي والتأجير التمويلي (Crédit-bail / Leasing) تسجل التزاماتها المتبقية في الصنف:",
+            questionFr = "Les engagements de crédit-bail restant à courir sont enregistrés en classe :",
+            optionsAr = listOf(
+                "05 التزامات التأجير التمويلي (Engagements sur opérations de crédit-bail)",
+                "23 معدات",
+                "61 تكاليف",
+                "51 سيولة"
+            ),
+            correctIndex = 0,
+            explanationAr = "الأصل المؤجر بالليزينغ لا تملكه المقاولة قانونياً حتى سداد القسط الأخير، لذا تسجل أقساطه المتبقية خارج الميزانية في القسم 05."
         )
     )
 }

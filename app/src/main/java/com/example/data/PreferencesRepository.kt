@@ -10,40 +10,76 @@ import kotlinx.coroutines.flow.asStateFlow
 class PreferencesRepository(context: Context) {
 
     private val prefs: SharedPreferences =
-        context.getSharedPreferences("plan_comptable_prefs", Context.MODE_PRIVATE)
+        context.getSharedPreferences("plan_comptable_prefs_v2", Context.MODE_PRIVATE)
 
-    private val _favorites = MutableStateFlow<Set<String>>(loadFavorites())
-    val favorites: StateFlow<Set<String>> = _favorites.asStateFlow()
+    private val _favoriteUids = MutableStateFlow<Set<String>>(loadAndMigrateFavorites())
+    val favoriteUids: StateFlow<Set<String>> = _favoriteUids.asStateFlow()
 
     private val _recentSearches = MutableStateFlow<List<String>>(loadRecentSearches())
     val recentSearches: StateFlow<List<String>> = _recentSearches.asStateFlow()
+
+    private val _recentAccountUids = MutableStateFlow<List<String>>(loadRecentAccountUids())
+    val recentAccountUids: StateFlow<List<String>> = _recentAccountUids.asStateFlow()
 
     private val _languageMode = MutableStateFlow(loadLanguageMode())
     val languageMode: StateFlow<LanguageMode> = _languageMode.asStateFlow()
 
     private val _isDarkTheme = MutableStateFlow(loadDarkThemeSetting())
-    val isDarkTheme: StateFlow<Boolean?> = _isDarkTheme.asStateFlow() // null = system
+    val isDarkTheme: StateFlow<Boolean?> = _isDarkTheme.asStateFlow()
 
     private val _largeFont = MutableStateFlow(loadLargeFontSetting())
     val largeFont: StateFlow<Boolean> = _largeFont.asStateFlow()
 
-    private fun loadFavorites(): Set<String> {
-        return prefs.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
+    private fun loadAndMigrateFavorites(): Set<String> {
+        val rawSet = prefs.getStringSet(KEY_FAVORITES, emptySet()) ?: emptySet()
+        val migrated = mutableSetOf<String>()
+        var needsSave = false
+
+        for (item in rawSet) {
+            if (item.contains(":")) {
+                migrated.add(item)
+            } else {
+                needsSave = true
+                val elem = PlanComptableRepository.getElementByCode(item)
+                if (elem != null) {
+                    migrated.add(elem.uid)
+                }
+            }
+        }
+
+        if (needsSave) {
+            prefs.edit().putStringSet(KEY_FAVORITES, migrated).apply()
+        }
+        return migrated
     }
 
-    fun toggleFavorite(code: String) {
-        val current = _favorites.value.toMutableSet()
-        if (current.contains(code)) {
-            current.remove(code)
+    fun toggleFavorite(uid: String) {
+        val current = _favoriteUids.value.toMutableSet()
+        if (current.contains(uid)) {
+            current.remove(uid)
         } else {
-            current.add(code)
+            current.add(uid)
         }
         prefs.edit().putStringSet(KEY_FAVORITES, current).apply()
-        _favorites.value = current
+        _favoriteUids.value = current
     }
 
-    fun isFavorite(code: String): Boolean {
-        return _favorites.value.contains(code)
+    fun isFavorite(uid: String): Boolean {
+        return _favoriteUids.value.contains(uid)
+    }
+
+    private fun loadRecentAccountUids(): List<String> {
+        val raw = prefs.getString(KEY_RECENT_ACCOUNTS, "") ?: ""
+        return if (raw.isEmpty()) emptyList() else raw.split("|||")
+    }
+
+    fun addRecentAccount(uid: String) {
+        val current = _recentAccountUids.value.toMutableList()
+        current.remove(uid)
+        current.add(0, uid)
+        val trimmed = current.take(6)
+        prefs.edit().putString(KEY_RECENT_ACCOUNTS, trimmed.joinToString("|||")).apply()
+        _recentAccountUids.value = trimmed
     }
 
     private fun loadRecentSearches(): List<String> {
@@ -85,7 +121,7 @@ class PreferencesRepository(context: Context) {
         return if (prefs.contains(KEY_DARK_THEME)) {
             prefs.getBoolean(KEY_DARK_THEME, false)
         } else {
-            null // follow system
+            null
         }
     }
 
@@ -108,8 +144,9 @@ class PreferencesRepository(context: Context) {
     }
 
     companion object {
-        private const val KEY_FAVORITES = "pref_favorites"
+        private const val KEY_FAVORITES = "pref_favorites_uids"
         private const val KEY_RECENT_SEARCHES = "pref_recent_searches"
+        private const val KEY_RECENT_ACCOUNTS = "pref_recent_accounts"
         private const val KEY_LANGUAGE_MODE = "pref_language_mode"
         private const val KEY_DARK_THEME = "pref_dark_theme"
         private const val KEY_LARGE_FONT = "pref_large_font"

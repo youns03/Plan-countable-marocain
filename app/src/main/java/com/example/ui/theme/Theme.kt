@@ -8,39 +8,41 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
 private val DarkColorScheme = darkColorScheme(
-    primary = PrimaryBlueDark,
+    primary = LedgerDarkPrimary,
     onPrimary = Color(0xFF0F172A),
     primaryContainer = Color(0xFF1E3A8A),
     onPrimaryContainer = Color(0xFFDBEAFE),
-    secondary = SecondaryAmberDark,
+    secondary = LedgerClassColors.Class9,
     onSecondary = Color(0xFF451A03),
-    secondaryContainer = Color(0xFF78350F),
+    secondaryContainer = Color(0xFF33200A),
     onSecondaryContainer = Color(0xFFFEF3C7),
-    background = SurfaceDark,
-    onBackground = Color(0xFFF1F5F9),
-    surface = CardDark,
-    onSurface = Color(0xFFF8FAFC),
-    surfaceVariant = Color(0xFF334155),
-    onSurfaceVariant = Color(0xFFCBD5E1),
-    outline = Color(0xFF64748B)
+    background = LedgerDarkBackground,
+    onBackground = LedgerDarkInk,
+    surface = LedgerDarkSurface,
+    onSurface = LedgerDarkInk,
+    surfaceVariant = LedgerDarkSurfaceVariant,
+    onSurfaceVariant = LedgerDarkSecondary,
+    outline = LedgerDarkBorder,
+    outlineVariant = Color(0xFF384351)
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = PrimaryBlue,
+    primary = LedgerLightPrimary,
     onPrimary = Color.White,
     primaryContainer = Color(0xFFDBEAFE),
     onPrimaryContainer = Color(0xFF1E3A8A),
-    secondary = SecondaryAmber,
+    secondary = LedgerClassColors.Class9,
     onSecondary = Color.White,
     secondaryContainer = Color(0xFFFEF3C7),
     onSecondaryContainer = Color(0xFF78350F),
-    background = SurfaceLight,
-    onBackground = Color(0xFF0F172A),
-    surface = CardLight,
-    onSurface = Color(0xFF0F172A),
-    surfaceVariant = Color(0xFFF1F5F9),
-    onSurfaceVariant = Color(0xFF475569),
-    outline = Color(0xFFCBD5E1)
+    background = LedgerLightBackground,
+    onBackground = LedgerLightInk,
+    surface = LedgerLightSurface,
+    onSurface = LedgerLightInk,
+    surfaceVariant = LedgerLightSurfaceVariant,
+    onSurfaceVariant = LedgerLightSecondary,
+    outline = LedgerLightBorder,
+    outlineVariant = Color(0xFFD6CEBA)
 )
 
 @Composable

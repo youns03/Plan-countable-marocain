@@ -1,5 +1,9 @@
 package com.example.model
 
+import androidx.compose.runtime.Immutable
+import java.text.Normalizer
+import java.util.Locale
+
 enum class ElementLevel(val displayNameAr: String, val displayNameFr: String) {
     CLASSE("صنف", "Classe"),
     RUBRIQUE("قسم", "Rubrique"),
@@ -25,6 +29,7 @@ enum class BalanceType(val labelAr: String, val labelFr: String) {
     SANS_SOLDE("حساب تسوية / بدون رصيد", "Sans solde")
 }
 
+@Immutable
 data class AcronymInfo(
     val acronym: String,
     val fullNameFr: String,
@@ -32,6 +37,7 @@ data class AcronymInfo(
     val explanationAr: String
 )
 
+@Immutable
 data class AccountingElement(
     val code: String,
     val level: ElementLevel,
@@ -47,9 +53,49 @@ data class AccountingElement(
     val detailedExplanationFr: String? = null,
     val practicalExample: String? = null,
     val anomalyNote: String? = null,
-    val acronyms: List<AcronymInfo> = emptyList()
-)
+    val acronyms: List<AcronymInfo> = emptyList(),
+    val customParentUid: String? = null
+) {
+    // Unique identifier across the entire chart of accounts: "$classNumber:$code"
+    val uid: String get() = "$classNumber:$code"
 
+    // Parent UID resolves hierarchically within the same class
+    val parentUid: String? get() = customParentUid ?: parentCode?.let { "$classNumber:$it" }
+
+    // Pre-normalized text for lightning-fast search without runtime overhead
+    val normFr: String by lazy(LazyThreadSafetyMode.NONE) {
+        val nfd = Normalizer.normalize(officialFrenchTitle.lowercase(Locale.FRENCH), Normalizer.Form.NFD)
+        nfd.replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "").trim()
+    }
+
+    val normAr: String by lazy(LazyThreadSafetyMode.NONE) {
+        var str = arabicTitle.trim()
+        str = str.replace("[\\u064B-\\u065F\\u0670]".toRegex(), "") // remove Harakat
+        str = str.replace("ـ", "") // remove Tatweel
+        str = str.replace("[أإآ]".toRegex(), "ا")
+        str = str.replace("ة", "ه")
+        str = str.replace("ى", "ي")
+        str = str.replace("[ؤئء]".toRegex(), "ء")
+        str.lowercase(Locale.ROOT)
+    }
+
+    val normShortExpFr: String by lazy(LazyThreadSafetyMode.NONE) {
+        val nfd = Normalizer.normalize(shortExplanationFr.lowercase(Locale.FRENCH), Normalizer.Form.NFD)
+        nfd.replace("\\p{InCombiningDiacriticalMarks}+".toRegex(), "").trim()
+    }
+
+    val normShortExpAr: String by lazy(LazyThreadSafetyMode.NONE) {
+        var str = shortExplanationAr.trim()
+        str = str.replace("[\\u064B-\\u065F\\u0670]".toRegex(), "")
+        str = str.replace("ـ", "")
+        str = str.replace("[أإآ]".toRegex(), "ا")
+        str = str.replace("ة", "ه")
+        str = str.replace("ى", "ي")
+        str.lowercase(Locale.ROOT)
+    }
+}
+
+@Immutable
 data class JournalEntryLine(
     val accountCode: String,
     val accountTitleFr: String,
@@ -59,6 +105,7 @@ data class JournalEntryLine(
     val note: String? = null
 )
 
+@Immutable
 data class JournalEntry(
     val id: String,
     val titleAr: String,
@@ -70,6 +117,7 @@ data class JournalEntry(
     val pedagogicalExplanationAr: String
 )
 
+@Immutable
 data class LexiconTerm(
     val termFr: String,
     val termAr: String,
@@ -79,12 +127,14 @@ data class LexiconTerm(
     val category: String
 )
 
+@Immutable
 data class ComparisonRow(
     val criterionAr: String,
     val conceptAValue: String,
     val conceptBValue: String
 )
 
+@Immutable
 data class ComparisonItem(
     val titleAr: String,
     val titleFr: String,
@@ -94,6 +144,7 @@ data class ComparisonItem(
     val rows: List<ComparisonRow>
 )
 
+@Immutable
 data class QuizQuestion(
     val id: Int,
     val classNumber: Int,
