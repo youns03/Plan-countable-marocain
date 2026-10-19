@@ -355,48 +355,50 @@ fun HomeScreen(
                 )
                 Spacer(modifier = Modifier.height(10.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                LazyRow(
+                    contentPadding = PaddingValues(end = 2.dp),
+                    horizontalArrangement = Arrangement.spacedBy(10.dp)
                 ) {
-                    quickActions.forEach { action ->
+                    items(quickActions) { action ->
                         Surface(
                             modifier = Modifier
-                                .weight(1f)
-                                .height(72.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .clickable { action.onClick() },
-                            shape = RoundedCornerShape(10.dp),
+                                .width(116.dp)
+                                .height(92.dp)
+                                .clip(RoundedCornerShape(14.dp))
+                                .clickable(role = Role.Button) { action.onClick() },
+                            shape = RoundedCornerShape(14.dp),
                             color = MaterialTheme.colorScheme.surface,
                             border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
                         ) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
-                                    .padding(6.dp),
+                                    .padding(10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
                             ) {
                                 Icon(
                                     imageVector = action.icon,
-                                    contentDescription = action.titleAr,
+                                    contentDescription = if (languageMode == LanguageMode.FRENCH_ONLY) action.titleFr else action.titleAr,
                                     tint = action.color,
-                                    modifier = Modifier.size(20.dp)
+                                    modifier = Modifier.size(22.dp)
                                 )
-                                Spacer(modifier = Modifier.height(4.dp))
+                                Spacer(modifier = Modifier.height(6.dp))
                                 Text(
-                                    text = action.titleAr,
-                                    style = MaterialTheme.typography.labelSmall,
+                                    text = if (languageMode == LanguageMode.FRENCH_ONLY) action.titleFr else action.titleAr,
+                                    style = MaterialTheme.typography.labelMedium,
                                     fontWeight = FontWeight.Bold,
                                     color = MaterialTheme.colorScheme.onSurface,
                                     maxLines = 1
                                 )
-                                Text(
-                                    text = action.titleFr,
-                                    fontSize = 9.sp,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                    maxLines = 1
-                                )
+                                if (languageMode == LanguageMode.BILINGUAL) {
+                                    Text(
+                                        text = action.titleFr,
+                                        fontSize = 10.sp,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                        maxLines = 1
+                                    )
+                                }
                             }
                         }
                     }
@@ -479,8 +481,8 @@ private fun ClassGridCard(
 
     Surface(
         modifier = modifier
-            .height(68.dp)
-            .clip(RoundedCornerShape(10.dp))
+            .height(80.dp)
+            .clip(RoundedCornerShape(14.dp))
             .clickable(role = Role.Button, onClick = onClick)
             .testTag("class_grid_card_$classNumber"),
         shape = RoundedCornerShape(10.dp),
@@ -497,7 +499,6 @@ private fun ClassGridCard(
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    Text(
                     text = if (languageMode == LanguageMode.FRENCH_ONLY) officialTitleFr else officialTitleAr,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
