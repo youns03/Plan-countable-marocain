@@ -106,7 +106,7 @@ class PlanComptableIntegrityTest {
 
         val deconstruct2834 = PlanComptableRepository.deconstructCode("2834")
         assertNotNull("2834 in Class 2 must trigger amortisation rule", deconstruct2834.specialRuleNoteAr)
-        assertTrue(deconstruct2834.specialRuleNoteAr!!.contains("الاستهلاك"))
+        assertTrue(deconstruct2834.specialRuleNoteAr!!.contains("حساب استهلاك"))
 
         val deconstruct3942 = PlanComptableRepository.deconstructCode("3942")
         assertNotNull("3942 in Class 3 must trigger provision rule", deconstruct3942.specialRuleNoteAr)
