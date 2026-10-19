@@ -42,6 +42,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import com.example.model.LanguageMode
 import com.example.ui.components.AccountDetailSheet
 import com.example.ui.screens.ClassExplorerScreen
 import com.example.ui.screens.HomeScreen
@@ -79,7 +80,7 @@ class MainActivity : ComponentActivity() {
 
             // Root Providers: RTL layout, Dynamic Font Scale, and Language Mode
             CompositionLocalProvider(
-                LocalLayoutDirection provides LayoutDirection.Rtl,
+                LocalLayoutDirection provides if (languageMode == LanguageMode.FRENCH_ONLY) LayoutDirection.Ltr else LayoutDirection.Rtl,
                 LocalDensity provides adjustedDensity,
                 LocalLanguageMode provides languageMode
             ) {
@@ -120,12 +121,21 @@ fun MainApp(viewModel: MainViewModel) {
                     containerColor = MaterialTheme.colorScheme.surface,
                     tonalElevation = 4.dp
                 ) {
-                    val navItems = listOf(
-                        Triple(AppTab.HOME, "الرئيسية", Icons.Default.Home),
-                        Triple(AppTab.TREE, "الشجرة", Icons.Default.AccountTree),
-                        Triple(AppTab.LEARN, "التعلّم", Icons.Default.School),
-                        Triple(AppTab.ACCOUNT, "حسابي", Icons.Default.ManageAccounts)
-                    )
+                    val navItems = if (languageMode == LanguageMode.FRENCH_ONLY) {
+                        listOf(
+                            Triple(AppTab.HOME, "Accueil", Icons.Default.Home),
+                            Triple(AppTab.TREE, "Plan", Icons.Default.AccountTree),
+                            Triple(AppTab.LEARN, "Apprendre", Icons.Default.School),
+                            Triple(AppTab.ACCOUNT, "Mon compte", Icons.Default.ManageAccounts)
+                        )
+                    } else {
+                        listOf(
+                            Triple(AppTab.HOME, "الرئيسية", Icons.Default.Home),
+                            Triple(AppTab.TREE, "الشجرة", Icons.Default.AccountTree),
+                            Triple(AppTab.LEARN, "التعلّم", Icons.Default.School),
+                            Triple(AppTab.ACCOUNT, "حسابي", Icons.Default.ManageAccounts)
+                        )
+                    }
 
                     navItems.forEach { (tab, label, icon) ->
                         val isSelected = currentTab == tab
