@@ -140,8 +140,8 @@ fun HomeScreen(
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(MaterialTheme.colorScheme.surface)
-                    .padding(horizontal = 16.dp, vertical = 14.dp)
+                    .background(MaterialTheme.colorScheme.primaryContainer)
+                    .padding(horizontal = 16.dp, vertical = 18.dp)
             ) {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
@@ -151,10 +151,13 @@ fun HomeScreen(
                     Spacer(modifier = Modifier.width(10.dp))
                     Column {
                         Text(
-                            text = "الدليل المحاسباتي المغربي",
+                            text = when (languageMode) {
+                                LanguageMode.FRENCH_ONLY -> "Plan comptable marocain"
+                                else -> "الدليل المحاسباتي المغربي"
+                            },
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                         CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                             Text(
@@ -193,7 +196,9 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(10.dp))
                         Text(
-                            text = "ابحث برقم الحساب أو بالاسم (Code ou Nom)...",
+                            text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                "Rechercher par code ou intitulé..."
+                            else "ابحث برقم الحساب أو بالاسم (Code ou Nom)...",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
                         )
@@ -221,7 +226,9 @@ fun HomeScreen(
                         )
                         Spacer(modifier = Modifier.width(6.dp))
                         Text(
-                            text = "استئناف التصفح (Dernières Consultations)",
+                            text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                "Consultations récentes"
+                            else "استئناف التصفح (Dernières Consultations)",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.onSurface
                         )
@@ -288,13 +295,17 @@ fun HomeScreen(
         item {
             Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp)) {
                 Text(
-                    text = "الأصناف المحاسبية العشرة (Classes du Plan)",
+                    text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                        "Les dix classes comptables"
+                    else "الأصناف المحاسبية العشرة (Classes du Plan)",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )
                 Spacer(modifier = Modifier.height(2.dp))
                 Text(
-                    text = "منقولة حرفياً من الكتيب الرسمي (CGNC)",
+                    text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                        "Référentiel fidèle au document fourni (CGNC)"
+                    else "منقولة حرفياً من الكتيب الرسمي (CGNC)",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -336,7 +347,9 @@ fun HomeScreen(
         item {
             Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
                 Text(
-                    text = "الأدوات التعليمية (Outils Pédagogiques)",
+                    text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                        "Outils pédagogiques"
+                    else "الأدوات التعليمية (Outils Pédagogiques)",
                     style = MaterialTheme.typography.titleSmall,
                     color = MaterialTheme.colorScheme.onSurface
                 )
@@ -419,7 +432,9 @@ fun HomeScreen(
                                 )
                                 Spacer(modifier = Modifier.width(6.dp))
                                 Text(
-                                    text = "كيف تستعمل هذا الدليل؟",
+                                    text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                    "Comment utiliser ce guide ?"
+                                else "كيف تستعمل هذا الدليل؟",
                                     style = MaterialTheme.typography.labelLarge,
                                     color = MaterialTheme.colorScheme.onSurface
                                 )
@@ -433,7 +448,9 @@ fun HomeScreen(
                         }
                         Spacer(modifier = Modifier.height(4.dp))
                         Text(
-                            text = "هذا الدليل مرجع جيب موثوق يعمل بالكامل دون إنترنت. يربط كل حساب بمكانه في القوائم المالية، ويبين رصيده الطبيعي مع قيود نموذجية وأداة ذكية لتفكيك الأرقام.",
+                            text = if (languageMode == LanguageMode.FRENCH_ONLY)
+                                "Un guide de poche utilisable hors ligne : retrouvez la place de chaque compte dans les états financiers, son solde habituel et des exemples d’écritures."
+                            else "هذا الدليل مرجع جيب موثوق يعمل بالكامل دون إنترنت. يربط كل حساب بمكانه في القوائم المالية، ويبين رصيده الطبيعي مع قيود نموذجية وأداة ذكية لتفكيك الأرقام.",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant,
                             lineHeight = 18.sp
@@ -480,14 +497,15 @@ private fun ClassGridCard(
             Spacer(modifier = Modifier.width(8.dp))
             Column(modifier = Modifier.weight(1f)) {
                 Text(
-                    text = officialTitleAr,
+                    Text(
+                    text = if (languageMode == LanguageMode.FRENCH_ONLY) officialTitleFr else officialTitleAr,
                     style = MaterialTheme.typography.labelMedium,
                     fontWeight = FontWeight.Bold,
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
                 )
-                if (languageMode != LanguageMode.ARABIC_ONLY) {
+                if (languageMode == LanguageMode.BILINGUAL) {
                     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                         Text(
                             text = officialTitleFr,
