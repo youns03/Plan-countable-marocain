@@ -32,6 +32,7 @@ enum class AppTab(val titleAr: String, val titleFr: String) {
 }
 
 enum class LearnSubTab(val titleAr: String, val titleFr: String) {
+    LEARNING_PATH("مسار التعلّم", "Parcours"),
     DECONSTRUCT("فكّك الرقم", "Décomposeur"),
     JOURNAL_ENTRIES("قيود نموذجية", "Écritures"),
     LEXICON("القاموس والرموز", "Lexique"),

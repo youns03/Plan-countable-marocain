@@ -2,6 +2,7 @@ package com.example
 
 import android.content.Context
 import androidx.test.core.app.ApplicationProvider
+import com.example.data.EducationalData
 import com.example.data.PlanComptableRepository
 import com.example.data.PreferencesRepository
 import com.example.model.ElementLevel
@@ -18,6 +19,19 @@ import org.robolectric.annotation.Config
 @RunWith(RobolectricTestRunner::class)
 @Config(sdk = [35])
 class PlanComptableIntegrityTest {
+
+    @Test
+    fun `learning path contains six ordered bilingual lessons with sources`() {
+        val lessons = EducationalData.learningPath
+
+        assertEquals(6, lessons.size)
+        assertEquals((1..6).toList(), lessons.map { it.stageNumber })
+        assertEquals(lessons.size, lessons.map { it.id }.toSet().size)
+        assertTrue(lessons.all { it.titleAr.isNotBlank() && it.titleFr.isNotBlank() })
+        assertTrue(lessons.all { it.objectiveAr.isNotBlank() && it.explanationAr.isNotBlank() })
+        assertTrue(lessons.all { it.terms.isNotEmpty() && it.reviewQuestionsAr.isNotEmpty() })
+        assertTrue(lessons.all { it.sourceLabel.isNotBlank() })
+    }
 
     @Test
     fun `test all elements have globally unique UIDs`() {

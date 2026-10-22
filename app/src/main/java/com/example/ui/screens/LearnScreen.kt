@@ -58,6 +58,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.EducationalData
 import com.example.data.PlanComptableRepository
+import com.example.model.LearningLesson
 import com.example.model.LanguageMode
 import com.example.ui.components.BadgeSize
 import com.example.ui.components.ClassBadge
@@ -128,11 +129,265 @@ fun LearnScreen(
         }
 
         when (subTab) {
+            LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
             LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
             LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
             LearnSubTab.LEXICON -> LexiconSection()
             LearnSubTab.COMPARISONS -> ComparisonsSection()
             LearnSubTab.QUIZ -> QuizSection(viewModel)
+        }
+    }
+}
+
+// -------------------------------------------------------------
+// 0. STRUCTURED LEARNING PATH (مسار Comptabilité générale S1)
+// -------------------------------------------------------------
+@Composable
+private fun LearningPathSection(viewModel: MainViewModel) {
+    val languageMode = LocalLanguageMode.current
+    val isFrenchOnly = languageMode == LanguageMode.FRENCH_ONLY
+    var expandedLessonId by remember { mutableStateOf<String?>(null) }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("learning_path_screen"),
+        contentPadding = PaddingValues(16.dp, bottom = 90.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        item {
+            Text(
+                text = if (isFrenchOnly) "Parcours de comptabilité générale S1" else "مسار المحاسبة العامة S1",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+            Text(
+                text = if (isFrenchOnly) {
+                    "Progressez des notions de base vers la lecture des exercices en français."
+                } else {
+                    "تدرّج من المفاهيم الأساسية إلى فهم التمارين باللغة الفرنسية، دون خلط الشرح بالمصدر الرسمي."
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 3.dp)
+            )
+        }
+
+        items(EducationalData.learningPath, key = { it.id }) { lesson ->
+            LearningLessonCard(
+                lesson = lesson,
+                isFrenchOnly = isFrenchOnly,
+                expanded = expandedLessonId == lesson.id,
+                onClick = {
+                    expandedLessonId = if (expandedLessonId == lesson.id) null else lesson.id
+                },
+                onAccountClick = viewModel::openAccountDetailsByCode
+            )
+        }
+    }
+}
+
+@Composable
+private fun LearningLessonCard(
+    lesson: LearningLesson,
+    isFrenchOnly: Boolean,
+    expanded: Boolean,
+    onClick: () -> Unit,
+    onAccountClick: (String) -> Unit
+) {
+    val title = if (isFrenchOnly) lesson.titleFr else lesson.titleAr
+    val objective = if (isFrenchOnly) lesson.objectiveFr else lesson.objectiveAr
+    val explanation = if (isFrenchOnly) lesson.explanationFr else lesson.explanationAr
+
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick)
+            .testTag("learning_lesson_${lesson.id}"),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+    ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Surface(
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.primary,
+                    contentColor = Color.White,
+                    modifier = Modifier.size(34.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Text(
+                            text = lesson.stageNumber.toString(),
+                            fontWeight = FontWeight.Bold,
+                            fontFamily = MonoFontFamily
+                        )
+                    }
+                }
+                Spacer(modifier = Modifier.width(10.dp))
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(text = title, style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.Bold)
+                    if (!isFrenchOnly) {
+                        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                            Text(
+                                text = lesson.titleFr,
+                                style = MaterialTheme.typography.labelSmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                    }
+                }
+                Text(
+                    text = if (expanded) "−" else "+",
+                    style = MaterialTheme.typography.titleLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+
+            Spacer(modifier = Modifier.height(10.dp))
+            Text(
+                text = objective,
+                style = MaterialTheme.typography.bodySmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            if (expanded) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
+                Text(
+                    text = if (isFrenchOnly) "Objectif et explication" else "الهدف والشرح",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = explanation,
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    lineHeight = 20.sp,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = if (isFrenchOnly) "Vocabulaire clé" else "المصطلحات الأساسية",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                lesson.terms.forEach { (termFr, termAr) ->
+                    Row(modifier = Modifier.padding(top = 4.dp)) {
+                        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                            Text(
+                                text = termFr,
+                                style = MaterialTheme.typography.bodySmall,
+                                fontWeight = FontWeight.SemiBold,
+                                modifier = Modifier.weight(1f)
+                            )
+                        }
+                        Text(
+                            text = termAr,
+                            style = MaterialTheme.typography.bodySmall,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.55f),
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Column(modifier = Modifier.padding(10.dp)) {
+                        Text(
+                            text = "Exemple pratique",
+                            style = MaterialTheme.typography.labelLarge,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                        CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                            Text(
+                                text = lesson.exampleFr,
+                                style = MaterialTheme.typography.bodySmall,
+                                modifier = Modifier.padding(top = 3.dp)
+                            )
+                        }
+                        if (!isFrenchOnly) {
+                            Text(
+                                text = lesson.exampleAr,
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                                modifier = Modifier.padding(top = 3.dp)
+                            )
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = if (isFrenchOnly) "Questions de révision" else "مراجعة قصيرة",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                lesson.reviewQuestionsAr.forEachIndexed { index, question ->
+                    Text(
+                        text = "${index + 1}. $question",
+                        style = MaterialTheme.typography.bodySmall,
+                        modifier = Modifier.padding(top = 3.dp)
+                    )
+                }
+
+                if (lesson.relatedAccountCodes.isNotEmpty()) {
+                    Spacer(modifier = Modifier.height(10.dp))
+                    Text(
+                        text = if (isFrenchOnly) "Comptes liés" else "حسابات مرتبطة بالدرس",
+                        style = MaterialTheme.typography.labelLarge,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    LazyRow(
+                        horizontalArrangement = Arrangement.spacedBy(6.dp),
+                        modifier = Modifier.padding(top = 5.dp)
+                    ) {
+                        items(lesson.relatedAccountCodes) { code ->
+                            Surface(
+                                shape = RoundedCornerShape(8.dp),
+                                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                                border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.primary.copy(alpha = 0.35f)),
+                                modifier = Modifier.clickable { onAccountClick(code) }
+                            ) {
+                                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                                    Text(
+                                        text = code,
+                                        fontFamily = MonoFontFamily,
+                                        fontWeight = FontWeight.Bold,
+                                        style = MaterialTheme.typography.labelMedium,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 7.dp)
+                                    )
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+                Text(
+                    text = "Source / المصدر: ${lesson.sourceLabel}",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    lineHeight = 16.sp
+                )
+                lesson.sourceUrl?.let { url ->
+                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                        Text(
+                            text = url,
+                            style = MaterialTheme.typography.labelSmall,
+                            color = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.padding(top = 2.dp)
+                        )
+                    }
+                }
+            }
         }
     }
 }

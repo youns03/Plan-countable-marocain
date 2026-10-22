@@ -155,6 +155,25 @@ data class QuizQuestion(
     val explanationAr: String
 )
 
+@Immutable
+data class LearningLesson(
+    val id: String,
+    val stageNumber: Int,
+    val titleAr: String,
+    val titleFr: String,
+    val objectiveAr: String,
+    val objectiveFr: String,
+    val explanationAr: String,
+    val explanationFr: String,
+    val terms: List<Pair<String, String>>,
+    val exampleFr: String,
+    val exampleAr: String,
+    val reviewQuestionsAr: List<String>,
+    val sourceLabel: String,
+    val sourceUrl: String? = null,
+    val relatedAccountCodes: List<String> = emptyList()
+)
+
 enum class LanguageMode {
     BILINGUAL,
     FRENCH_ONLY,

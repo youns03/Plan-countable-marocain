@@ -5,10 +5,148 @@ import com.example.model.ComparisonItem
 import com.example.model.ComparisonRow
 import com.example.model.JournalEntry
 import com.example.model.JournalEntryLine
+import com.example.model.LearningLesson
 import com.example.model.LexiconTerm
 import com.example.model.QuizQuestion
 
 object EducationalData {
+
+    /**
+     * First structured learning path for Comptabilité générale S1.
+     * Account labels remain anchored in the supplied Plan Comptable Marocain PDF;
+     * explanations and examples are educational content, not quotations from it.
+     */
+    val learningPath: List<LearningLesson> = listOf(
+        LearningLesson(
+            id = "s1-introduction",
+            stageNumber = 1,
+            titleAr = "اكتشاف المحاسبة",
+            titleFr = "Comprendre la comptabilité",
+            objectiveAr = "فهم لماذا تسجل المؤسسة عملياتها وكيف تتحول التسجيلات إلى معلومات مفيدة.",
+            objectiveFr = "Comprendre pourquoi l'entreprise enregistre ses opérations et transforme ces enregistrements en informations.",
+            explanationAr = "المحاسبة تقنية لتنظيم وتسجيل التدفقات والعمليات التي تقوم بها المؤسسة، ثم إعداد وثائق تلخص نشاطها ووضعيتها. في هذا المسار سننتقل من فهم العملية إلى اختيار الحساب ثم كتابة القيد.",
+            explanationFr = "La comptabilité est une technique qui organise et enregistre les flux et les opérations de l'entreprise afin de produire des documents de synthèse. Le parcours va de la compréhension de l'opération au choix des comptes puis à l'écriture.",
+            terms = listOf(
+                "Entreprise" to "المؤسسة",
+                "Opération" to "عملية",
+                "Flux" to "تدفق",
+                "Documents de synthèse" to "وثائق التركيب والتلخيص"
+            ),
+            exampleFr = "Une entreprise achète des fournitures et règle immédiatement le fournisseur.",
+            exampleAr = "اشترت مؤسسة لوازم وأدت للمورد فورًا. سنحدد لاحقًا ما الذي دخل إلى المؤسسة وما الذي خرج منها.",
+            reviewQuestionsAr = listOf("ما الهدف من تسجيل العمليات؟", "ما الفرق بين العملية والتدفق؟"),
+            sourceLabel = "درس S1 تمهيدي + Cours de comptabilité générale، مع صياغة تعليمية مستقلة",
+            sourceUrl = "https://mcours.net/cours/pdf/compta/Cours_de_comptabilite_generale.pdf"
+        ),
+        LearningLesson(
+            id = "s1-bilan",
+            stageNumber = 2,
+            titleAr = "فهم الميزانية",
+            titleFr = "Comprendre le bilan",
+            objectiveAr = "تمييز الاستعمالات والموارد وربط الأصول بالخصوم.",
+            objectiveFr = "Distinguer les emplois et les ressources et relier l'actif au passif.",
+            explanationAr = "الميزانية جدول يصف وضعية المؤسسة في تاريخ محدد. الأصول تمثل ما تستعمله المؤسسة أو تملكه من ممتلكات وحقوق، والخصوم تمثل الموارد ومصادر التمويل والالتزامات. يجب أن يتساوى مجموع الأصول مع مجموع الخصوم.",
+            explanationFr = "Le bilan présente la situation patrimoniale de l'entreprise à une date donnée. L'actif regroupe les emplois, biens et droits ; le passif regroupe les ressources et les dettes. Le total de l'actif est égal au total du passif.",
+            terms = listOf(
+                "Actif" to "الأصول / الاستعمالات",
+                "Passif" to "الخصوم / الموارد",
+                "Emploi" to "استعمال الموارد",
+                "Ressource" to "مصدر التمويل"
+            ),
+            exampleFr = "Un terrain est un emploi : il figure à l'actif. Le capital est une ressource : il figure au passif.",
+            exampleAr = "الأرض استعمال للموارد وتظهر في الأصول، بينما رأس المال مصدر تمويل ويظهر في الخصوم.",
+            reviewQuestionsAr = listOf("ماذا يمثل الأكتيف؟", "لماذا يجب أن يتساوى مجموع الأصول والخصوم؟"),
+            sourceLabel = "كتاب Plan comptable marocain + درس Bilan في مسار S1",
+            sourceUrl = "https://www.youtube.com/watch?v=XwK_EbDQj0g"
+        ),
+        LearningLesson(
+            id = "s1-plan",
+            stageNumber = 3,
+            titleAr = "قراءة دليل الحسابات المغربي",
+            titleFr = "Lire le Plan comptable marocain",
+            objectiveAr = "فهم الفئات والأقسام وعلاقة الحساب الأب بالحسابات الفرعية.",
+            objectiveFr = "Comprendre les classes, les rubriques et la relation entre un compte parent et ses sous-comptes.",
+            explanationAr = "يحتفظ التطبيق بالرقم والاسم الفرنسي كما وردا في كتاب Plan comptable marocain. مثلًا، 23 هو قسم الممتلكات الثابتة المادية، و231 هو قسم الأراضي، و2311 حساب فرعي للأراضي غير المبنية. الرقم لا يُفصل عن موقعه في الشجرة.",
+            explanationFr = "L'application conserve le code et l'intitulé français du Plan comptable marocain. Par exemple, 23 désigne les immobilisations corporelles, 231 les terrains et 2311 les terrains nus. Le code doit être lu avec sa position dans l'arborescence.",
+            terms = listOf(
+                "Classe" to "الصنف",
+                "Rubrique" to "القسم",
+                "Compte" to "الحساب",
+                "Sous-compte" to "الحساب الفرعي"
+            ),
+            exampleFr = "Classe 2 → 23 Immobilisations corporelles → 231 Terrains → 2311 Terrains nus.",
+            exampleAr = "الصنف 2 ← 23 الممتلكات الثابتة المادية ← 231 الأراضي ← 2311 الأراضي غير المبنية.",
+            reviewQuestionsAr = listOf("ما الفرق بين 231 و2311؟", "لماذا لا ندمج الحساب الأب مع الحساب الفرعي؟"),
+            sourceLabel = "Plan comptable marocain، الصفحات 1 و3 من الملف المرفق",
+            sourceUrl = null,
+            relatedAccountCodes = listOf("2", "23", "231", "2311")
+        ),
+        LearningLesson(
+            id = "s1-debit-credit",
+            stageNumber = 4,
+            titleAr = "المدين والدائن والقيود",
+            titleFr = "Débit, Crédit et écritures comptables",
+            objectiveAr = "تحليل العملية قبل توزيعها على المدين والدائن.",
+            objectiveFr = "Analyser l'opération avant de la répartir entre débit et crédit.",
+            explanationAr = "لا نختار المدين والدائن بحفظ جواب منفصل عن العملية. نحدد أولًا الحسابات التي تغيرت، ثم طبيعة كل حساب، ثم نسجل المبالغ في القيد مع التحقق من تساوي مجموع المدين والدائن.",
+            explanationFr = "On ne choisit pas le débit et le crédit en mémorisant une réponse isolée. On identifie d'abord les comptes concernés, leur nature, puis on enregistre les montants en vérifiant l'égalité entre débit et crédit.",
+            terms = listOf(
+                "Débit" to "المدين",
+                "Crédit" to "الدائن",
+                "Écriture comptable" to "القيد المحاسبي",
+                "Journal" to "اليومية"
+            ),
+            exampleFr = "L'achat comptant de fournitures augmente une charge et diminue la trésorerie : les deux comptes doivent être identifiés avant l'écriture.",
+            exampleAr = "شراء لوازم نقدًا يزيد تكلفةً ويخفض الخزينة؛ نحدد الحسابين أولًا ثم نوزع المبلغ ونتحقق من التوازن.",
+            reviewQuestionsAr = listOf("ما الخطوة التي تسبق اختيار المدين والدائن؟", "كيف نتحقق من توازن القيد؟"),
+            sourceLabel = "Cours de comptabilité générale، فصول الحساب والقيد، بصياغة تعليمية",
+            sourceUrl = "https://ofppt.info/comptabilite-generale-1/",
+            relatedAccountCodes = listOf("6111", "7111", "3421", "4411")
+        ),
+        LearningLesson(
+            id = "s1-operations",
+            stageNumber = 5,
+            titleAr = "العمليات والتطبيقات",
+            titleFr = "Opérations et applications",
+            objectiveAr = "الانتقال من فهم العملية إلى اختيار الحسابات وكتابة القيد.",
+            objectiveFr = "Passer de la compréhension d'une opération au choix des comptes et à l'écriture.",
+            explanationAr = "نتدرج من عمليات بسيطة إلى عمليات مركبة: شراء، بيع، أداء، أجور، وضريبة على القيمة المضافة. في كل حالة نقرأ نص العملية، نستخرج المعلومة المهمة، نحدد الحسابات، ثم نراجع القيد.",
+            explanationFr = "On progresse des opérations simples vers les opérations composées : achats, ventes, règlements, salaires et TVA. Pour chaque cas, on lit l'énoncé, on extrait les informations, on choisit les comptes puis on contrôle l'écriture.",
+            terms = listOf(
+                "Achat" to "شراء",
+                "Vente" to "بيع",
+                "Règlement" to "أداء / تسوية",
+                "TVA" to "الضريبة على القيمة المضافة"
+            ),
+            exampleFr = "Une vente à crédit oblige à distinguer le produit, la TVA facturée et la créance client.",
+            exampleAr = "البيع بالأجل يتطلب التمييز بين الإيراد والضريبة المفوترة والحق المالي على الزبون.",
+            reviewQuestionsAr = listOf("ما المعلومات التي نستخرجها من نص العملية؟", "لماذا قد تتضمن العملية أكثر من حسابين؟"),
+            sourceLabel = "Cours opérations courantes وموارد Comptabilité générale S1",
+            sourceUrl = "https://ofppt.info/comptabilite-generale-1/",
+            relatedAccountCodes = listOf("3421", "4411", "4455", "34552", "5141")
+        ),
+        LearningLesson(
+            id = "s1-french-exercises",
+            stageNumber = 6,
+            titleAr = "التدرب على الفرنسية المحاسبية",
+            titleFr = "Exercices en français",
+            objectiveAr = "فهم نص التمرين الفرنسي واستخراج المطلوب قبل الحل.",
+            objectiveFr = "Comprendre l'énoncé français et identifier ce qui est demandé avant de résoudre.",
+            explanationAr = "يتعلم الطالب قراءة الأفعال والمصطلحات التي تحدد المطلوب: enregistrer، calculer، établir، déterminer، justifier. نبدأ بتمييز المصطلحات، ثم نحدد العملية، ثم نكتب الحل ونشرح سبب كل حساب.",
+            explanationFr = "L'étudiant apprend à repérer les verbes et les termes qui indiquent la consigne : enregistrer, calculer, établir, déterminer et justifier. On identifie les mots-clés, l'opération, puis on justifie chaque compte.",
+            terms = listOf(
+                "Enregistrer" to "تسجيل",
+                "Calculer" to "حساب",
+                "Établir" to "إعداد",
+                "Justifier" to "تعليل"
+            ),
+            exampleFr = "Enregistrer l'achat, calculer la TVA et justifier le choix des comptes.",
+            exampleAr = "سجّل عملية الشراء، احسب الضريبة على القيمة المضافة، وعلّل اختيار الحسابات.",
+            reviewQuestionsAr = listOf("ما الفرق بين enregistrer وcalculer؟", "كيف نحدد المطلوب من نص التمرين؟"),
+            sourceLabel = "مسار S1 المقترح اعتمادًا على موارد الدروس والتمارين",
+            sourceUrl = "https://www.alcenter.ma/cours-eco/semestre-1_1/comptabilit%C3%A9-g%C3%A9n%C3%A9rale-s1"
+        )
+    )
 
     val acronyms: List<AcronymInfo> = listOf(
         AcronymInfo(
