@@ -66,7 +66,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val expandedUids: StateFlow<Set<String>> = _expandedUids.asStateFlow()
 
     // Learn SubTab
-    private val _learnSubTab = MutableStateFlow(LearnSubTab.DECONSTRUCT)
+    private val _learnSubTab = MutableStateFlow(LearnSubTab.LEARNING_PATH)
     val learnSubTab: StateFlow<LearnSubTab> = _learnSubTab.asStateFlow()
 
     // Selected Journal Entry in Learn Tab
