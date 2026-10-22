@@ -24,13 +24,14 @@ class PlanComptableIntegrityTest {
     fun `learning path contains six ordered bilingual lessons with sources`() {
         val lessons = EducationalData.learningPath
 
-        assertEquals(6, lessons.size)
-        assertEquals((1..6).toList(), lessons.map { it.stageNumber })
+        assertEquals(7, lessons.size)
+        assertEquals((1..7).toList(), lessons.map { it.stageNumber })
         assertEquals(lessons.size, lessons.map { it.id }.toSet().size)
         assertTrue(lessons.all { it.titleAr.isNotBlank() && it.titleFr.isNotBlank() })
         assertTrue(lessons.all { it.objectiveAr.isNotBlank() && it.explanationAr.isNotBlank() })
         assertTrue(lessons.all { it.terms.isNotEmpty() && it.reviewQuestionsAr.isNotEmpty() })
         assertTrue(lessons.all { it.sourceLabel.isNotBlank() })
+        assertTrue(lessons.all { it.relatedAccountCodes.isEmpty() })
     }
 
     @Test

@@ -157,16 +157,16 @@ private fun LearningPathSection(viewModel: MainViewModel) {
     ) {
         item {
             Text(
-                text = if (isFrenchOnly) "Parcours de comptabilité générale S1" else "مسار المحاسبة العامة S1",
+                text = if (isFrenchOnly) "Parcours théorique de comptabilité générale S1" else "المسار النظري للمحاسبة العامة S1",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface
             )
             Text(
                 text = if (isFrenchOnly) {
-                    "Progressez des notions de base vers la lecture des exercices en français."
+                    "Maîtrisez les notions, les comptes et le vocabulaire avant les applications."
                 } else {
-                    "تدرّج من المفاهيم الأساسية إلى فهم التمارين باللغة الفرنسية، دون خلط الشرح بالمصدر الرسمي."
+                    "أكمل المفاهيم الأساسية والحسابات والمصطلحات قبل الانتقال إلى التطبيقات."
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -301,7 +301,7 @@ private fun LearningLessonCard(
                 ) {
                     Column(modifier = Modifier.padding(10.dp)) {
                         Text(
-                            text = "Exemple pratique",
+                            text = if (isFrenchOnly) "Illustration conceptuelle" else "توضيح مفاهيمي",
                             style = MaterialTheme.typography.labelLarge,
                             color = MaterialTheme.colorScheme.primary
                         )

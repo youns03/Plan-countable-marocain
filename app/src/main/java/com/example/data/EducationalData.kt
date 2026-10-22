@@ -16,7 +16,8 @@ object EducationalData {
      * Account labels remain anchored in the supplied Plan Comptable Marocain PDF;
      * explanations and examples are educational content, not quotations from it.
      */
-    val learningPath: List<LearningLesson> = listOf(
+    @Deprecated("Kept as reference while the theory-first curriculum is expanded")
+    private val legacyAppliedPath: List<LearningLesson> = listOf(
         LearningLesson(
             id = "s1-introduction",
             stageNumber = 1,
@@ -145,6 +146,122 @@ object EducationalData {
             reviewQuestionsAr = listOf("ما الفرق بين enregistrer وcalculer؟", "كيف نحدد المطلوب من نص التمرين؟"),
             sourceLabel = "مسار S1 المقترح اعتمادًا على موارد الدروس والتمارين",
             sourceUrl = "https://www.alcenter.ma/cours-eco/semestre-1_1/comptabilit%C3%A9-g%C3%A9n%C3%A9rale-s1"
+        )
+    )
+
+    /** Theory-first curriculum. Practical operations are intentionally deferred. */
+    val learningPath: List<LearningLesson> = listOf(
+        LearningLesson(
+            id = "theory-introduction",
+            stageNumber = 1,
+            titleAr = "مدخل إلى المحاسبة العامة",
+            titleFr = "Introduction à la comptabilité générale",
+            objectiveAr = "فهم مفهوم المحاسبة ودورها داخل المؤسسة قبل دراسة التسجيلات.",
+            objectiveFr = "Comprendre la définition et le rôle de la comptabilité dans l'entreprise.",
+            explanationAr = "المحاسبة نظام لتنظيم المعلومات المالية للمؤسسة: تجمع المعطيات، تصنفها، وتسجلها وفق قواعد، ثم تعرضها في وثائق مفهومة. في هذه المرحلة ندرس المفاهيم فقط، دون حل عمليات أو كتابة قيود تطبيقية.",
+            explanationFr = "La comptabilité est un système d'organisation de l'information financière : elle collecte, classe et enregistre les données selon des règles, puis les présente dans des documents compréhensibles. Cette étape reste conceptuelle, sans résolution d'opérations.",
+            terms = listOf("Comptabilité" to "المحاسبة", "Entreprise" to "المؤسسة", "Information financière" to "المعلومة المالية", "Règle comptable" to "القاعدة المحاسبية"),
+            exampleFr = "La comptabilité transforme des informations économiques en informations financières organisées.",
+            exampleAr = "المحاسبة تحول المعطيات الاقتصادية إلى معلومات مالية منظمة وقابلة للفهم.",
+            reviewQuestionsAr = listOf("ما وظيفة المحاسبة داخل المؤسسة؟", "ما الفرق بين المعطى الاقتصادي والمعلومة المحاسبية؟"),
+            sourceLabel = "Cours de comptabilité générale S1، تعريف ودور المحاسبة",
+            sourceUrl = "https://mcours.net/cours/pdf/compta/Cours_de_comptabilite_generale.pdf"
+        ),
+        LearningLesson(
+            id = "theory-patrimony",
+            stageNumber = 2,
+            titleAr = "المؤسسة والذمة المالية",
+            titleFr = "L'entreprise et le patrimoine",
+            objectiveAr = "تمييز ممتلكات المؤسسة وحقوقها والتزاماتها عن بعضها.",
+            objectiveFr = "Distinguer les biens, les droits et les obligations de l'entreprise.",
+            explanationAr = "الذمة المالية هي مجموع ما تملكه المؤسسة من ممتلكات وحقوق، وما تتحمله من التزامات. هذا المفهوم يفسر لماذا تظهر بعض العناصر في الأصول، بينما تظهر مصادر التمويل والديون في الخصوم.",
+            explanationFr = "Le patrimoine regroupe les biens et les droits de l'entreprise ainsi que ses obligations. Cette notion explique la séparation entre les éléments de l'actif et les ressources ou dettes du passif.",
+            terms = listOf("Patrimoine" to "الذمة المالية", "Bien" to "ممتلك", "Droit" to "حق", "Obligation" to "التزام"),
+            exampleFr = "Le patrimoine se lit comme une relation entre ce que l'entreprise possède ou contrôle et ce qu'elle doit.",
+            exampleAr = "تقرأ الذمة المالية كعلاقة بين ما تملكه المؤسسة أو تراقبه وما تلتزم بأدائه.",
+            reviewQuestionsAr = listOf("ما عناصر الذمة المالية؟", "ما الفرق بين الحق والالتزام؟"),
+            sourceLabel = "Cours de comptabilité générale S1، patrimoine de l'entreprise",
+            sourceUrl = "https://www.alcenter.ma/cours-eco/semestre-1_1/comptabilit%C3%A9-g%C3%A9n%C3%A9rale-s1"
+        ),
+        LearningLesson(
+            id = "theory-bilan",
+            stageNumber = 3,
+            titleAr = "الميزانية: الأصول والخصوم",
+            titleFr = "Le bilan : actif et passif",
+            objectiveAr = "فهم الميزانية كصورة لوضعية المؤسسة في تاريخ محدد.",
+            objectiveFr = "Comprendre le bilan comme une photographie de la situation à une date donnée.",
+            explanationAr = "الميزانية وثيقة تركيب تعرض جانب الأصول، أي الاستعمالات والممتلكات والحقوق، وجانب الخصوم، أي الموارد ومصادر التمويل والالتزامات. قاعدة التوازن النظرية هي: مجموع الأصول يساوي مجموع الخصوم.",
+            explanationFr = "Le bilan est un état de synthèse qui présente l'actif, les emplois, biens et droits, et le passif, les ressources et obligations. La règle théorique est : total actif égal total passif.",
+            terms = listOf("Bilan" to "الميزانية", "Actif" to "الأصول", "Passif" to "الخصوم", "Emploi" to "الاستعمال", "Ressource" to "المورد"),
+            exampleFr = "Le bilan décrit une situation à une date précise, et non une succession d'opérations dans le temps.",
+            exampleAr = "الميزانية تصف وضعية في تاريخ محدد، وليست تسلسلاً للعمليات خلال السنة.",
+            reviewQuestionsAr = listOf("ماذا يعرض جانب الأصول؟", "ما قاعدة توازن الميزانية؟"),
+            sourceLabel = "Plan comptable marocain + Cours de comptabilité générale، bilan",
+            sourceUrl = "https://ofppt.info/comptabilite-generale-1/"
+        ),
+        LearningLesson(
+            id = "theory-account",
+            stageNumber = 4,
+            titleAr = "الحساب والحركة والرصيد",
+            titleFr = "Le compte, les mouvements et le solde",
+            objectiveAr = "فهم الحساب كأداة نظرية لتتبع عنصر محاسبي معين.",
+            objectiveFr = "Comprendre le compte comme outil de suivi d'un élément comptable.",
+            explanationAr = "الحساب صفحة أو وحدة تحليل تجمع الحركات المتعلقة بعنصر واحد. له جانبان اصطلاحيان هما المدين والدائن، وينتج عن مقارنة الحركات رصيد قد يكون مدينًا أو دائنًا أو معدومًا. سنؤجل تطبيق هذه القاعدة على العمليات إلى المرحلة التطبيقية.",
+            explanationFr = "Le compte est une unité d'analyse qui regroupe les mouvements d'un même élément. Il possède deux côtés conventionnels, débit et crédit, et la comparaison des mouvements produit un solde débiteur, créditeur ou nul. Les applications viendront plus tard.",
+            terms = listOf("Compte" to "الحساب", "Débit" to "المدين", "Crédit" to "الدائن", "Solde" to "الرصيد"),
+            exampleFr = "Un compte possède une structure, une nature et un solde ; ces notions doivent être distinguées.",
+            exampleAr = "للحساب بنية وطبيعة ورصيد؛ ويجب التمييز بين هذه المفاهيم الثلاثة.",
+            reviewQuestionsAr = listOf("ما وظيفة الحساب؟", "ما أنواع الرصيد نظريًا؟"),
+            sourceLabel = "Cours de comptabilité générale، compte et solde",
+            sourceUrl = "https://mcours.net/cours/pdf/compta/Cours_de_comptabilite_generale.pdf"
+        ),
+        LearningLesson(
+            id = "theory-classification",
+            stageNumber = 5,
+            titleAr = "تصنيف الحسابات والقوائم المالية",
+            titleFr = "Classification des comptes et états de synthèse",
+            objectiveAr = "معرفة الفرق بين حسابات الميزانية وحسابات التكاليف والعائدات.",
+            objectiveFr = "Distinguer les comptes du bilan des comptes de charges et de produits.",
+            explanationAr = "حسابات الأصناف 1 إلى 5 ترتبط أساسًا بالميزانية، بينما الصنفان 6 و7 يرتبطان بالتكاليف والعائدات، وتساهم الأصناف الأخرى في وثائق أو وظائف محاسبية خاصة. هذا تصنيف نظري، وليس تمرين اختيار حساب.",
+            explanationFr = "Les classes 1 à 5 sont principalement liées au bilan, tandis que les classes 6 et 7 concernent les charges et les produits. D'autres classes répondent à des fonctions comptables particulières. Il s'agit ici d'une classification théorique.",
+            terms = listOf("Classe" to "الصنف", "Charge" to "التكلفة", "Produit" to "العائد", "Résultat" to "النتيجة", "CPC" to "حساب العائدات والتكاليف"),
+            exampleFr = "Le bilan et le CPC sont deux états de synthèse qui ne décrivent pas la même dimension de l'entreprise.",
+            exampleAr = "الميزانية وCPC وثيقتان تركيبيتان، لكنهما لا تصفان البعد نفسه من المؤسسة.",
+            reviewQuestionsAr = listOf("ما الفرق بين الميزانية وCPC؟", "لماذا نصنف الحسابات قبل استعمالها؟"),
+            sourceLabel = "Cours de comptabilité générale S1، bilan et CPC",
+            sourceUrl = "https://www.alcenter.ma/cours-eco/semestre-1_1/comptabilit%C3%A9-g%C3%A9n%C3%A9rale-s1"
+        ),
+        LearningLesson(
+            id = "theory-plan",
+            stageNumber = 6,
+            titleAr = "قراءة المخطط المحاسبي المغربي",
+            titleFr = "Lire le Plan comptable marocain",
+            objectiveAr = "فهم البنية الهرمية للاسم والرقم دون الدخول في اختيار الحساب داخل تمرين.",
+            objectiveFr = "Comprendre la structure hiérarchique du plan sans choisir encore un compte dans un exercice.",
+            explanationAr = "المخطط المحاسبي المغربي يضم أصنافًا وأقسامًا وأبوابًا وحسابات وحسابات فرعية. نقرأ الرقم مع موقعه في الشجرة ومع الاسم الفرنسي الرسمي. المثال 23 ثم 231 ثم 2311 يوضح التدرج من العام إلى الخاص، وليس قيدًا تطبيقيًا.",
+            explanationFr = "Le Plan comptable marocain organise les comptes en classes, rubriques, postes, comptes et sous-comptes. Le code se lit avec sa position dans l'arborescence et son intitulé officiel. La suite 23, 231, 2311 illustre le passage du général au détaillé.",
+            terms = listOf("Classe" to "الصنف", "Rubrique" to "القسم", "Poste" to "الباب", "Compte" to "الحساب", "Sous-compte" to "الحساب الفرعي"),
+            exampleFr = "Classe → rubrique → poste → compte → sous-compte : chaque niveau précise le précédent.",
+            exampleAr = "صنف ← قسم ← باب ← حساب ← حساب فرعي؛ كل مستوى يخصص المستوى السابق.",
+            reviewQuestionsAr = listOf("ما الفرق بين الحساب الأب والحساب الفرعي؟", "لماذا يجب قراءة الرقم مع الاسم والموقع؟"),
+            sourceLabel = "Plan comptable marocain، الملف المرجعي المرفق",
+            sourceUrl = null
+        ),
+        LearningLesson(
+            id = "theory-language",
+            stageNumber = 7,
+            titleAr = "المصطلحات الفرنسية الأساسية",
+            titleFr = "Vocabulaire théorique essentiel",
+            objectiveAr = "بناء قاموس مفاهيمي يساعد على قراءة الدرس الفرنسي قبل بدء التطبيقات.",
+            objectiveFr = "Construire un vocabulaire conceptuel avant de commencer les applications.",
+            explanationAr = "لا يكفي حفظ الترجمة. ندرس كل مصطلح بتعريفه وصنفه وعلاقته بالمفاهيم القريبة: Actif وPassif، Emploi وRessource، Créance وDette، Charge وProduit، Débit وCrédit. لا توجد في هذه الوحدة عمليات أو تمارين.",
+            explanationFr = "La traduction seule ne suffit pas. Chaque terme est étudié par sa définition, sa catégorie et ses relations : Actif/Passif, Emploi/Ressource, Créance/Dette, Charge/Produit, Débit/Crédit. Cette unité ne contient ni opérations ni exercices.",
+            terms = listOf("Actif / Passif" to "الأصول / الخصوم", "Emploi / Ressource" to "الاستعمال / المورد", "Créance / Dette" to "الحق المالي / الدين", "Charge / Produit" to "التكلفة / العائد"),
+            exampleFr = "Un terme est maîtrisé quand sa définition et sa relation avec les autres notions sont comprises.",
+            exampleAr = "يكون المصطلح مفهومًا عندما يستوعب الطالب تعريفه وعلاقته ببقية المفاهيم.",
+            reviewQuestionsAr = listOf("ما الفرق بين الحق المالي والدين؟", "لماذا لا تكفي الترجمة الحرفية؟"),
+            sourceLabel = "Lexique de l'application + ressources de Comptabilité générale S1",
+            sourceUrl = "https://ofppt.info/comptabilite-generale-1/"
         )
     )
 
