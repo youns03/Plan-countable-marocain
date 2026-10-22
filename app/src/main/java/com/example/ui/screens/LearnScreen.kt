@@ -78,64 +78,14 @@ fun LearnScreen(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-    val subTab by viewModel.learnSubTab.collectAsState()
-    val languageMode = LocalLanguageMode.current
-    val subTabs = LearnSubTab.values()
-
+    // The current learning experience is intentionally theory-first.
+    // Applied tools remain in the codebase but are not the focus of this phase.
     Column(
         modifier = modifier
             .fillMaxSize()
             .testTag("learn_screen")
     ) {
-        // Horizontal Sub-tabs strip
-        Surface(
-            color = MaterialTheme.colorScheme.surface,
-            tonalElevation = 1.dp,
-            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
-        ) {
-            ScrollableTabRow(
-                selectedTabIndex = subTab.ordinal,
-                edgePadding = 12.dp,
-                containerColor = MaterialTheme.colorScheme.surface,
-                contentColor = MaterialTheme.colorScheme.primary,
-                divider = {}
-            ) {
-                subTabs.forEach { tab ->
-                    Tab(
-                        selected = subTab == tab,
-                        onClick = { viewModel.selectLearnSubTab(tab) },
-                        text = {
-                            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                                Text(
-                                    text = if (languageMode == LanguageMode.FRENCH_ONLY) tab.titleFr else tab.titleAr,
-                                    style = MaterialTheme.typography.labelLarge,
-                                    fontWeight = if (subTab == tab) FontWeight.Bold else FontWeight.Medium
-                                )
-                                if (languageMode == LanguageMode.BILINGUAL) {
-                                    CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
-                                        Text(
-                                            text = tab.titleFr,
-                                            style = MaterialTheme.typography.labelSmall,
-                                            color = if (subTab == tab) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurfaceVariant
-                                        )
-                                    }
-                                }
-                            }
-                        },
-                        modifier = Modifier.testTag("learn_tab_${tab.name.lowercase()}")
-                    )
-                }
-            }
-        }
-
-        when (subTab) {
-            LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
-            LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
-            LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
-            LearnSubTab.LEXICON -> LexiconSection()
-            LearnSubTab.COMPARISONS -> ComparisonsSection()
-            LearnSubTab.QUIZ -> QuizSection(viewModel)
-        }
+        LearningPathSection(viewModel)
     }
 }
 
@@ -156,21 +106,67 @@ private fun LearningPathSection(viewModel: MainViewModel) {
         verticalArrangement = Arrangement.spacedBy(10.dp)
     ) {
         item {
+            Surface(
+                shape = RoundedCornerShape(20.dp),
+                color = MaterialTheme.colorScheme.primaryContainer,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Column(modifier = Modifier.padding(18.dp)) {
+                    Text(
+                        text = if (isFrenchOnly) "COMPTABILITÉ GÉNÉRALE · S1" else "المحاسبة العامة · S1",
+                        style = MaterialTheme.typography.labelMedium,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.primary
+                    )
+                    Text(
+                        text = if (isFrenchOnly) "Comprendre avant d'appliquer" else "افهم الفكرة قبل أن تحفظ القاعدة",
+                        style = MaterialTheme.typography.headlineSmall,
+                        fontWeight = FontWeight.Bold,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        modifier = Modifier.padding(top = 6.dp)
+                    )
+                    Text(
+                        text = if (isFrenchOnly) {
+                            "Un parcours théorique progressif : notions fondamentales, états de synthèse, comptes et vocabulaire comptable."
+                        } else {
+                            "مسار نظري متدرّج لفهم المفاهيم الأساسية والميزانية والحسابات والمصطلحات الفرنسية، دون إدخال تمارين تطبيقية في هذه المرحلة."
+                        },
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        lineHeight = 21.sp,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                    Surface(
+                        shape = RoundedCornerShape(50),
+                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
+                        modifier = Modifier.padding(top = 12.dp)
+                    ) {
+                        Text(
+                            text = if (isFrenchOnly) "${EducationalData.learningPath.size} notions théoriques" else "${EducationalData.learningPath.size} وحدات نظرية",
+                            style = MaterialTheme.typography.labelMedium,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp)
+                        )
+                    }
+                }
+            }
             Text(
-                text = if (isFrenchOnly) "Parcours théorique de comptabilité générale S1" else "المسار النظري للمحاسبة العامة S1",
+                text = if (isFrenchOnly) "Le parcours" else "المسار النظري",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.padding(top = 8.dp)
             )
             Text(
                 text = if (isFrenchOnly) {
-                    "Maîtrisez les notions, les comptes et le vocabulaire avant les applications."
+                    "Ouvrez une notion pour lire son explication, ses termes clés et une illustration conceptuelle."
                 } else {
-                    "أكمل المفاهيم الأساسية والحسابات والمصطلحات قبل الانتقال إلى التطبيقات."
+                    "افتح أي وحدة لقراءة شرحها ومصطلحاتها الأساسية وتوضيحها المفاهيمي."
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.padding(top = 3.dp)
+                modifier = Modifier.padding(top = 2.dp)
             )
         }
 
