@@ -3,11 +3,13 @@ package com.example.data
 import com.example.model.AcronymInfo
 import com.example.model.ComparisonItem
 import com.example.model.ComparisonRow
+import com.example.model.ExerciseType
 import com.example.model.JournalEntry
 import com.example.model.JournalEntryLine
 import com.example.model.LearningLesson
 import com.example.model.LexiconTerm
 import com.example.model.QuizQuestion
+import com.example.model.SourceExercise
 
 object EducationalData {
 
@@ -493,6 +495,65 @@ object EducationalData {
                 ComparisonRow("المعالجة في الفاتورة", "يطرح من السعر الإجمالي للوصول للصافي التجاري", "يطرح للوصول للصافي المالي ويسجل في الحساب 7386 أو 6386"),
                 ComparisonRow("التأثير على الـ TVA", "الـ TVA تحسب بعد طرح التخفيض التجاري", "الـ TVA تحسب على الصافي المالي بعد الخصم")
             )
+        )
+    )
+
+    /** Small verified sample from the supplied DOCX; solutions are intentionally not embedded. */
+    val sourceExercises: List<SourceExercise> = listOf(
+        SourceExercise(
+            id = "cg1-p3-situation-1",
+            sourceDocument = "comptabilitégénérale1.docx",
+            sourcePage = 3,
+            sourceOrdinal = "Situation 1",
+            titleFr = "Établir le bilan de départ",
+            type = ExerciseType.BALANCE_SHEET,
+            statementFr = "Mr Ahmed crée une entreprise le 7/6/2020 en apportant 200 000 dh déposés dans le compte bancaire de l'entreprise.",
+            taskFr = "Établir le bilan de départ.",
+            theoryTopics = listOf("Ressources et emplois", "Bilan", "Actif et passif")
+        ),
+        SourceExercise(
+            id = "cg1-p6-exercice-1-1",
+            sourceDocument = "comptabilitégénérale1.docx",
+            sourcePage = 6,
+            sourceOrdinal = "Exercice 1.1",
+            titleFr = "Bilan initial de l'entreprise ALPHA",
+            type = ExerciseType.BALANCE_SHEET,
+            statementFr = "Frais de constitution 25 000 dh, frais de publicité 15 000 dh, fonds commercial 270 000 dh, bâtiments 130 000 dh, matériel de transport 50 000 dh, mobilier de bureau 20 000 dh, ordinateurs 30 000 dh, stocks de marchandises 100 000 dh, banque 40 000 dh, caisse 10 000 dh, capital social ?, réserve légale 50 000 dh, emprunt bancaire sur 5 ans 150 000 dh, fournisseurs 70 000 dh, dettes envers la CNSS 30 000 dh, titres de participation 15 000 dh, fournisseurs d'immobilisation 10 000 dh, dettes sur acquisition des immobilisations 5 000 dh, titres et valeurs de placement 3 000 dh, créances clients 2 000 dh, matériel industriel 40 000 dh.",
+            taskFr = "Établir le bilan initial et déterminer le capital social.",
+            theoryTopics = listOf("Structure du bilan", "Actif immobilisé", "Actif circulant", "Financement permanent", "Passif circulant")
+        ),
+        SourceExercise(
+            id = "cg1-p8-flux-1",
+            sourceDocument = "comptabilitégénérale1.docx",
+            sourcePage = 8,
+            sourceOrdinal = "Application — flux 1",
+            titleFr = "Retrait de banque pour alimenter la caisse",
+            type = ExerciseType.FLOW_ANALYSIS,
+            statementFr = "Retrait de banque pour alimenter la caisse : 50 000 dh.",
+            taskFr = "Analyser le flux en termes de ressources et d'emplois.",
+            theoryTopics = listOf("Ressource et emploi", "Analyse des flux")
+        ),
+        SourceExercise(
+            id = "cg1-p17-ahmed-double-entry",
+            sourceDocument = "comptabilitégénérale1.docx",
+            sourcePage = 17,
+            sourceOrdinal = "Exemple — Ahmed",
+            titleFr = "Principe de la partie double",
+            type = ExerciseType.DOUBLE_ENTRY,
+            statementFr = "En avril 2014, l'entreprise Ahmed règle une dette fournisseur par chèque de 3 000 dh, verse des espèces en banque de 6 000 dh, achète des marchandises pour 20 000 dh moitié en espèces et moitié par chèque, retire 4 000 dh de la banque pour alimenter la caisse, recouvre une créance client de 2 700 dh en espèces et réalise des ventes de marchandises de 25 000 dh dont 15 000 dh en espèces, 5 000 dh par chèque et le reste à crédit.",
+            taskFr = "Analyser et enregistrer les opérations dans les comptes schématiques.",
+            theoryTopics = listOf("Partie double", "Emploi et ressource", "Débit et crédit", "Équilibre")
+        ),
+        SourceExercise(
+            id = "cg1-p19-karam-opening-closing",
+            sourceDocument = "comptabilitégénérale1.docx",
+            sourcePage = 19,
+            sourceOrdinal = "Exemple — KARAM",
+            titleFr = "Réouverture et clôture des comptes",
+            type = ExerciseType.OPENING_CLOSING,
+            statementFr = "L'entreprise KARAM dispose d'un bilan au 01/01/2014, puis réalise des opérations en janvier : règlement d'une dette fournisseur, versement d'espèces en banque, acquisition d'une voiture, retrait de banque pour alimenter la caisse, recouvrement d'une créance client, acquisition d'un ordinateur, paiement par banque d'une dette fournisseur et remboursement partiel d'un emprunt.",
+            taskFr = "Après la réouverture des comptes, enregistrer les opérations puis présenter le bilan au 31/01/2014.",
+            theoryTopics = listOf("Bilan d'ouverture", "Réouverture des comptes", "Clôture des comptes", "Report des soldes")
         )
     )
 

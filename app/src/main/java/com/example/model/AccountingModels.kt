@@ -117,6 +117,28 @@ data class JournalEntry(
     val pedagogicalExplanationAr: String
 )
 
+enum class ExerciseType {
+    BALANCE_SHEET,
+    FLOW_ANALYSIS,
+    ACCOUNT_OPERATION,
+    DOUBLE_ENTRY,
+    OPENING_CLOSING
+}
+
+@Immutable
+data class SourceExercise(
+    val id: String,
+    val sourceDocument: String,
+    val sourcePage: Int,
+    val sourceOrdinal: String,
+    val titleFr: String,
+    val type: ExerciseType,
+    val statementFr: String,
+    val taskFr: String,
+    val theoryTopics: List<String>,
+    val hasVerifiedSolution: Boolean = false
+)
+
 @Immutable
 data class LexiconTerm(
     val termFr: String,

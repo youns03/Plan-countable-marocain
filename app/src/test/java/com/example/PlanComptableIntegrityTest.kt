@@ -50,6 +50,19 @@ class PlanComptableIntegrityTest {
     }
 
     @Test
+    fun `source exercise sample preserves source metadata and keeps solutions separate`() {
+        val exercises = EducationalData.sourceExercises
+
+        assertEquals(5, exercises.size)
+        assertEquals(exercises.size, exercises.map { it.id }.toSet().size)
+        assertTrue(exercises.all { it.sourceDocument == "comptabilitégénérale1.docx" })
+        assertTrue(exercises.all { it.sourcePage in 1..20 })
+        assertTrue(exercises.all { it.statementFr.isNotBlank() && it.taskFr.isNotBlank() })
+        assertTrue(exercises.all { it.theoryTopics.isNotEmpty() })
+        assertTrue(exercises.none { it.hasVerifiedSolution })
+    }
+
+    @Test
     fun `test all elements have globally unique UIDs`() {
         val allElements = PlanComptableRepository.allElements
         assertTrue("Total elements should be greater than 1100", allElements.size > 1100)
