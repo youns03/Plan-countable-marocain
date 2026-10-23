@@ -95,6 +95,7 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val isDarkTheme: StateFlow<Boolean?> = prefsRepo.isDarkTheme
     val largeFont: StateFlow<Boolean> = prefsRepo.largeFont
     val completedTheoryLessons: StateFlow<Set<String>> = prefsRepo.completedTheoryLessons
+    val sourceExerciseAnswers: StateFlow<Map<String, String>> = prefsRepo.sourceExerciseAnswers
 
     val introBannerDismissed: StateFlow<Boolean> = prefsRepo.introBannerDismissed
 
@@ -104,6 +105,10 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
 
     fun toggleTheoryLesson(lessonId: String) {
         prefsRepo.toggleTheoryLesson(lessonId)
+    }
+
+    fun saveSourceExerciseAnswer(exerciseId: String, answer: String) {
+        prefsRepo.saveSourceExerciseAnswer(exerciseId, answer)
     }
 
     // Recent Accounts List derived from recentAccountUids
