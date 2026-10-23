@@ -48,6 +48,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.luminance
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.text.font.FontWeight
@@ -157,7 +158,9 @@ fun SearchScreen(
                         Surface(
                             shape = RoundedCornerShape(18.dp),
                             color = if (isSelected) chipColor else MaterialTheme.colorScheme.surfaceVariant,
-                            contentColor = if (isSelected) Color.White else MaterialTheme.colorScheme.onSurface,
+                            contentColor = if (isSelected) {
+                                if (chipColor.luminance() > 0.52f) Color(0xFF111827) else Color.White
+                            } else MaterialTheme.colorScheme.onSurface,
                             modifier = Modifier
                                 .height(38.dp)
                                 .clickable { viewModel.setSearchFilterClass(cNum) }
