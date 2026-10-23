@@ -1,8 +1,11 @@
 package com.example.ui.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.interaction.collectIsPressedAsState
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,9 +45,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -562,6 +567,12 @@ private fun ClassGridCard(
     val classElements = PlanComptableRepository.getElementsByClass(classNumber)
     val root = classElements.firstOrNull { it.level == ElementLevel.CLASSE }
     val classColor = LedgerClassColors.forClass(classNumber)
+    val interactionSource = remember { MutableInteractionSource() }
+    val isPressed by interactionSource.collectIsPressedAsState()
+    val cardScale by animateFloatAsState(
+        targetValue = if (isPressed) 0.975f else 1f,
+        label = "class-card-press"
+    )
 
     // Accurate titles directly read from data!
     val officialTitleFr = root?.officialFrenchTitle ?: "CLASSE $classNumber"
@@ -570,8 +581,17 @@ private fun ClassGridCard(
     Surface(
         modifier = modifier
             .height(80.dp)
+            .graphicsLayer {
+                scaleX = cardScale
+                scaleY = cardScale
+            }
             .clip(RoundedCornerShape(14.dp))
-            .clickable(role = Role.Button, onClick = onClick)
+            .clickable(
+                interactionSource = interactionSource,
+                indication = androidx.compose.foundation.LocalIndication.current,
+                role = Role.Button,
+                onClick = onClick
+            )
             .testTag("class_grid_card_$classNumber"),
         shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
