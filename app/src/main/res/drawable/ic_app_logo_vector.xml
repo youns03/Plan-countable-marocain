@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
-    <!-- White canvas, vivid teal/navy/gold and warm-brown Moroccan zellige. No red. -->
-    <path android:fillColor="#FFFFFF" android:pathData="M0,0h108v108h-108z"/>
-    <!-- Small, restrained zellige motifs in warm brown and gold -->
-    <path android:fillColor="#8B5E3C" android:pathData="M13,16l4,-4l4,4l-4,4z M87,16l4,-4l4,4l-4,4z M13,92l4,-4l4,4l-4,4z M87,92l4,-4l4,4l-4,4z"/>
-    <path android:fillColor="#D9A441" android:pathData="M27,14l3,3l-3,3l-3,-3z M81,14l3,3l-3,3l-3,-3z M27,88l3,3l-3,3l-3,-3z M81,88l3,3l-3,3l-3,-3z"/>
-    <!-- Moroccan horseshoe arch / facade -->
-    <path android:fillColor="#0C4775" android:pathData="M22,83V48C22,29 36,20 54,20C72,20 86,29 86,48V83H76V48C76,35 67,29 54,29C41,29 32,35 32,48V83Z"/>
-    <path android:fillColor="#0E9F91" android:pathData="M36,81V49C36,38 43,33 54,33C65,33 72,38 72,49V81H64V49C64,43 60,40 54,40C48,40 44,43 44,49V81Z"/>
-    <!-- Ledger / doorway with clear accounting lines -->
-    <path android:fillColor="#155DB3" android:pathData="M40,54h28v29H40z"/>
-    <path android:fillColor="#FFFFFF" android:pathData="M45,59h18v3H45z M45,66h18v3H45z M45,73h12v3H45z"/>
-    <path android:fillColor="#D9A441" android:pathData="M62,73h6v10h-6z"/>
-    <!-- Geometric Moroccan star -->
-    <path android:fillColor="#8B5E3C" android:pathData="M54,6l3,5l6,1l-4,4l1,6l-6,-3l-6,3l1,-6l-4,-4l6,-1z"/>
-    <path android:fillColor="#D9A441" android:pathData="M54,11l2,3l3,1l-2,2l0,3l-3,-2l-3,2l1,-3l-3,-2l3,-1z"/>
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
+    <path android:fillColor="#FFFFFF" android:pathData="M0,0h108v108h-108z" />
+    <path android:fillColor="#8D5A35" android:pathData="M18,15l4,4l-4,4l-4,-4z M90,15l4,4l-4,4l-4,-4z M18,85l4,4l-4,4l-4,-4z M90,85l4,4l-4,4l-4,-4z" />
+    <path android:fillColor="#D7A66A" android:pathData="M28,13l2,2l-2,2l-2,-2z M80,13l2,2l-2,2l-2,-2z M28,91l2,2l-2,2l-2,-2z M80,91l2,2l-2,2l-2,-2z" />
+    <path android:fillColor="#0D9488" android:pathData="M16,34c11,-4 24,-3 38,5v39c-14,-8 -27,-9 -38,-5z" />
+    <path android:fillColor="#087E8B" android:pathData="M92,34c-11,-4 -24,-3 -38,5v39c14,-8 27,-9 38,-5z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M21,40c9,-2 19,0 29,5v25c-10,-5 -20,-7 -29,-5z M87,40c-9,-2 -19,0 -29,5v25c10,-5 20,-7 29,-5z" />
+    <path android:fillColor="#D7A66A" android:pathData="M25,46h19v3h-19z M25,54h19v3h-19z M25,62h14v3h-14z M64,46h19v3h-19z M64,54h19v3h-19z M64,62h14v3h-14z" />
+    <path android:fillColor="#1D4ED8" android:pathData="M42,29h24c3,0 5,2 5,5v34c0,3 -2,5 -5,5h-24c-3,0 -5,-2 -5,-5v-34c0,-3 2,-5 5,-5z" />
+    <path android:fillColor="#DCEAFE" android:pathData="M43,35h22v7h-22z" />
+    <path android:fillColor="#FFFFFF" android:pathData="M43,47h5v5h-5z M51,47h5v5h-5z M59,47h5v5h-5z M43,55h5v5h-5z M51,55h5v5h-5z M59,55h5v5h-5z" />
+    <path android:fillColor="#F2B544" android:pathData="M59,63h5v6h-5z" />
+    <path android:fillColor="#8D5A35" android:pathData="M50,20l4,-4l4,4l-4,4z M50,84l4,-4l4,4l-4,4z" />
 </vector>
