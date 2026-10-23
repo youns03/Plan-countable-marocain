@@ -77,10 +77,10 @@ fun AccountRow(
             .fillMaxWidth()
             .height(if (languageMode == LanguageMode.BILINGUAL) 64.dp else 54.dp)
             .testTag("account_row_${element.uid}")
-            .clip(RoundedCornerShape(8.dp))
+            .clip(RoundedCornerShape(12.dp))
             .background(
                 when (element.level) {
-                    ElementLevel.RUBRIQUE -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                    ElementLevel.RUBRIQUE -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.62f)
                     ElementLevel.POSTE -> MaterialTheme.colorScheme.surface
                     else -> MaterialTheme.colorScheme.surface
                 }
