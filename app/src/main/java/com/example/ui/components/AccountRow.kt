@@ -3,6 +3,7 @@ package com.example.ui.components
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.combinedClickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -78,6 +79,11 @@ fun AccountRow(
             .height(if (languageMode == LanguageMode.BILINGUAL) 64.dp else 54.dp)
             .testTag("account_row_${element.uid}")
             .clip(RoundedCornerShape(12.dp))
+            .border(
+                width = 1.dp,
+                color = classColor.copy(alpha = if (element.level == ElementLevel.RUBRIQUE) 0.28f else 0.12f),
+                shape = RoundedCornerShape(12.dp)
+            )
             .background(
                 when (element.level) {
                     ElementLevel.RUBRIQUE -> MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.62f)
