@@ -59,8 +59,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.data.EducationalData
 import com.example.data.PlanComptableRepository
+import com.example.model.ExerciseType
 import com.example.model.LearningLesson
 import com.example.model.LanguageMode
+import com.example.model.SourceExercise
 import com.example.ui.components.BadgeSize
 import com.example.ui.components.ClassBadge
 import com.example.ui.components.CodeInput
@@ -79,14 +81,21 @@ fun LearnScreen(
     viewModel: MainViewModel,
     modifier: Modifier = Modifier
 ) {
-    // The current learning experience is intentionally theory-first.
-    // Applied tools remain in the codebase but are not the focus of this phase.
+    val selectedSubTab by viewModel.learnSubTab.collectAsState()
     Column(
         modifier = modifier
             .fillMaxSize()
             .testTag("learn_screen")
     ) {
-        LearningPathSection(viewModel)
+        when (selectedSubTab) {
+            LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
+            LearnSubTab.SOURCE_EXERCISES -> SourceExercisesSection()
+            LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
+            LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
+            LearnSubTab.LEXICON -> LexiconSection()
+            LearnSubTab.COMPARISONS -> ComparisonsSection()
+            LearnSubTab.QUIZ -> QuizSection(viewModel)
+        }
     }
 }
 
@@ -455,6 +464,158 @@ private fun LearningLessonCard(
             }
         }
     }
+}
+
+// -------------------------------------------------------------
+// 1. SOURCE EXERCISES (تمارين المصدر)
+// -------------------------------------------------------------
+@Composable
+private fun SourceExercisesSection() {
+    val isFrenchOnly = LocalLanguageMode.current == LanguageMode.FRENCH_ONLY
+    var expandedId by remember { mutableStateOf<String?>(null) }
+
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .testTag("source_exercises_screen"),
+        contentPadding = PaddingValues(16.dp, bottom = 90.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp)
+    ) {
+        item {
+            Text(
+                text = if (isFrenchOnly) "Exercices du document source" else "تمارين ملف المصدر",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold
+            )
+            Text(
+                text = if (isFrenchOnly) {
+                    "Une première sélection fidèle au document fourni. Les solutions ne sont pas encore intégrées."
+                } else {
+                    "عينة أولى مطابقة للملف المرفق. لا توجد حلول مدمجة بعد، حفاظًا على فصل السؤال عن التصحيح."
+                },
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.padding(top = 4.dp)
+            )
+            Surface(
+                shape = RoundedCornerShape(10.dp),
+                color = AnomalyAmber.copy(alpha = 0.12f),
+                modifier = Modifier.padding(top = 10.dp)
+            ) {
+                Text(
+                    text = if (isFrenchOnly) "Source : comptabilitégénérale1.docx · 5 exercices vérifiés" else "المصدر: comptabilitégénérale1.docx · 5 تمارين تم فحصها",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
+                )
+            }
+        }
+
+        items(EducationalData.sourceExercises, key = { it.id }) { exercise ->
+            SourceExerciseCard(
+                exercise = exercise,
+                isFrenchOnly = isFrenchOnly,
+                expanded = expandedId == exercise.id,
+                onClick = { expandedId = if (expandedId == exercise.id) null else exercise.id }
+            )
+        }
+    }
+}
+
+@Composable
+private fun SourceExerciseCard(
+    exercise: SourceExercise,
+    isFrenchOnly: Boolean,
+    expanded: Boolean,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(14.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+    ) {
+        Column(modifier = Modifier.padding(14.dp)) {
+            Row(verticalAlignment = Alignment.CenterVertically) {
+                Column(modifier = Modifier.weight(1f)) {
+                    Text(
+                        text = exercise.titleFr,
+                        style = MaterialTheme.typography.titleSmall,
+                        fontWeight = FontWeight.Bold
+                    )
+                    Text(
+                        text = "${exercise.sourceOrdinal} · p. ${exercise.sourcePage}",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        modifier = Modifier.padding(top = 3.dp)
+                    )
+                }
+                Surface(
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f)
+                ) {
+                    Text(
+                        text = exerciseTypeLabel(exercise.type, isFrenchOnly),
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.padding(horizontal = 8.dp, vertical = 5.dp)
+                    )
+                }
+            }
+
+            if (expanded) {
+                HorizontalDivider(modifier = Modifier.padding(vertical = 10.dp))
+                Text(
+                    text = if (isFrenchOnly) "Énoncé original" else "نص التمرين الأصلي",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                    Text(
+                        text = exercise.statementFr,
+                        style = MaterialTheme.typography.bodySmall,
+                        lineHeight = 19.sp,
+                        modifier = Modifier.padding(top = 4.dp)
+                    )
+                    Text(
+                        text = "T.A.F : ${exercise.taskFr}",
+                        style = MaterialTheme.typography.bodySmall,
+                        fontWeight = FontWeight.SemiBold,
+                        lineHeight = 19.sp,
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+                }
+                Text(
+                    text = if (isFrenchOnly) "Notions liées" else "المفاهيم المرتبطة",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+                Text(
+                    text = exercise.theoryTopics.joinToString(" · "),
+                    style = MaterialTheme.typography.bodySmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 3.dp)
+                )
+                Text(
+                    text = if (isFrenchOnly) "Solution : non intégrée" else "الحل: غير مدمج حاليًا",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = AnomalyAmber,
+                    modifier = Modifier.padding(top = 10.dp)
+                )
+            }
+        }
+    }
+}
+
+private fun exerciseTypeLabel(type: ExerciseType, isFrenchOnly: Boolean): String = when (type) {
+    ExerciseType.BALANCE_SHEET -> if (isFrenchOnly) "Bilan" else "ميزانية"
+    ExerciseType.FLOW_ANALYSIS -> if (isFrenchOnly) "Flux" else "تدفقات"
+    ExerciseType.ACCOUNT_OPERATION -> if (isFrenchOnly) "Compte" else "حساب"
+    ExerciseType.DOUBLE_ENTRY -> if (isFrenchOnly) "Partie double" else "قيد مزدوج"
+    ExerciseType.OPENING_CLOSING -> if (isFrenchOnly) "Ouverture / clôture" else "فتح / إغلاق"
 }
 
 // -------------------------------------------------------------
