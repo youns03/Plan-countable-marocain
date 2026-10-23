@@ -39,6 +39,10 @@ class PreferencesRepository(context: Context) {
     private val _completedTheoryLessons = MutableStateFlow(loadCompletedTheoryLessons())
     val completedTheoryLessons: StateFlow<Set<String>> = _completedTheoryLessons.asStateFlow()
 
+    // Student attempts are stored locally and remain separate from source statements and solutions.
+    private val _sourceExerciseAnswers = MutableStateFlow(loadSourceExerciseAnswers())
+    val sourceExerciseAnswers: StateFlow<Map<String, String>> = _sourceExerciseAnswers.asStateFlow()
+
     fun dismissIntroBanner() {
         prefs.edit().putBoolean(KEY_INTRO_BANNER_DISMISSED, true).apply()
         _introBannerDismissed.value = true
@@ -54,6 +58,32 @@ class PreferencesRepository(context: Context) {
 
     private fun loadCompletedTheoryLessons(): Set<String> {
         return prefs.getStringSet(KEY_COMPLETED_THEORY_LESSONS, emptySet())?.toSet() ?: emptySet()
+    }
+
+    private fun loadSourceExerciseAnswers(): Map<String, String> {
+        return prefs.all
+            .filterKeys { it.startsWith(KEY_SOURCE_EXERCISE_ANSWER_PREFIX) }
+            .mapNotNull { (key, value) ->
+                val answer = value as? String
+                val exerciseId = key.removePrefix(KEY_SOURCE_EXERCISE_ANSWER_PREFIX)
+                if (answer != null && exerciseId.isNotBlank()) exerciseId to answer else null
+            }
+            .toMap()
+    }
+
+    fun saveSourceExerciseAnswer(exerciseId: String, answer: String) {
+        if (exerciseId.isBlank()) return
+        val key = KEY_SOURCE_EXERCISE_ANSWER_PREFIX + exerciseId
+        val cleanedAnswer = answer
+        if (cleanedAnswer.isBlank()) {
+            prefs.edit().remove(key).apply()
+        } else {
+            prefs.edit().putString(key, cleanedAnswer).apply()
+        }
+
+        val updated = _sourceExerciseAnswers.value.toMutableMap()
+        if (cleanedAnswer.isBlank()) updated.remove(exerciseId) else updated[exerciseId] = cleanedAnswer
+        _sourceExerciseAnswers.value = updated
     }
 
     fun toggleTheoryLesson(lessonId: String) {
@@ -186,6 +216,7 @@ class PreferencesRepository(context: Context) {
         private const val KEY_QUIZ_HIGH_SCORE = "pref_quiz_high_score"
         private const val KEY_INTRO_BANNER_DISMISSED = "pref_intro_banner_dismissed"
         private const val KEY_COMPLETED_THEORY_LESSONS = "pref_completed_theory_lessons"
+        private const val KEY_SOURCE_EXERCISE_ANSWER_PREFIX = "pref_source_exercise_answer_"
 
         @Volatile
         private var INSTANCE: PreferencesRepository? = null
