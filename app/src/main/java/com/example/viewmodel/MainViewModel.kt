@@ -93,11 +93,16 @@ class MainViewModel(application: Application) : AndroidViewModel(application) {
     val languageMode: StateFlow<LanguageMode> = prefsRepo.languageMode
     val isDarkTheme: StateFlow<Boolean?> = prefsRepo.isDarkTheme
     val largeFont: StateFlow<Boolean> = prefsRepo.largeFont
+    val completedTheoryLessons: StateFlow<Set<String>> = prefsRepo.completedTheoryLessons
 
     val introBannerDismissed: StateFlow<Boolean> = prefsRepo.introBannerDismissed
 
     fun dismissIntroBanner() {
         prefsRepo.dismissIntroBanner()
+    }
+
+    fun toggleTheoryLesson(lessonId: String) {
+        prefsRepo.toggleTheoryLesson(lessonId)
     }
 
     // Recent Accounts List derived from recentAccountUids

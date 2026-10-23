@@ -36,6 +36,9 @@ class PreferencesRepository(context: Context) {
     private val _introBannerDismissed = MutableStateFlow(prefs.getBoolean(KEY_INTRO_BANNER_DISMISSED, false))
     val introBannerDismissed: StateFlow<Boolean> = _introBannerDismissed.asStateFlow()
 
+    private val _completedTheoryLessons = MutableStateFlow(loadCompletedTheoryLessons())
+    val completedTheoryLessons: StateFlow<Set<String>> = _completedTheoryLessons.asStateFlow()
+
     fun dismissIntroBanner() {
         prefs.edit().putBoolean(KEY_INTRO_BANNER_DISMISSED, true).apply()
         _introBannerDismissed.value = true
@@ -47,6 +50,17 @@ class PreferencesRepository(context: Context) {
             prefs.edit().putInt(KEY_QUIZ_HIGH_SCORE, best).apply()
             _quizHighScore.value = best
         }
+    }
+
+    private fun loadCompletedTheoryLessons(): Set<String> {
+        return prefs.getStringSet(KEY_COMPLETED_THEORY_LESSONS, emptySet())?.toSet() ?: emptySet()
+    }
+
+    fun toggleTheoryLesson(lessonId: String) {
+        val current = _completedTheoryLessons.value.toMutableSet()
+        if (!current.add(lessonId)) current.remove(lessonId)
+        prefs.edit().putStringSet(KEY_COMPLETED_THEORY_LESSONS, current).apply()
+        _completedTheoryLessons.value = current
     }
 
     private fun loadAndMigrateFavorites(): Set<String> {
@@ -171,6 +185,7 @@ class PreferencesRepository(context: Context) {
         private const val KEY_LARGE_FONT = "pref_large_font"
         private const val KEY_QUIZ_HIGH_SCORE = "pref_quiz_high_score"
         private const val KEY_INTRO_BANNER_DISMISSED = "pref_intro_banner_dismissed"
+        private const val KEY_COMPLETED_THEORY_LESSONS = "pref_completed_theory_lessons"
 
         @Volatile
         private var INSTANCE: PreferencesRepository? = null

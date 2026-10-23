@@ -32,6 +32,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -96,6 +97,11 @@ fun LearnScreen(
 private fun LearningPathSection(viewModel: MainViewModel) {
     val languageMode = LocalLanguageMode.current
     val isFrenchOnly = languageMode == LanguageMode.FRENCH_ONLY
+    val completedLessons by viewModel.completedTheoryLessons.collectAsState()
+    val totalLessons = EducationalData.learningPath.size
+    val completionRatio = if (totalLessons == 0) 0f else completedLessons.count { id ->
+        EducationalData.learningPath.any { it.id == id }
+    }.toFloat() / totalLessons
     var expandedLessonId by remember { mutableStateOf<String?>(null) }
 
     LazyColumn(
@@ -168,6 +174,30 @@ private fun LearningPathSection(viewModel: MainViewModel) {
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
                 modifier = Modifier.padding(top = 2.dp)
             )
+            Spacer(modifier = Modifier.height(12.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(
+                    text = if (isFrenchOnly) "Progression théorique" else "التقدم النظري",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary
+                )
+                Text(
+                    text = "${(completionRatio * 100).toInt()}%",
+                    style = MaterialTheme.typography.labelLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
+                )
+            }
+            LinearProgressIndicator(
+                progress = { completionRatio },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 6.dp)
+            )
         }
 
         items(EducationalData.learningPath, key = { it.id }) { lesson ->
@@ -175,9 +205,11 @@ private fun LearningPathSection(viewModel: MainViewModel) {
                 lesson = lesson,
                 isFrenchOnly = isFrenchOnly,
                 expanded = expandedLessonId == lesson.id,
+                completed = completedLessons.contains(lesson.id),
                 onClick = {
                     expandedLessonId = if (expandedLessonId == lesson.id) null else lesson.id
                 },
+                onCompletionToggle = { viewModel.toggleTheoryLesson(lesson.id) },
                 onAccountClick = viewModel::openAccountDetailsByCode
             )
         }
@@ -189,7 +221,9 @@ private fun LearningLessonCard(
     lesson: LearningLesson,
     isFrenchOnly: Boolean,
     expanded: Boolean,
+    completed: Boolean,
     onClick: () -> Unit,
+    onCompletionToggle: () -> Unit,
     onAccountClick: (String) -> Unit
 ) {
     val title = if (isFrenchOnly) lesson.titleFr else lesson.titleAr
@@ -331,6 +365,41 @@ private fun LearningLessonCard(
                         style = MaterialTheme.typography.bodySmall,
                         modifier = Modifier.padding(top = 3.dp)
                     )
+                }
+
+                Spacer(modifier = Modifier.height(12.dp))
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = if (completed) CreditGreen.copy(alpha = 0.12f) else MaterialTheme.colorScheme.surfaceVariant,
+                    border = androidx.compose.foundation.BorderStroke(
+                        1.dp,
+                        if (completed) CreditGreen.copy(alpha = 0.45f) else MaterialTheme.colorScheme.outline
+                    ),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable { onCompletionToggle() }
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 10.dp, vertical = 9.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.CheckCircle,
+                            contentDescription = null,
+                            tint = if (completed) CreditGreen else MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(20.dp)
+                        )
+                        Spacer(modifier = Modifier.width(8.dp))
+                        Text(
+                            text = if (completed) {
+                                if (isFrenchOnly) "Unité révisée" else "تمت مراجعة الوحدة"
+                            } else {
+                                if (isFrenchOnly) "Marquer comme révisée" else "تعليم الوحدة كمراجَعة"
+                            },
+                            style = MaterialTheme.typography.labelLarge,
+                            color = if (completed) CreditGreen else MaterialTheme.colorScheme.onSurface
+                        )
+                    }
                 }
 
                 if (lesson.relatedAccountCodes.isNotEmpty()) {

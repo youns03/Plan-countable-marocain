@@ -21,7 +21,7 @@ import org.robolectric.annotation.Config
 class PlanComptableIntegrityTest {
 
     @Test
-    fun `learning path contains six ordered bilingual lessons with sources`() {
+    fun `learning path contains seven ordered bilingual theory lessons with sources`() {
         val lessons = EducationalData.learningPath
 
         assertEquals(7, lessons.size)
@@ -32,6 +32,21 @@ class PlanComptableIntegrityTest {
         assertTrue(lessons.all { it.terms.isNotEmpty() && it.reviewQuestionsAr.isNotEmpty() })
         assertTrue(lessons.all { it.sourceLabel.isNotBlank() })
         assertTrue(lessons.all { it.relatedAccountCodes.isEmpty() })
+    }
+
+    @Test
+    fun `theory lesson completion is persisted locally`() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val prefs = PreferencesRepository.getInstance(context)
+        val lessonId = "test-theory-progress"
+
+        if (prefs.completedTheoryLessons.value.contains(lessonId)) {
+            prefs.toggleTheoryLesson(lessonId)
+        }
+        prefs.toggleTheoryLesson(lessonId)
+        assertTrue(prefs.completedTheoryLessons.value.contains(lessonId))
+        prefs.toggleTheoryLesson(lessonId)
+        assertFalse(prefs.completedTheoryLessons.value.contains(lessonId))
     }
 
     @Test
