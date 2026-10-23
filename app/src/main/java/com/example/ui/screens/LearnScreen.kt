@@ -1,5 +1,6 @@
 package com.example.ui.screens
 
+import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -88,14 +89,19 @@ fun LearnScreen(
             .fillMaxSize()
             .testTag("learn_screen")
     ) {
-        when (selectedSubTab) {
-            LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
-            LearnSubTab.SOURCE_EXERCISES -> SourceExercisesSection(viewModel)
-            LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
-            LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
-            LearnSubTab.LEXICON -> LexiconSection()
-            LearnSubTab.COMPARISONS -> ComparisonsSection()
-            LearnSubTab.QUIZ -> QuizSection(viewModel)
+        Crossfade(
+            targetState = selectedSubTab,
+            label = "learning-section-transition"
+        ) { destination ->
+            when (destination) {
+                LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
+                LearnSubTab.SOURCE_EXERCISES -> SourceExercisesSection(viewModel)
+                LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
+                LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
+                LearnSubTab.LEXICON -> LexiconSection()
+                LearnSubTab.COMPARISONS -> ComparisonsSection()
+                LearnSubTab.QUIZ -> QuizSection(viewModel)
+            }
         }
     }
 }
