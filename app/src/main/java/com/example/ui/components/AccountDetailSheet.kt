@@ -50,6 +50,7 @@ import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -112,7 +113,15 @@ fun AccountDetailSheet(
                 modifier = Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(bottomStart = 16.dp, bottomEnd = 16.dp))
-                    .background(MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.35f))
+                    .background(
+                        Brush.horizontalGradient(
+                            colors = listOf(
+                                classColor.copy(alpha = 0.12f),
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.32f),
+                                MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.18f)
+                            )
+                        )
+                    )
                     .padding(horizontal = 20.dp, vertical = 14.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
