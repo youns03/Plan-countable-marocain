@@ -1,5 +1,6 @@
 package com.example.ui.components
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -9,6 +10,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
@@ -37,9 +39,23 @@ fun ClassBadge(
         shape = RoundedCornerShape(size.cornerRadius),
         color = color,
         contentColor = Color.White,
+        shadowElevation = if (size == BadgeSize.SMALL) 1.dp else 3.dp,
+        tonalElevation = 1.dp,
         modifier = modifier.size(size.boxSize)
     ) {
-        Box(contentAlignment = Alignment.Center) {
+        Box(
+            modifier = Modifier
+                .background(
+                    Brush.verticalGradient(
+                        colors = listOf(
+                            Color.White.copy(alpha = 0.22f),
+                            color,
+                            color.copy(alpha = 0.94f)
+                        )
+                    )
+                ),
+            contentAlignment = Alignment.Center
+        ) {
             Text(
                 text = "$classNumber",
                 fontFamily = MonoFontFamily,
