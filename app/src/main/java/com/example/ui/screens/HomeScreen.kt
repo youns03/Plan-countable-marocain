@@ -87,6 +87,16 @@ fun HomeScreen(
 
     val quickActions = listOf(
         QuickActionItem(
+            titleAr = "مسار التعلّم",
+            titleFr = "Parcours d’apprentissage",
+            icon = Icons.AutoMirrored.Filled.MenuBook,
+            color = MaterialTheme.colorScheme.primary,
+            onClick = {
+                viewModel.selectLearnSubTab(LearnSubTab.LEARNING_PATH)
+                viewModel.selectTab(AppTab.LEARN)
+            }
+        ),
+        QuickActionItem(
             titleAr = "فكّك الرقم",
             titleFr = "Décomposer",
             icon = Icons.Default.Calculate,
@@ -210,6 +220,61 @@ fun HomeScreen(
                             else "ابحث برقم الحساب أو بالاسم (Code ou Nom)...",
                             style = MaterialTheme.typography.bodySmall,
                             color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                }
+
+                Spacer(modifier = Modifier.height(10.dp))
+
+                Surface(
+                    shape = RoundedCornerShape(14.dp),
+                    color = MaterialTheme.colorScheme.surface,
+                    border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.65f)),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .clickable(role = Role.Button) {
+                            viewModel.selectLearnSubTab(LearnSubTab.LEARNING_PATH)
+                            viewModel.selectTab(AppTab.LEARN)
+                        }
+                        .testTag("home_learning_path_cta")
+                ) {
+                    Row(
+                        modifier = Modifier.padding(horizontal = 12.dp, vertical = 11.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Surface(
+                            shape = RoundedCornerShape(10.dp),
+                            color = MaterialTheme.colorScheme.primaryContainer,
+                            modifier = Modifier.size(38.dp)
+                        ) {
+                            Box(contentAlignment = Alignment.Center) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.MenuBook,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onPrimaryContainer,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                            }
+                        }
+                        Spacer(modifier = Modifier.width(10.dp))
+                        Column(modifier = Modifier.weight(1f)) {
+                            Text(
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Continuer l’apprentissage" else "ابدأ رحلة التعلّم",
+                                style = MaterialTheme.typography.labelLarge,
+                                fontWeight = FontWeight.Bold,
+                                color = MaterialTheme.colorScheme.onSurface
+                            )
+                            Text(
+                                text = if (languageMode == LanguageMode.FRENCH_ONLY) "Notions, exemples et progression" else "مفاهيم وأمثلة وتقدّمك الدراسي",
+                                style = MaterialTheme.typography.bodySmall,
+                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                            )
+                        }
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowForward,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary,
+                            modifier = Modifier.size(18.dp)
                         )
                     }
                 }
@@ -371,13 +436,13 @@ fun HomeScreen(
                     items(quickActions) { action ->
                         Surface(
                             modifier = Modifier
-                                .width(116.dp)
-                                .height(92.dp)
+                                .width(124.dp)
+                                .height(100.dp)
                                 .clip(RoundedCornerShape(14.dp))
                                 .clickable(role = Role.Button) { action.onClick() },
-                            shape = RoundedCornerShape(14.dp),
+                            shape = RoundedCornerShape(18.dp),
                             color = MaterialTheme.colorScheme.surface,
-                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.8f))
                         ) {
                             Column(
                                 modifier = Modifier
