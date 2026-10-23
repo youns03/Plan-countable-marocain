@@ -52,6 +52,7 @@ jobs:
 
       - name: Upload APK for browser download
         uses: actions/upload-artifact@v4
+        continue-on-error: true
         with:
           name: plan-comptable-debug-apk
           path: app/build/outputs/apk/debug/*.apk
