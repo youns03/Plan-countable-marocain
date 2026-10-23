@@ -50,6 +50,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.platform.testTag
@@ -122,11 +123,24 @@ private fun LearningPathSection(viewModel: MainViewModel) {
     ) {
         item {
             Surface(
-                shape = RoundedCornerShape(20.dp),
+                shape = RoundedCornerShape(22.dp),
                 color = MaterialTheme.colorScheme.primaryContainer,
+                tonalElevation = 2.dp,
                 modifier = Modifier.fillMaxWidth()
             ) {
-                Column(modifier = Modifier.padding(18.dp)) {
+                Column(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .background(
+                            brush = Brush.linearGradient(
+                                colors = listOf(
+                                    MaterialTheme.colorScheme.primaryContainer,
+                                    MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.78f)
+                                )
+                            )
+                        )
+                        .padding(20.dp)
+                ) {
                     Text(
                         text = if (isFrenchOnly) "COMPTABILITÉ GÉNÉRALE · S1" else "المحاسبة العامة · S1",
                         style = MaterialTheme.typography.labelMedium,
@@ -136,7 +150,7 @@ private fun LearningPathSection(viewModel: MainViewModel) {
                     Text(
                         text = if (isFrenchOnly) "Comprendre avant d'appliquer" else "افهم الفكرة قبل أن تحفظ القاعدة",
                         style = MaterialTheme.typography.headlineSmall,
-                        fontWeight = FontWeight.Bold,
+                        fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                         modifier = Modifier.padding(top = 6.dp)
                     )
@@ -154,7 +168,7 @@ private fun LearningPathSection(viewModel: MainViewModel) {
                     Surface(
                         shape = RoundedCornerShape(50),
                         color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
-                        modifier = Modifier.padding(top = 12.dp)
+                        modifier = Modifier.padding(top = 14.dp)
                     ) {
                         Text(
                             text = if (isFrenchOnly) "${EducationalData.learningPath.size} notions théoriques" else "${EducationalData.learningPath.size} وحدات نظرية",
