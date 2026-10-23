@@ -6,7 +6,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: read
+  contents: write
 
 concurrency:
   group: android-apk-${{ github.ref }}
@@ -50,10 +50,11 @@ jobs:
       - name: Assemble debug APK
         run: gradle assembleDebug --stacktrace
 
-      - name: Upload APK for browser download
-        uses: actions/upload-artifact@v4
+      - name: Publish APK as a GitHub Release asset
+        uses: softprops/action-gh-release@v2
         with:
-          name: plan-comptable-debug-apk
-          path: app/build/outputs/apk/debug/*.apk
-          if-no-files-found: error
-          retention-days: 1
+          tag_name: apk-build-${{ github.run_number }}
+          name: APK build ${{ github.run_number }}
+          prerelease: true
+          files: app/build/outputs/apk/debug/*.apk
+          fail_on_unmatched_files: true
