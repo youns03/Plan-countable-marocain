@@ -438,15 +438,29 @@ fun HomeScreen(
                             modifier = Modifier
                                 .width(124.dp)
                                 .height(100.dp)
-                                .clip(RoundedCornerShape(14.dp))
+                                .clip(RoundedCornerShape(18.dp))
                                 .clickable(role = Role.Button) { action.onClick() },
                             shape = RoundedCornerShape(18.dp),
                             color = MaterialTheme.colorScheme.surface,
-                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = 0.8f))
+                            tonalElevation = 3.dp,
+                            shadowElevation = 4.dp,
+                            border = androidx.compose.foundation.BorderStroke(
+                                1.dp,
+                                action.color.copy(alpha = if (MaterialTheme.colorScheme.surface == Color.White) 0.28f else 0.42f)
+                            )
                         ) {
                             Column(
                                 modifier = Modifier
                                     .fillMaxSize()
+                                    .background(
+                                        Brush.linearGradient(
+                                            colors = listOf(
+                                                action.color.copy(alpha = 0.16f),
+                                                MaterialTheme.colorScheme.surface,
+                                                MaterialTheme.colorScheme.surface
+                                            )
+                                        )
+                                    )
                                     .padding(10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally,
                                 verticalArrangement = Arrangement.Center
@@ -559,13 +573,24 @@ private fun ClassGridCard(
             .clip(RoundedCornerShape(14.dp))
             .clickable(role = Role.Button, onClick = onClick)
             .testTag("class_grid_card_$classNumber"),
-        shape = RoundedCornerShape(10.dp),
+        shape = RoundedCornerShape(14.dp),
         color = MaterialTheme.colorScheme.surface,
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        tonalElevation = 2.dp,
+        shadowElevation = 3.dp,
+        border = androidx.compose.foundation.BorderStroke(1.dp, classColor.copy(alpha = 0.42f))
     ) {
         Row(
             modifier = Modifier
                 .fillMaxSize()
+                .background(
+                    Brush.horizontalGradient(
+                        colors = listOf(
+                            classColor.copy(alpha = 0.16f),
+                            MaterialTheme.colorScheme.surface,
+                            MaterialTheme.colorScheme.surface
+                        )
+                    )
+                )
                 .padding(8.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
