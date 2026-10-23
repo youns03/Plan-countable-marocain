@@ -63,6 +63,21 @@ class PlanComptableIntegrityTest {
     }
 
     @Test
+    fun `source exercise answers are saved locally and can be cleared`() {
+        val context = ApplicationProvider.getApplicationContext<Context>()
+        val exerciseId = "test-source-answer-persistence"
+        val repository = PreferencesRepository(context)
+        repository.saveSourceExerciseAnswer(exerciseId, "Ma tentative de réponse")
+
+        val reloadedRepository = PreferencesRepository(context)
+        assertEquals("Ma tentative de réponse", reloadedRepository.sourceExerciseAnswers.value[exerciseId])
+
+        reloadedRepository.saveSourceExerciseAnswer(exerciseId, "")
+        val cleanRepository = PreferencesRepository(context)
+        assertFalse(cleanRepository.sourceExerciseAnswers.value.containsKey(exerciseId))
+    }
+
+    @Test
     fun `test all elements have globally unique UIDs`() {
         val allElements = PlanComptableRepository.allElements
         assertTrue("Total elements should be greater than 1100", allElements.size > 1100)
