@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<vector xmlns:android="http://schemas.android.com/apk/res/android"
-    android:width="108dp"
-    android:height="108dp"
-    android:viewportWidth="108"
-    android:viewportHeight="108">
+<vector xmlns:android="http://schemas.android.com/apk/res/android" android:width="108dp" android:height="108dp" android:viewportWidth="108" android:viewportHeight="108">
     <path android:fillColor="#FFFFFF" android:pathData="M0,0h108v108h-108z" />
-    <!-- Abstract joyful rosette: no literal industry symbol -->
-    <path android:fillColor="#0D9488" android:pathData="M54,13l7,17l16,-9l-3,19l20,1l-13,14l13,14l-20,1l3,19l-16,-9l-7,17l-7,-17l-16,9l3,-19l-20,-1l13,-14l-13,-14l20,-1l-3,-19l16,9z" />
-    <path android:fillColor="#1D4ED8" android:pathData="M54,25l6,15l15,-3l-7,14l11,10l-16,2l-3,15l-10,-11l-14,7l3,-16l-13,-9l15,-6z" />
-    <path android:fillColor="#F2B544" android:pathData="M54,37l5,9l10,2l-7,7l1,10l-9,-5l-9,5l1,-10l-7,-7l10,-2z" />
-    <path android:fillColor="#8D5A35" android:pathData="M18,18l5,5l-5,5l-5,-5z M90,18l5,5l-5,5l-5,-5z M18,80l5,5l-5,5l-5,-5z M90,80l5,5l-5,5l-5,-5z" />
-    <path android:fillColor="#D7A66A" android:pathData="M35,13l3,3l-3,3l-3,-3z M73,13l3,3l-3,3l-3,-3z M35,89l3,3l-3,3l-3,-3z M73,89l3,3l-3,3l-3,-3z" />
+    <!-- Abstract flowing arch, deliberately independent of the app's subject -->
+    <path android:fillColor="#0F766E" android:pathData="M20,72c0,-20 14,-34 34,-42l5,10c-15,7 -25,17 -25,32v9h-14z" />
+    <path android:fillColor="#14B8A6" android:pathData="M20,72c0,-20 14,-34 34,-42l5,10c-15,7 -25,17 -25,32v9h-14z" />
+    <path android:fillColor="#1D4ED8" android:pathData="M57,30c19,8 31,22 31,42v9h-14v-9c0,-15 -9,-25 -22,-32z" />
+    <path android:fillColor="#2563EB" android:pathData="M57,30c19,8 31,22 31,42v9h-14v-9c0,-15 -9,-25 -22,-32z" />
+    <path android:fillColor="#D97706" android:pathData="M36,75c12,-7 25,-11 39,-12v12c-13,1 -25,5 -37,12z" />
+    <path android:fillColor="#F5B544" android:pathData="M36,75c12,-7 25,-11 39,-12v12c-13,1 -25,5 -37,12z" />
+    <!-- A simple gold sun-like circle -->
+    <path android:fillColor="#F2B544" android:pathData="M54,16m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+    <!-- Small Moroccan-inspired brown tile motifs -->
+    <path android:fillColor="#8D5A35" android:pathData="M22,23l4,4l-4,4l-4,-4z M86,23l4,4l-4,4l-4,-4z M20,88l4,4l-4,4l-4,-4z M88,88l4,4l-4,4l-4,-4z" />
+    <path android:fillColor="#B87945" android:pathData="M22,36l3,3l-3,3l-3,-3z M86,36l3,3l-3,3l-3,-3z M54,88l3,3l-3,3l-3,-3z" />
 </vector>
