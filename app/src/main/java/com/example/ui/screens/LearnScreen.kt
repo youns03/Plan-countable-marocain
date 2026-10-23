@@ -89,7 +89,7 @@ fun LearnScreen(
     ) {
         when (selectedSubTab) {
             LearnSubTab.LEARNING_PATH -> LearningPathSection(viewModel)
-            LearnSubTab.SOURCE_EXERCISES -> SourceExercisesSection()
+            LearnSubTab.SOURCE_EXERCISES -> SourceExercisesSection(viewModel)
             LearnSubTab.DECONSTRUCT -> DeconstructSection(viewModel)
             LearnSubTab.JOURNAL_ENTRIES -> JournalEntriesSection(viewModel)
             LearnSubTab.LEXICON -> LexiconSection()
@@ -470,8 +470,9 @@ private fun LearningLessonCard(
 // 1. SOURCE EXERCISES (تمارين المصدر)
 // -------------------------------------------------------------
 @Composable
-private fun SourceExercisesSection() {
+private fun SourceExercisesSection(viewModel: MainViewModel) {
     val isFrenchOnly = LocalLanguageMode.current == LanguageMode.FRENCH_ONLY
+    val savedAnswers by viewModel.sourceExerciseAnswers.collectAsState()
     var expandedId by remember { mutableStateOf<String?>(null) }
 
     LazyColumn(
@@ -489,9 +490,9 @@ private fun SourceExercisesSection() {
             )
             Text(
                 text = if (isFrenchOnly) {
-                    "Une première sélection fidèle au document fourni. Les solutions ne sont pas encore intégrées."
+                    "Une première sélection d'exercices du document fourni. Les solutions ne sont pas encore intégrées."
                 } else {
-                    "عينة أولى مطابقة للملف المرفق. لا توجد حلول مدمجة بعد، حفاظًا على فصل السؤال عن التصحيح."
+                    "عينة أولية من تمارين الملف المرفق. لا توجد حلول مدمجة بعد، حفاظًا على الفصل بين السؤال والتصحيح."
                 },
                 style = MaterialTheme.typography.bodySmall,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
@@ -503,7 +504,7 @@ private fun SourceExercisesSection() {
                 modifier = Modifier.padding(top = 10.dp)
             ) {
                 Text(
-                    text = if (isFrenchOnly) "Source : comptabilitégénérale1.docx · 5 exercices vérifiés" else "المصدر: comptabilitégénérale1.docx · 5 تمارين تم فحصها",
+                    text = if (isFrenchOnly) "Source : comptabilitégénérale1.docx · 5 exercices sélectionnés" else "المصدر: comptabilitégénérale1.docx · 5 تمارين مختارة",
                     style = MaterialTheme.typography.labelSmall,
                     color = MaterialTheme.colorScheme.onSurface,
                     modifier = Modifier.padding(horizontal = 10.dp, vertical = 8.dp)
@@ -516,6 +517,8 @@ private fun SourceExercisesSection() {
                 exercise = exercise,
                 isFrenchOnly = isFrenchOnly,
                 expanded = expandedId == exercise.id,
+                answer = savedAnswers[exercise.id].orEmpty(),
+                onAnswerChanged = { answer -> viewModel.saveSourceExerciseAnswer(exercise.id, answer) },
                 onClick = { expandedId = if (expandedId == exercise.id) null else exercise.id }
             )
         }
@@ -527,18 +530,21 @@ private fun SourceExerciseCard(
     exercise: SourceExercise,
     isFrenchOnly: Boolean,
     expanded: Boolean,
+    answer: String,
+    onAnswerChanged: (String) -> Unit,
     onClick: () -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick),
+        modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(14.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
+            Row(
+                modifier = Modifier.fillMaxWidth().clickable(onClick = onClick),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
                 Column(modifier = Modifier.weight(1f)) {
                     Text(
                         text = exercise.titleFr,
@@ -587,6 +593,26 @@ private fun SourceExerciseCard(
                         modifier = Modifier.padding(top = 8.dp)
                     )
                 }
+                Text(
+                    text = if (isFrenchOnly) "Votre tentative" else "محاولة الطالب",
+                    style = MaterialTheme.typography.labelLarge,
+                    color = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.padding(top = 12.dp)
+                )
+                OutlinedTextField(
+                    value = answer,
+                    onValueChange = onAnswerChanged,
+                    modifier = Modifier.fillMaxWidth().padding(top = 6.dp),
+                    label = { Text(if (isFrenchOnly) "Rédigez votre réponse" else "اكتب إجابتك هنا") },
+                    minLines = 3,
+                    maxLines = 8
+                )
+                Text(
+                    text = if (isFrenchOnly) "Enregistrement automatique sur cet appareil" else "تُحفظ إجابتك تلقائيًا على هذا الجهاز",
+                    style = MaterialTheme.typography.labelSmall,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
                 Text(
                     text = if (isFrenchOnly) "Notions liées" else "المفاهيم المرتبطة",
                     style = MaterialTheme.typography.labelLarge,
