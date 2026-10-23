@@ -165,18 +165,37 @@ private fun LearningPathSection(viewModel: MainViewModel) {
                         lineHeight = 21.sp,
                         modifier = Modifier.padding(top = 8.dp)
                     )
-                    Surface(
-                        shape = RoundedCornerShape(50),
-                        color = MaterialTheme.colorScheme.surface.copy(alpha = 0.72f),
-                        modifier = Modifier.padding(top = 14.dp)
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(top = 14.dp),
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Text(
-                            text = if (isFrenchOnly) "${EducationalData.learningPath.size} notions théoriques" else "${EducationalData.learningPath.size} وحدات نظرية",
-                            style = MaterialTheme.typography.labelMedium,
-                            fontWeight = FontWeight.SemiBold,
-                            color = MaterialTheme.colorScheme.onSurface,
-                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp)
-                        )
+                        Surface(
+                            shape = RoundedCornerShape(50),
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f)
+                        ) {
+                            Text(
+                                text = if (isFrenchOnly) "${EducationalData.learningPath.size} notions théoriques" else "${EducationalData.learningPath.size} وحدات نظرية",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSurface,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp)
+                            )
+                        }
+                        Surface(
+                            shape = RoundedCornerShape(50),
+                            color = MaterialTheme.colorScheme.surface.copy(alpha = 0.78f)
+                        ) {
+                            Text(
+                                text = if (isFrenchOnly) "${completedLessons.count { id -> EducationalData.learningPath.any { it.id == id } }} terminées" else "${completedLessons.count { id -> EducationalData.learningPath.any { it.id == id } }} مكتملة",
+                                style = MaterialTheme.typography.labelMedium,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.padding(horizontal = 12.dp, vertical = 7.dp)
+                            )
+                        }
                     }
                 }
             }
@@ -258,9 +277,10 @@ private fun LearningLessonCard(
             .fillMaxWidth()
             .clickable(onClick = onClick)
             .testTag("learning_lesson_${lesson.id}"),
-        shape = RoundedCornerShape(14.dp),
+        shape = RoundedCornerShape(18.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline)
+        elevation = CardDefaults.cardElevation(defaultElevation = if (expanded) 2.dp else 0.dp),
+        border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outline.copy(alpha = if (expanded) 0.95f else 0.65f))
     ) {
         Column(modifier = Modifier.padding(14.dp)) {
             Row(verticalAlignment = Alignment.CenterVertically) {
